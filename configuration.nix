@@ -55,6 +55,9 @@
     variant = "";
   };
 
+  # Disable XTerm
+  services.xserver.excludePackages = with pkgs; [ xterm ];
+
   # Configure console keymap
   console.keyMap = "de";
 
@@ -108,6 +111,20 @@
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
+
+  # Exclude specific GNOME applications
+  environment.gnome.excludePackages = with pkgs; [
+    totem
+    epiphany
+    gnome-weather
+    gnome-maps
+    gnome-music
+    gnome-calendar
+    gnome-contacts
+    gnome-photos
+    gnome-logs
+    geary
+  ];
 
   # Install firefox.
   programs.firefox.enable = false;
