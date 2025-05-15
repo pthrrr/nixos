@@ -34,7 +34,7 @@
       nixosConfigurations = {
 
         # Name of your config
-        desktop = nixpkgs.lib.nixosSystem {
+        laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             # # README.md
@@ -43,7 +43,7 @@
             # cp /etc/nixos/hardware-configuration.nix ./
             # cp /etc/nixos/configuration.nix ./
             # Add and commit all files
-            # nixos-rebuild switch --flake "./#desktop"
+            # nixos-rebuild switch --flake "./#laptop"
             ./configuration.nix
             ./hardware-configuration.nix
           ];
