@@ -89,6 +89,10 @@
       brave
       keepassxc
       vscodium
+      freetube
+      spotify
+      signal-desktop
+      telegram-desktop
     ];
   };
 
