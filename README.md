@@ -9,6 +9,7 @@ i have no idea what i am doing
 
 ### check config
 `nix flake check`
+
 `nix flake show`
 
 ## Things to fix
