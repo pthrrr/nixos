@@ -42,7 +42,7 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
-    # Enable OpenGL
+  # Enable OpenGL
   hardware.graphics = {
     enable = true;
   };
