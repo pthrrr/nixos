@@ -104,6 +104,9 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Disable bluetooth
+  hardware.bluetooth.enable = false;
+
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
