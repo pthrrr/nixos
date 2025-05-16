@@ -1,9 +1,8 @@
 {
-  description = "My machines";
+  description = "nixOS config flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
   };
 
   outputs =
@@ -30,20 +29,12 @@
 
     in
     {
-
       nixosConfigurations = {
 
         # Name of your config
         laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            # # README.md
-            # mkdir ~/nixos
-            # cd ~/nixos
-            # cp /etc/nixos/hardware-configuration.nix ./
-            # cp /etc/nixos/configuration.nix ./
-            # Add and commit all files
-            # nixos-rebuild switch --flake "./#laptop"
             ./configuration.nix
             ./hardware-configuration.nix
           ];
