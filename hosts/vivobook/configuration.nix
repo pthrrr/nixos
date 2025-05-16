@@ -166,6 +166,11 @@
     gnome-contacts
     gnome-photos
     gnome-logs
+    gnome-tour
+    snapshot
+    gedit
+    simple-scan
+    yelp
     geary
   ];
 
@@ -179,7 +184,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     git
-    htop
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
