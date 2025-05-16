@@ -42,6 +42,11 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
+  # Enable OpenGL
+  hardware.graphics = {
+    enable = true;
+  };
+
   boot.initrd.kernelModules = [ "amdgpu" ];
 
   hardware.opengl.extraPackages = with pkgs; [
