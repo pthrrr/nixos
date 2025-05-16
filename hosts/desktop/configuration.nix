@@ -104,6 +104,8 @@
       brave
       keepassxc
       vscodium
+      freetube
+      discord
     ];
   };
 
