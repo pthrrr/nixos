@@ -6,3 +6,7 @@ i have no idea what i am doing
 
 ### persist changes
 `sudo nixos-rebuild switch --flake "./#vivobook"`
+
+### check config
+`nix flake check`
+`nix flake show`
