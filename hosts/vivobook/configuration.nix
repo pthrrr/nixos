@@ -14,7 +14,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "vivobook"; # Define your hostname.
+  networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -179,6 +179,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     git
+    htop
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
