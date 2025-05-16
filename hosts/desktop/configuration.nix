@@ -142,6 +142,12 @@
   # Install firefox.
   programs.firefox.enable = false;
 
+  # Install system
+  programs.steam.enable = true;
+  programs.steam.gamescopeSession.enable = true;
+
+  programs.gamemode.enable = true;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -149,7 +155,13 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     git
+    mangohud
+    protonup
   ];
+
+  environment.sessionVariables = { 
+    STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/user/.steam/root/compatibilitytools.d";
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
