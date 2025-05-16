@@ -32,11 +32,11 @@
       nixosConfigurations = {
 
         # Name of your config
-        laptop = nixpkgs.lib.nixosSystem {
+        vivobook = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./configuration.nix
-            ./hardware-configuration.nix
+            ./hosts/vivobook/configuration.nix
+            ./hosts/vivobook/hardware-configuration.nix
           ];
         };
       };

@@ -5,4 +5,4 @@ i have no idea what i am doing
 `nix-shell -p <package>`
 
 ### persist changes
-`sudo nixos-rebuild switch --flake "./#laptop"`
+`sudo nixos-rebuild switch --flake "./#vivobook"`
