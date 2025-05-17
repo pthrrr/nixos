@@ -26,22 +26,25 @@
 
       # Nixpkgs instantiated for supported system types.
       nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
-
     in
     {
+      nixosModules = {
+        common        = ./modules/common.nix;
+      };
+
       nixosConfigurations = {
         laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./hosts/laptop/configuration.nix
-            ./hosts/laptop/hardware-configuration.nix
+            self.nixosModules.common
+            ./hosts/laptop
           ];
         };
         desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./hosts/desktop/configuration.nix
-            ./hosts/desktop/hardware-configuration.nix
+            self.nixosModules.common
+            ./hosts/desktop
           ];
         };
       };

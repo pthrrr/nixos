@@ -109,11 +109,6 @@
     ];
   };
 
-  nix.settings.experimental-features = [ 
-     "nix-command"
-     "flakes"
-  ];
-
   # Enable automatic login for the user.
   services.xserver.displayManager.autoLogin.enable = true;
   services.xserver.displayManager.autoLogin.user = "pthr";
@@ -156,7 +151,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    git
     mangohud
     protonup
   ];
