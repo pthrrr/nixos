@@ -30,11 +30,11 @@
     in
     {
       nixosConfigurations = {
-        vivobook = nixpkgs.lib.nixosSystem {
+        laptop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            ./hosts/vivobook/configuration.nix
-            ./hosts/vivobook/hardware-configuration.nix
+            ./hosts/laptop/configuration.nix
+            ./hosts/laptop/hardware-configuration.nix
           ];
         };
         desktop = nixpkgs.lib.nixosSystem {

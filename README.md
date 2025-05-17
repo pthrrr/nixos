@@ -6,7 +6,7 @@ i have no idea what i am doing
 
 ### persist changes
 - `sudo nixos-rebuild switch --flake "./#desktop"`
-- `sudo nixos-rebuild switch --flake "./#vivobook"`
+- `sudo nixos-rebuild switch --flake "./#laptop"`
 
 ### check config
 - `nix flake check`
