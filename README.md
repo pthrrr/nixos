@@ -12,6 +12,6 @@ i have no idea what i am doing
 - `nix flake check`
 - `nix flake show`
 
-## Things to fix
+## issues to solve
 - unlock keyring
-- wake from sleep/hibernate
+- wake from sleep/hibernate (laptop)
