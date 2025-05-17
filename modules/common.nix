@@ -96,6 +96,8 @@
     gnome-maps
     gnome-music
     gnome-calendar
+    gnome-calculator
+    gnome-text-editor
     gnome-contacts
     gnome-photos
     gnome-logs
