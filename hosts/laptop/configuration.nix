@@ -139,6 +139,7 @@
       spotify
       signal-desktop
       telegram-desktop
+      bitwig-studio
     ];
   };
 
