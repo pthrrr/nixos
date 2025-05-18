@@ -86,6 +86,7 @@
     freetube
     signal-desktop
     telegram-desktop
+    vlc
   ];
 
   # Exclude specific GNOME applications
