@@ -1,9 +1,6 @@
 { config, pkgs, lib, ... }:
 
 {
-
-  #imports = [ ./../hosts/desktop/default.nix ];
-
   # Home Manager settings
   home.username = "pthr";
   home.homeDirectory = "/home/pthr";
