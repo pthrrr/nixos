@@ -24,6 +24,8 @@
     isNormalUser = true;
     description = "pthr";
     extraGroups = [ "networkmanager" "wheel" ];
+
+    # User-specific packages
     packages = with pkgs; [
       discord
       mangohud
@@ -37,7 +39,7 @@
 
   programs.gamemode.enable = true;
 
-  # List packages installed in system profile. To search, run:
+  # System-wide packages
   environment.systemPackages = with pkgs; [ ];
 
   environment.sessionVariables = { 

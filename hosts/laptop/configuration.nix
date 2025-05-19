@@ -52,13 +52,15 @@
     isNormalUser = true;
     description = "pthr";
     extraGroups = [ "networkmanager" "wheel" ];
+
+    # User-specific packages
     packages = with pkgs; [
       spotify
       bitwig-studio
     ];
   };
 
-  # List packages installed in system profile. To search, run:
+  # System-wide packages
   environment.systemPackages = with pkgs; [ ];
 
   # This value determines the NixOS release from which the default

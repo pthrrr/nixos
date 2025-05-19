@@ -75,11 +75,13 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # System-wide packages
   environment.systemPackages = with pkgs; [
     tree
     git
   ];
 
+  # User-specific packages
   users.users.pthr.packages = with pkgs; [
     brave
     keepassxc
