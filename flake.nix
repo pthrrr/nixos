@@ -31,7 +31,7 @@
     in
     {
       nixosModules = {
-        common        = ./modules/common.nix;
+        default        = ./modules/default.nix;
       };
 
       nixosConfigurations = {
@@ -39,7 +39,7 @@
           #system = "x86_64-linux";
           
           modules = [
-            self.nixosModules.common
+            self.nixosModules.default
             ./hosts/laptop
             
             # Add Home Manager as a module
@@ -56,7 +56,7 @@
         desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            self.nixosModules.common
+            self.nixosModules.default
             ./hosts/desktop
 
             # Add Home Manager as a module
