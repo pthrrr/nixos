@@ -1,6 +1,11 @@
 { config, pkgs, lib, ... }:
 
 {
+
+  imports = [
+    ./apps/vscodium.nix
+  ];
+
   # Home Manager settings
   home.username = "pthr";
   home.homeDirectory = "/home/pthr";

@@ -2,7 +2,6 @@
 
 {
   imports = [
-    #./../../modules/apps/vscodium.nix
     ./hardware-configuration.nix
     ./configuration.nix
   ];
