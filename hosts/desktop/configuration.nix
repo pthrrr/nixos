@@ -26,6 +26,8 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       discord
+      mangohud
+      protonup
     ];
   };
 
@@ -36,10 +38,7 @@
   programs.gamemode.enable = true;
 
   # List packages installed in system profile. To search, run:
-  environment.systemPackages = with pkgs; [
-    mangohud
-    protonup
-  ];
+  environment.systemPackages = with pkgs; [ ];
 
   environment.sessionVariables = { 
     STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/user/.steam/root/compatibilitytools.d";
