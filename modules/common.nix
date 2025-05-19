@@ -32,7 +32,7 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
-    # Enable the GNOME Desktop Environment.
+  # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
