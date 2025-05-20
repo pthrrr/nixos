@@ -79,6 +79,7 @@
   environment.systemPackages = with pkgs; [
     tree
     git
+    nixd
   ];
 
   # User-specific packages
