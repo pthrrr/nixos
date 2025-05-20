@@ -12,7 +12,12 @@
   };
 
   outputs =
-    { self, nixpkgs, home-manager, ... }@inputs:
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }@inputs:
 
     let
       # System types to support.
@@ -31,17 +36,17 @@
     in
     {
       nixosModules = {
-        default        = ./modules/default.nix;
+        default = ./modules/default.nix;
       };
 
       nixosConfigurations = {
         laptop = nixpkgs.lib.nixosSystem {
           #system = "x86_64-linux";
-          
+
           modules = [
             self.nixosModules.default
             ./hosts/laptop
-            
+
             # Add Home Manager as a module
             home-manager.nixosModules.home-manager
             {

@@ -23,7 +23,10 @@
   users.users.pthr = {
     isNormalUser = true;
     description = "pthr";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
 
     # User-specific packages
     packages = with pkgs; [
@@ -42,7 +45,7 @@
   # System-wide packages
   environment.systemPackages = with pkgs; [ ];
 
-  environment.sessionVariables = { 
+  environment.sessionVariables = {
     STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/user/.steam/root/compatibilitytools.d";
   };
 
