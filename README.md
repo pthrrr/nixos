@@ -13,5 +13,5 @@ i have no idea what i am doing
 - `nix flake show`
 
 ## issues to solve
-- unlock keyring
-- wake from sleep/hibernate (laptop)
+- unlock keyring (auto-login)
+- wake from sleep/hibernate (nvidia optimus prime)

@@ -36,6 +36,10 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
+  # Unlock keyring
+  services.gnome.gnome-keyring.enable  = true;
+  security.pam.services.gdm-password.enableGnomeKeyring = true;
+
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "de";
@@ -78,6 +82,7 @@
   # System-wide packages
   environment.systemPackages = with pkgs; [
     tree
+    neofetch
     git
     nixd
   ];
@@ -119,12 +124,4 @@
 
   # Disable bluetooth
   hardware.bluetooth.enable = false;
-
-  # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "pthr";
-
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
 }
