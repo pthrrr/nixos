@@ -50,7 +50,7 @@
             # Add Home Manager as a module
             home-manager.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
+              home-manager.useGlobalPkgs = false;
               home-manager.useUserPackages = true;
               # Point to your home configurations
               home-manager.users.pthr = import ./modules/home.nix;
@@ -67,7 +67,7 @@
             # Add Home Manager as a module
             home-manager.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
+              home-manager.useGlobalPkgs = false;
               home-manager.useUserPackages = true;
               # Point to your home configurations
               home-manager.users.pthr = import ./modules/home.nix;

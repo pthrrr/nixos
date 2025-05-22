@@ -1,6 +1,6 @@
 # NixOS
 This is my personal NixOS configuration.
-It heavily relies on the [NixOS & Flakes Boot](https://nixos-and-flakes.thiscute.world/)
+It relies on the [NixOS & Flakes Book](https://nixos-and-flakes.thiscute.world/)
 
 ## The New CLI and the Classic CLI
 [Resource](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/introduction-to-flakes#the-new-cli-and-the-classic-cli)
