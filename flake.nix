@@ -36,7 +36,7 @@
     in
     {
       nixosModules = {
-        default = ./modules/default.nix;
+        default = ./modules;
       };
 
       nixosConfigurations = {
