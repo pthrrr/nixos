@@ -4,31 +4,26 @@
 ```
 .
 ├── flake.nix                       # Main entry point
-├── hosts/                          # Machine-specific configurations
-│   ├── desktop/
-│   │   ├── configuration.nix
-│   │   ├── hardware-configuration.nix
-│   │   └── default.nix
-│   ├── laptop/
-│   │   ├── configuration.nix
-│   │   ├── hardware-configuration.nix
-│   │   └── default.nix
-│   └── server/
-│       ├── configuration.nix
-│       └── hardware-configuration.nix
+├── hosts/
+│   └── <username>/
+|        ├── <device1>/             # Machine-specific configurations
+|        │   ├── configuration.nix
+|        │   ├── hardware.nix
+|        ├── <device2>/
+|        │   ├── configuration.nix
+|        │   ├── hardware.nix
 ├── modules/                        # Shared configuration modules
 │   ├── common/                     # Common configurations
 │   │   ├── applications.nix        # Shared applications
 │   │   └── users.nix               # User definitions
-│   ├── desktop-environments/       # DE configurations
-│   │   ├── gnome.nix
-│   │   └── kde.nix
-│   └── hardware/                   # Hardware-specific configs
-│       ├── amd.nix
-│       └── nvidia.nix
+│   └── desktop-environments/       # DE configurations
+│       ├── gnome.nix
+│       └── kde.nix
 └── home/                           # Home-manager configurations
-    ├── default.nix
-    └── pthr.nix                    # User-specific config
+     └── <device1>.nix 
+     |    ├── default.nix
+     └── <device2>.nix 
+          └── default.nix
 ```
 
 ## Useful commands
