@@ -6,11 +6,14 @@
 ├── flake.nix                       # Main entry point
 ├── home                            # Home-manager configurations
 │   └── <user>                      # User-specific config
-│       ├── <device1>
-│       │   └── default.nix
-│       ├── home.nix
+│       ├── home.nix                # Common shared user apps
+│       ├── applications            # Common shared user app configurations
+│       │   └── <app1>.nix
+│       │   └── <app2>.nix
+│       ├── <device1> 
+│       │   └── default.nix         # Specific apps for device1 
 │       └── <device2>
-│           └── default.nix
+│           └── default.nix         # Specific apps for device2 
 ├── hosts                           # Machine-specific configurations
 │   ├── <device1>
 │   │   ├── configuration.nix
