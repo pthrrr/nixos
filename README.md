@@ -3,15 +3,15 @@
 ## Base scaffolding
 ```
 ├── flake.lock
-├── flake.nix
-├── home
-│   └── <user>
+├── flake.nix                       # Main entry point
+├── home                            # Home-manager configurations
+│   └── <user>                      # User-specific config
 │       ├── <device1>
 │       │   └── default.nix
 │       ├── home.nix
 │       └── <device2>
 │           └── default.nix
-├── hosts
+├── hosts                           # Machine-specific configurations
 │   ├── <device1>
 │   │   ├── configuration.nix
 │   │   └── hardware.nix
@@ -19,12 +19,12 @@
 │       ├── configuration.nix
 │       └── hardware.nix
 ├── modules
-│   ├── common
-│   │   ├── applications.nix
+│   ├── common                      # Common configurations
+│   │   ├── applications.nix        # Shared applications
 │   │   ├── gaming.nix
 │   │   ├── house-keeping.nix
-│   │   └── users.nix
-│   └── desktop-environments
+│   │   └── users.nix               # User definitions
+│   └── desktop-environments        # DE configurations
 │       └── gnome.nix
 └── README.md
 ```
