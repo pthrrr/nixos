@@ -6,14 +6,14 @@
 ├── flake.nix                       # Main entry point
 ├── home                            # Home-manager configurations
 │   └── <user>                      # User-specific config
-│       ├── home.nix                # Common shared user apps
-│       ├── applications            # Common shared user app configurations
+│       ├── home.nix                # Shared user apps
+│       ├── applications            # Shared user app configurations
 │       │   └── <app1>.nix
 │       │   └── <app2>.nix
 │       ├── <device1> 
-│       │   └── default.nix         # Specific apps for device1 
+│       │   └── default.nix         # Specific apps for <device1>
 │       └── <device2>
-│           └── default.nix         # Specific apps for device2 
+│           └── default.nix         # Specific apps for <device2> 
 ├── hosts                           # Machine-specific configurations
 │   ├── <device1>
 │   │   ├── configuration.nix
@@ -23,12 +23,12 @@
 │       └── hardware.nix
 ├── modules
 │   ├── common                      # Common configurations
-│   │   ├── applications.nix        # Shared applications
-│   │   ├── gaming.nix
-│   │   ├── house-keeping.nix
+│   │   ├── <app1>.nix              # Shared application
+│   │   ├── <app2>.nix
 │   │   └── users.nix               # User definitions
 │   └── desktop-environments        # DE configurations
-│       └── gnome.nix
+│   │   └── gnome.nix
+│   └── <app1>.nix                  # Optional application
 └── README.md
 ```
 
