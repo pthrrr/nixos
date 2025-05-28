@@ -17,10 +17,7 @@
         modules = [
           ./hosts/desktop/configuration.nix
           ./modules/desktop-environments/gnome.nix
-          ./modules/common/applications.nix
-          ./modules/common/house-keeping.nix
-          ./modules/common/samba.nix
-          ./modules/common/users.nix
+          ./modules/common
 
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = false;
@@ -36,10 +33,7 @@
         modules = [
           ./hosts/laptop/configuration.nix
           ./modules/desktop-environments/gnome.nix
-          ./modules/common/applications.nix
-          ./modules/common/house-keeping.nix
-          ./modules/common/samba.nix
-          ./modules/common/users.nix
+          ./modules/common
 
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = false;
