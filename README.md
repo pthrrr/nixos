@@ -2,28 +2,31 @@
 
 ## Base scaffolding
 ```
-.
-├── flake.nix                       # Main entry point
-├── hosts/
-│   └── <username>/
-|        ├── <device1>/             # Machine-specific configurations
-|        │   ├── configuration.nix
-|        │   ├── hardware.nix
-|        ├── <device2>/
-|        │   ├── configuration.nix
-|        │   ├── hardware.nix
-├── modules/                        # Shared configuration modules
-│   ├── common/                     # Common configurations
-│   │   ├── applications.nix        # Shared applications
-│   │   └── users.nix               # User definitions
-│   └── desktop-environments/       # DE configurations
-│       ├── gnome.nix
-│       └── kde.nix
-└── home/                           # Home-manager configurations
-     └── <device1>.nix 
-     |    ├── default.nix
-     └── <device2>.nix 
-          └── default.nix
+├── flake.lock
+├── flake.nix
+├── home
+│   └── <user>
+│       ├── <device1>
+│       │   └── default.nix
+│       ├── home.nix
+│       └── <device2>
+│           └── default.nix
+├── hosts
+│   ├── <device1>
+│   │   ├── configuration.nix
+│   │   └── hardware.nix
+│   └── <device2>
+│       ├── configuration.nix
+│       └── hardware.nix
+├── modules
+│   ├── common
+│   │   ├── applications.nix
+│   │   ├── gaming.nix
+│   │   ├── house-keeping.nix
+│   │   └── users.nix
+│   └── desktop-environments
+│       └── gnome.nix
+└── README.md
 ```
 
 ## Useful commands
