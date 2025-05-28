@@ -1,9 +1,35 @@
 # NixOS
-This is my personal NixOS configuration.
-It relies on the [NixOS & Flakes Book](https://nixos-and-flakes.thiscute.world/)
 
-## The New CLI and the Classic CLI
-[Resource](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/introduction-to-flakes#the-new-cli-and-the-classic-cli)
+## Base scaffolding
+```
+.
+├── flake.nix                       # Main entry point
+├── hosts/                          # Machine-specific configurations
+│   ├── desktop/
+│   │   ├── configuration.nix
+│   │   ├── hardware-configuration.nix
+│   │   └── default.nix
+│   ├── laptop/
+│   │   ├── configuration.nix
+│   │   ├── hardware-configuration.nix
+│   │   └── default.nix
+│   └── server/
+│       ├── configuration.nix
+│       └── hardware-configuration.nix
+├── modules/                        # Shared configuration modules
+│   ├── common/                     # Common configurations
+│   │   ├── applications.nix        # Shared applications
+│   │   └── users.nix               # User definitions
+│   ├── desktop-environments/       # DE configurations
+│   │   ├── gnome.nix
+│   │   └── kde.nix
+│   └── hardware/                   # Hardware-specific configs
+│       ├── amd.nix
+│       └── nvidia.nix
+└── home/                           # Home-manager configurations
+    ├── default.nix
+    └── pthr.nix                    # User-specific config
+```
 
 ## Useful commands
 
@@ -43,10 +69,11 @@ It relies on the [NixOS & Flakes Book](https://nixos-and-flakes.thiscute.world/)
 **Update flakee.lock**
 - `nix flake update`
 
-### check config
+### Check config
 - `nix flake check`
 - `nix flake show`
 
-## issues to solve
+## Issues
 - unlock keyring (auto-login)
 - wake from sleep/hibernate (nvidia optimus prime)
+- set shortcuts for pop-tiling
