@@ -3,7 +3,7 @@
 {
   # Gaming-related packages
   environment.systemPackages = with pkgs; [
-    mangohud  # Performance overlay
+    mangohud
     mangojuice
   ];
 
