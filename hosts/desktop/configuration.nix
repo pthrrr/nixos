@@ -54,12 +54,15 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  boot.initrd.kernelModules = [ "amdgpu" ];
+
   # Desktop-specific hardware settings
   hardware = {
     graphics = {
       enable = true;
       extraPackages = with pkgs; [
-        amdvlk  # AMD-specific drivers
+        #amdvlk  # AMD-specific drivers
+        rocmPackages.clr.icd
       ];
     };
   };
