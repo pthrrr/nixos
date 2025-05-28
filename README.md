@@ -8,6 +8,7 @@
 │   └── <user>                      # User-specific config
 │       ├── home.nix                # Shared user apps
 │       ├── applications            # Shared user app configurations
+│       │   ├── dconf.nix           # Gnome configuration 
 │       │   └── <app1>.nix
 │       │   └── <app2>.nix
 │       ├── <device1> 
