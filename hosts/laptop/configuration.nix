@@ -49,10 +49,11 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  hardware.graphics.enable = true;
   hardware.nvidia.open = true;
+  hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
 
-  # Power management / Hybrid graphics with PRIME
+  # Hybrid graphics with PRIME
   hardware.nvidia.prime = {
     intelBusId = "PCI:0:2:0";
     nvidiaBusId = "PCI:1:0:0";
@@ -108,6 +109,7 @@
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "nvidia-x11"
     "nvidia-settings"
+    "nvidia-persistenced"
   ];
 
   # List packages installed in system profile. To search, run:

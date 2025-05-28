@@ -1,5 +1,10 @@
 { config, pkgs, lib, ... }:
 {
+
+  imports = [
+    ./applications/vscodium.nix
+  ];
+
   home.username = "pthr";
   home.homeDirectory = "/home/pthr";
   home.stateVersion = "22.05";
@@ -10,7 +15,6 @@
   home.packages = with pkgs; [
     brave
     keepassxc
-    vscodium
     signal-desktop
     telegram-desktop
     freetube
@@ -33,5 +37,8 @@
     builtins.elem (lib.getName pkg) [
       "spotify"
       "discord"
+      "bitwig-studio"
+      "bitwig-studio-unwrapped"
+      "unigine-valley"
   ];
 }
