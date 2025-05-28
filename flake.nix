@@ -19,6 +19,7 @@
           ./modules/desktop-environments/gnome.nix
           ./modules/common/applications.nix
           ./modules/common/house-keeping.nix
+          ./modules/common/samba.nix
           ./modules/common/users.nix
 
           home-manager.nixosModules.home-manager {
@@ -37,6 +38,7 @@
           ./modules/desktop-environments/gnome.nix
           ./modules/common/applications.nix
           ./modules/common/house-keeping.nix
+          ./modules/common/samba.nix
           ./modules/common/users.nix
 
           home-manager.nixosModules.home-manager {
