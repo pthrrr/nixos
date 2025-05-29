@@ -11,11 +11,7 @@
 
     # gnome extensions
     gnomeExtensions.blur-my-shell
-
-    # TODO throws exception in journalctl
-    # JS ERROR: Error: Requiring Gtk, version 3.0: Typelib file for namespace 'Gtk', version '3.0' not found
-    # https://github.com/NixOS/nixpkgs/issues/256889
-    gnomeExtensions.pop-shell
+    gnomeExtensions.paperwm
   ];
 
   # Exclude specific GNOME applications

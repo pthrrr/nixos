@@ -14,7 +14,7 @@
           
           # Alternatively, you can manually pass UUID as a string.  
           "blur-my-shell@aunetx"
-          "pop-shell@system76.com"
+          "paperwm@paperwm.github.com"
         ];
       };
 
@@ -23,11 +23,7 @@
         #brightness = 0.75;
         #noise-amount = 0;
       };
-
-      "org/gnome/shell/extensions/pop-shell" = {
-        tile-by-default = true;
-        hint-color-rgba = "rgba(126, 186, 228, 1)";
-      };
+      
     };
   };
 }
