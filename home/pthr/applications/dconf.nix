@@ -24,7 +24,7 @@
         #noise-amount = 0;
       };
 
-      "/org/gnome/shell/extensions/paperwm" = {
+      "org/gnome/shell/extensions/paperwm" = {
         show-workspace-indicator = true;
         default-focus-mode = 2;
       };

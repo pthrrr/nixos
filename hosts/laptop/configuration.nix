@@ -49,10 +49,8 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  hardware.graphics.enable = true;
-  hardware.graphics.enable32Bit = true;
 
-  #hardware.nvidia.open = true;
+  hardware.graphics.enable = true;
   hardware.nvidia = {
     # Modesetting is required.
     modesetting.enable = true;
@@ -74,7 +72,7 @@
     # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
     # Only available from driver 515.43.04+
     # Currently alpha-quality/buggy, so false is currently the recommended setting.
-    open = true;
+    open = false;
 
     # Enable the Nvidia settings menu,
 	  # accessible via `nvidia-settings`.
@@ -86,8 +84,6 @@
     # Hybrid graphics with PRIME
     prime = {
       sync.enable = true;
-
-      # Make sure to use the correct Bus ID values for your system!
       intelBusId = "PCI:0:2:0";
       nvidiaBusId = "PCI:1:0:0";
     };
@@ -116,7 +112,7 @@
       enable = true;
       displayManager.gdm.enable = true;
       desktopManager.gnome.enable = true;
-      videoDrivers = [ "nvidia" ];
+      videoDrivers = [ "nvidia" "intel" ];
     };
     # Touchpad support
     libinput = {
