@@ -12,9 +12,9 @@
 │       │   └── <app1>.nix
 │       │   └── <app2>.nix
 │       ├── <device1> 
-│       │   └── default.nix         # Specific apps for <device1>
+│       │   └── <deivce1_app1>.nix  # Specific apps for <device1>
 │       └── <device2>
-│           └── default.nix         # Specific apps for <device2> 
+│           └── <deivce2_app1>.nix  # Specific apps for <device2> 
 ├── hosts                           # Machine-specific configurations
 │   ├── <device1>
 │   │   ├── configuration.nix
@@ -24,12 +24,13 @@
 │       └── hardware.nix
 ├── modules
 │   ├── common                      # Common configurations
-│   │   ├── <app1>.nix              # Shared application
-│   │   ├── <app2>.nix
+│   │   ├── <shared_app1>.nix              # Shared application
+│   │   ├── <shared_app2>.nix
 │   │   └── users.nix               # User definitions
 │   └── desktop-environments        # DE configurations
 │   │   └── gnome.nix
-│   └── <app1>.nix                  # Optional application
+│   └── optional                    # Optional applications
+│       └── <optional_app1>.nix
 └── README.md
 ```
 

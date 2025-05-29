@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware.nix
-    ../../modules/gaming.nix  # Import the shared gaming module
+    ../../modules/optional/gaming.nix  # Import the shared gaming module
   ];
 
   nix.settings.experimental-features = [
