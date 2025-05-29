@@ -23,8 +23,8 @@
 │       ├── configuration.nix
 │       └── hardware.nix
 ├── modules
-│   ├── common                      # Common configurations
-│   │   ├── <shared_app1>.nix              # Shared application
+│   ├── common                      # Shared configurations/apps
+│   │   ├── <shared_app1>.nix       # Shared application
 │   │   ├── <shared_app2>.nix
 │   │   └── users.nix               # User definitions
 │   └── desktop-environments        # DE configurations
