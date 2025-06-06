@@ -76,7 +76,9 @@
 - `nix flake check`
 - `nix flake show`
 
+## To Do's
+- setup CalDAV
+
 ## Issues
 - unlock keyring (auto-login)
 - wake from sleep/hibernate (nvidia optimus prime)
-- set shortcuts for pop-tiling
