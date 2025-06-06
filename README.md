@@ -77,7 +77,8 @@
 - `nix flake show`
 
 ## To Do's
-- setup CalDAV
+- setup wireguard
+   - sync cal with CalDAV
 
 ## Issues
 - unlock keyring (auto-login)

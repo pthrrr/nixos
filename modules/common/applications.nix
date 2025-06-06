@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     neovim
     git
+    python314
     tree
     neofetch
   ];
