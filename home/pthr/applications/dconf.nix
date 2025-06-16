@@ -18,6 +18,10 @@
         ];
       };
 
+      "org/gnome/desktop/interface" = {
+        enable-hot-corners = false;
+      };
+
       # Configure individual extensions
       "org/gnome/shell/extensions/blur-my-shell" = {
         #brightness = 0.75;
@@ -27,6 +31,7 @@
       "org/gnome/shell/extensions/paperwm" = {
         show-workspace-indicator = true;
         default-focus-mode = 2;
+        workspace-names = "['Workspace A', 'Workspace B', 'Workspace C', 'Workspace D', 'Workspace E']";
       };
     };
   };
