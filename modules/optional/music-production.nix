@@ -2,8 +2,8 @@
 
 {
   environment.systemPackages = with pkgs; [
-    "bitwig-studio"
-    "bitwig-studio-unwrapped"
+    bitwig-studio
+    bitwig-studio-unwrapped
 
     # VSTs
     yabridge

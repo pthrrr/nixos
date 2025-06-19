@@ -4,6 +4,7 @@
   imports = [
     ./hardware.nix
     ../../modules/optional/gaming.nix  # Import the shared gaming module
+    ../../modules/optional/music-production.nix
   ];
 
   nix.settings.experimental-features = [
@@ -110,11 +111,11 @@
 
   # Laptop-specific services
   services = {
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
     xserver = {
       xkb.layout = "de";
       enable = true;
-      displayManager.gdm.enable = true;
-      desktopManager.gnome.enable = true;
       videoDrivers = [ "nvidia" "intel" ];
     };
     # Touchpad support
