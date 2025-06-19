@@ -43,11 +43,6 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "de";
-  };
-
   # Configure console keymap
   console.keyMap = "de";
 
@@ -84,11 +79,14 @@
   };
 
   # Desktop-specific services
-  services.xserver = {
-    enable = true;
+  services = {
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
-    videoDrivers = [ "amdgpu" ];  # AMD GPU driver
+    xserver = {
+      xkb.layout = "de";
+      enable = true;
+      videoDrivers = [ "amdgpu" ];  # AMD GPU driver
+    };
   };
 
   # Enable automatic login for the user.
