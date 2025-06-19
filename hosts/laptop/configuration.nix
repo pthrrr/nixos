@@ -105,6 +105,9 @@
     #media-session.enable = true;
   };
 
+  # enable flatpak
+  services.flatpak.enable = true;
+
   # Laptop-specific services
   services = {
     xserver = {

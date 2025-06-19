@@ -38,8 +38,6 @@
     builtins.elem (lib.getName pkg) [
       "spotify"
       "discord"
-      "bitwig-studio"
-      "bitwig-studio-unwrapped"
       "unigine-valley"
   ];
 }
