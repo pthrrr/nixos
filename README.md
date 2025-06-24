@@ -76,6 +76,11 @@
 - `nix flake check`
 - `nix flake show`
 
+##  Dconf
+
+check options for dconf settings
+- `dconf watch \`
+
 ## To Do's
 - setup wireguard
    - sync cal with CalDAV
