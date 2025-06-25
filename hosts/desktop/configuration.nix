@@ -4,6 +4,7 @@
   imports = [
     ./hardware.nix
     ../../modules/optional/gaming.nix  # Import the shared gaming module
+    ../../modules/optional/hdr.nix
   ];
 
   nix.settings.experimental-features = [
