@@ -9,5 +9,6 @@ in
   # Desktop-specific packages
   home.packages = with pkgs; sharedConfig.home.packages ++ [
     discord
+    unigine-valley
   ];
 }
