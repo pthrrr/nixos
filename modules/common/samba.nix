@@ -7,7 +7,7 @@
   # password=<PASSWORD>
 
   # For mount.cifs, required unless domain name resolution is not needed.
-  environment.systemPackages = [ pkgs.cifs-utils ];
+  environment.systemPackages = [ pkgs.cifs-utils pkgs.samba ];
   fileSystems."/mnt/share" = {
     device = "//192.168.10.99/bigdata/";
     fsType = "cifs";
