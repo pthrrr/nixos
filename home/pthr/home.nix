@@ -21,6 +21,7 @@
     freetube
     vlc
     spotify
+    kdePackages.kdenlive
   ];
 
   programs.git = {
