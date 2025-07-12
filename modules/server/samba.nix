@@ -37,7 +37,7 @@ in
         "log level" = 1;
       };
       
-      "${username1}_admin" = {
+      "${username1}" = {
         path = "/mnt/nvme";
         browseable = "yes";
         "read only" = "no";
@@ -49,7 +49,7 @@ in
         comment = "Admin access to all data";
       };
       
-      "${username2}_files" = {
+      "${username2}" = {
         path = "/mnt/nvme/users/${username2}";
         browseable = "yes";
         "read only" = "no";
@@ -61,17 +61,6 @@ in
         comment = "Personal files";
       };
       
-      "${username2}_photos" = {
-        path = "/mnt/nvme/photos/${username2}";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "valid users" = username2;
-        "force user" = "dataowner2";
-        "create mask" = "0664";
-        "directory mask" = "0775";
-        comment = "Personal photos";
-      };
     };
   };
 }

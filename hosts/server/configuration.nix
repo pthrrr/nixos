@@ -122,8 +122,8 @@
     uid = 1002;
   };
 
-  age.secrets.username1.file = ./secrets/username1.age;
-  age.secrets.username2.file = ./secrets/username2.age;
+  age.secrets.username1.file = ../../secrets/username1.age;
+  age.secrets.username2.file = ../../secrets/username2.age;
 
   # Enable automatic login for the user.
   services.getty.autologinUser = "pthr";

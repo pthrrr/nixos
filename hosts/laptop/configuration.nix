@@ -48,6 +48,13 @@
   # Configure console keymap
   console.keyMap = "de";
 
+  # Enable OpenSSH (provides SSH keys automatically)
+  services.openssh.enable = true;
+
+  # Add the agenix secrets
+  age.secrets.username1.file = ../../secrets/username1.age;
+  age.secrets.username2.file = ../../secrets/username2.age;
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 

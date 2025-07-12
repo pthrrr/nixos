@@ -21,6 +21,7 @@
           ./hosts/desktop/configuration.nix
           ./modules/desktop-environments/gnome.nix
           ./modules/common
+          agenix.nixosModules.default
 
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = false;
@@ -37,6 +38,7 @@
           ./hosts/laptop/configuration.nix
           ./modules/desktop-environments/gnome.nix
           ./modules/common
+          agenix.nixosModules.default
 
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = false;
