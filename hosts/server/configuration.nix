@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, agenix, ... }:
 
 {
   imports =
@@ -20,14 +20,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.initrd.supportedFilesystems = [ "zfs" ];
   boot.initrd.availableKernelModules = [ "nvme" ];
-  boot.zfs.extraPools = [ "big_data" ];
 
   # Static IP configuration
   networking = {
-    hostId = "40c9de6f";
     hostName = "nixOS-server";
     
     # Disable DHCP globally
@@ -61,7 +57,8 @@
     # Firewall configuration
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 ];
+      allowedTCPPorts = [ 22 139 445 ];
+      allowedUDPPorts = [ 137 138 ];
     };
   };
 
@@ -102,13 +99,31 @@
   # Configure console keymap
   console.keyMap = "de";
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account.
   users.users.pthr = {
     isNormalUser = true;
     description = "pthr";
     extraGroups = [ "wheel" ];
     packages = with pkgs; [];
   };
+
+  users.users.dataowner1 = {
+    isSystemUser = true;
+    description = "Data owner 1 (Admin)";
+    group = "users";
+    extraGroups = [ "wheel" ];
+    uid = 1001;
+  }; 
+
+  users.users.dataowner2 = {
+    isSystemUser = true;
+    description = "Data owner 2";
+    group = "users";
+    uid = 1002;
+  };
+
+  age.secrets.username1.file = ./secrets/username1.age;
+  age.secrets.username2.file = ./secrets/username2.age;
 
   # Enable automatic login for the user.
   services.getty.autologinUser = "pthr";
@@ -122,7 +137,18 @@
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
      git
+     tree
+     samba
+     cifs-utils
+     mdadm
+     agenix.packages.x86_64-linux.default
   ];
+
+  # Fix mdadm warning
+  boot.swraid.mdadmConf = ''
+    MAILADDR root@localhost
+    PROGRAM /run/current-system/sw/bin/logger
+  '';
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -145,5 +171,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
-
 }
