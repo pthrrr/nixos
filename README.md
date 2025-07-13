@@ -81,6 +81,10 @@
 check options for dconf settings
 - `dconf watch \`
 
+## PaperWm Winprop
+
+- The wm_class or title of a window can be found by using looking glass: `Alt` + `F2` `lg` `Return` Go to the "Windows" section at the top right and find the window.
+
 ## To Do's
 - setup wireguard
    - sync cal with CalDAV

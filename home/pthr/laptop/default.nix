@@ -10,5 +10,7 @@ in
   home.packages = with pkgs; sharedConfig.home.packages ++ [
     bitwig-studio
     unigine-valley
+    godot
+    blender
   ];
 }

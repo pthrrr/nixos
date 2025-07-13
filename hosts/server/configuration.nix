@@ -122,6 +122,8 @@
     uid = 1002;
   };
 
+  age.identityPaths = [ "/home/pthr/.ssh/pthr" ];
+
   age.secrets.username1.file = ../../secrets/username1.age;
   age.secrets.username2.file = ../../secrets/username2.age;
 

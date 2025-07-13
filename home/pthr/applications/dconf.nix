@@ -33,6 +33,11 @@
         default-focus-mode = 2;
         workspace-names = "['Workspace A', 'Workspace B', 'Workspace C', 'Workspace D', 'Workspace E']";
       };
+
+      "org/gnome/shell/extensions/winprops" = {
+        wm_class = "KeePassXC";
+        preferredWidth = "100%";
+      };
     };
   };
 }

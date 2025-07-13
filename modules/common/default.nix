@@ -3,7 +3,7 @@
     ./applications.nix
     ./house-keeping.nix
     ./mouse.nix
-    ./samba.nix
+    #./samba.nix
     ./users.nix
   ];
 }

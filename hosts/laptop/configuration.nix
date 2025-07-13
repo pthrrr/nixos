@@ -51,6 +51,8 @@
   # Enable OpenSSH (provides SSH keys automatically)
   services.openssh.enable = true;
 
+  age.identityPaths = [ "/home/pthr/.ssh/pthr" ]; 
+
   # Add the agenix secrets
   age.secrets.username1.file = ../../secrets/username1.age;
   age.secrets.username2.file = ../../secrets/username2.age;
