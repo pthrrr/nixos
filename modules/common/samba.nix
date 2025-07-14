@@ -6,7 +6,7 @@ in
 {
   environment.systemPackages = [ pkgs.cifs-utils pkgs.samba ];
 
-  fileSystems."/mnt/BigData" = {
+  fileSystems."/media/BigData/${username1}" = {
     device = "//192.168.10.100/${username1}";
     fsType = "cifs";
     options = let
