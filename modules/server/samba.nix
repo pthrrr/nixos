@@ -38,7 +38,7 @@ in
       };
       
       "${username1}" = {
-        path = "/mnt/nvme";
+        path = "/mnt/nvme/users/${username1}";
         browseable = "yes";
         "read only" = "no";
         "guest ok" = "no";
