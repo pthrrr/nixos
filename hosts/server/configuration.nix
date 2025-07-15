@@ -143,6 +143,7 @@
      samba
      cifs-utils
      mdadm
+     curl
      agenix.packages.x86_64-linux.default
   ];
 

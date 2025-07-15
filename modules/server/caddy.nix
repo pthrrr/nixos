@@ -17,46 +17,51 @@
     "d /var/lib/caddy 0755 caddy caddy -"
   ];
   
-  systemd.services.caddy-config = {
-    description = "Generate Caddy configuration";
-    before = [ "caddy.service" ];
-    wantedBy = [ "multi-user.target" ];
-    
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    
-    script = ''
-      DOMAIN=$(cat ${config.age.secrets.domain.path})
-      
-      cat > /var/lib/caddy/Caddyfile << EOF
-      {
-        email pthr+acme@$DOMAIN
-      }
-      
-      ha.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-          }
-        }
-        reverse_proxy localhost:8123
-      }
-      
-      $DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-          }
-        }
-        redir https://ha.$DOMAIN{uri}
-      }
-      EOF
-    '';
+systemd.services.caddy-config = {
+  description = "Generate Caddy configuration";
+  before = [ "caddy.service" ];
+  wantedBy = [ "multi-user.target" ];
+  
+  serviceConfig = {
+    Type = "oneshot";
+    RemainAfterExit = true;
   };
+  
+  path = with pkgs; [ curl coreutils ];
+  
+  script = ''
+    DOMAIN=$(cat ${config.age.secrets.domain.path})
+    SERVER_IP=$(curl -s -4 icanhazip.com)
+    
+    cat > /var/lib/caddy/Caddyfile << EOF
+    {
+      email pthr+acme@$DOMAIN
+    }
+    
+    ha.$DOMAIN {
+      tls {
+        dns namecheap {
+          user {env.NAMECHEAP_API_USER}
+          api_key {env.NAMECHEAP_API_KEY}
+          client_ip $SERVER_IP
+        }
+      }
+      reverse_proxy localhost:8123
+    }
+    
+    $DOMAIN {
+      tls {
+        dns namecheap {
+          user {env.NAMECHEAP_API_USER}
+          api_key {env.NAMECHEAP_API_KEY}
+          client_ip $SERVER_IP
+        }
+      }
+      redir https://ha.$DOMAIN{uri}
+    }
+    EOF
+  '';
+};
   
   systemd.services.caddy = {
     after = [ "caddy-config.service" ];
