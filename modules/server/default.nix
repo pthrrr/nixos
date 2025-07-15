@@ -1,9 +1,10 @@
 {
   imports = [
     ./samba.nix
+    ./caddy.nix
     ./mount_raid.nix
     ./homeassistant.nix
-    ./docker
+    #./docker
     ../common/house-keeping.nix 
  ];
 }

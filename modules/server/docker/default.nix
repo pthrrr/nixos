@@ -6,6 +6,6 @@
     #./watchtower.nix
     #./syncthing.nix
     #./radicale.nix
-    #./matter-service.nix
+    ./matter-server.nix
  ];
 }

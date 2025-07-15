@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -12,19 +13,19 @@
     };
   };
 
-  outputs = { self, nixpkgs, agenix, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-stable, agenix, home-manager, ... }@inputs: {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit agenix; };
-
+        specialArgs = { inherit agenix; };  # Keep as agenix
         modules = [
           ./hosts/desktop/configuration.nix
           ./modules/desktop-environments/gnome.nix
           ./modules/common
           agenix.nixosModules.default
 
-          home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager
+          {
             home-manager.useGlobalPkgs = false;
             home-manager.useUserPackages = true;
             home-manager.users.pthr = import ./home/pthr/desktop;
@@ -34,15 +35,15 @@
 
       laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit agenix; };
-
+        specialArgs = { inherit agenix; };  # Keep as agenix
         modules = [
           ./hosts/laptop/configuration.nix
           ./modules/desktop-environments/gnome.nix
           ./modules/common
           agenix.nixosModules.default
 
-          home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager
+          {
             home-manager.useGlobalPkgs = false;
             home-manager.useUserPackages = true;
             home-manager.users.pthr = import ./home/pthr/laptop;
@@ -52,21 +53,24 @@
 
       server = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit agenix; };
-
+        specialArgs = { inherit agenix inputs; };  # Pass both agenix AND inputs
         modules = [
+          # ONLY apply overlay to server (for Caddy v2.9.1)
+          ({ config, pkgs, ... }: {
+            nixpkgs.overlays = [
+              (import ./overlays { inherit inputs; }).modifications
+            ];
+          })
+          
           ./hosts/server/configuration.nix
-	  ./modules/server
+          ./modules/server
           agenix.nixosModules.default
 
           {
-            environment.systemPackages = [ agenix.packages.x86_64-linux.default ];     
+            environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
           }
-
         ];
       };
-
     };
   };
 }
- 

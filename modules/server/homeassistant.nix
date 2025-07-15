@@ -6,6 +6,7 @@
     extraComponents = [
       # Components required to complete the onboarding
       "shopping_list"
+      "otbr" # open thread border router 
     ];
     config = {
       default_config = {};
