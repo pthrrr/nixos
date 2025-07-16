@@ -60,8 +60,8 @@ systemd.services.caddy-config = {
       redir https://ha.$DOMAIN{uri}
     }
     EOF
-  '';
-};
+    '';
+  };
   
   systemd.services.caddy = {
     after = [ "caddy-config.service" ];
@@ -70,6 +70,6 @@ systemd.services.caddy-config = {
       EnvironmentFile = config.age.secrets.namecheap-credentials.path;
     };
   };
-  
+
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 }
