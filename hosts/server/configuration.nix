@@ -144,6 +144,7 @@
      cifs-utils
      mdadm
      curl
+     hdparm
      agenix.packages.x86_64-linux.default
   ];
 
