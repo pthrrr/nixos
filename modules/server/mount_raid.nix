@@ -15,6 +15,6 @@
   fileSystems."/mnt/raid5" = {
     device = "/dev/md0";
     fsType = "ext4";
-    options = [ "defaults" ];
+    options = [ "noauto" ]; # noauto disables auto-mounting | defaults would auto mount
   };
 }
