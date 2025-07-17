@@ -51,10 +51,10 @@ systemd.services.caddy-config = {
 
     pihole.***REMOVED*** {
       tls {
-          dns namecheap {
+        dns namecheap {
           user {env.NAMECHEAP_API_USER}
           api_key {env.NAMECHEAP_API_KEY}
-          client_ip REMOVED
+          client_ip $SERVER_IP
         }
       }
       @root {
