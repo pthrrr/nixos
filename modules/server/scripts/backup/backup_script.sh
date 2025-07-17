@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOG_FILE=/home/pthr/cron/backup.log
+LOG_FILE=/home/pthr/backup.log
 EXCLUDE_FILE=/home/pthr/git/nixos/modules/server/scripts/backup/exclude.txt
 INCLUDE_FILE=/home/pthr/git/nixos/modules/server/scripts/backup/include.txt
 
@@ -10,7 +10,6 @@ if ! mountpoint -q /mnt/raid5; then
   echo "Mounted /mnt/raid5" >> $LOG_FILE
 fi
 
-echo -e "\n------------------------------" >> $LOG_FILE
 echo "running backup_script.sh" >> $LOG_FILE
 echo "$(date)" >> $LOG_FILE
 echo "PATH: $PATH" >> $LOG_FILE
