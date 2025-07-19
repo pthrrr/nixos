@@ -63,6 +63,42 @@ systemd.services.caddy-config = {
       rewrite @root /admin/
       reverse_proxy localhost:8080
     }
+<<<<<<< HEAD
+=======
+
+    radicale.$DOMAIN {
+      tls {
+        dns namecheap {
+          user {env.NAMECHEAP_API_USER}
+          api_key {env.NAMECHEAP_API_KEY}
+          client_ip $SERVER_IP
+        }
+      }
+    reverse_proxy localhost:5232
+  }
+
+    shelly1.$DOMAIN {
+      tls {
+        dns namecheap {
+          user {env.NAMECHEAP_API_USER}
+          api_key {env.NAMECHEAP_API_KEY}
+          client_ip $SERVER_IP
+        }
+      }
+      reverse_proxy 192.168.10.201
+    }
+
+    shellyplug.$DOMAIN {
+      tls {
+        dns namecheap {
+          user {env.NAMECHEAP_API_USER}
+          api_key {env.NAMECHEAP_API_KEY}
+          client_ip $SERVER_IP
+        }
+      }
+      reverse_proxy 192.168.10.200
+    }
+>>>>>>> 599b4826db28cdf449df72bb0b003c4575151329
     
     $DOMAIN {
       tls {
