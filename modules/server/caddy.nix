@@ -63,8 +63,6 @@ systemd.services.caddy-config = {
       rewrite @root /admin/
       reverse_proxy localhost:8080
     }
-<<<<<<< HEAD
-=======
 
     radicale.$DOMAIN {
       tls {
@@ -98,7 +96,6 @@ systemd.services.caddy-config = {
       }
       reverse_proxy 192.168.10.200
     }
->>>>>>> 599b4826db28cdf449df72bb0b003c4575151329
     
     $DOMAIN {
       tls {
