@@ -9,4 +9,6 @@ in
 
   "domain.age".publicKeys = keys;
   "namecheap-credentials.age".publicKeys = keys;
+
+  "radicale-users.age".publicKeys = keys;
 }
