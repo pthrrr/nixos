@@ -8,7 +8,6 @@ in
     enable = true;
     extraComponents = [
       "shopping_list"
-      "otbr"
     ];
     config = {
       default_config = {};
