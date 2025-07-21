@@ -8,8 +8,8 @@
     pkgs.gnome-tweaks
 
     # gnome extensions
-    gnomeExtensions.blur-my-shell
-    gnomeExtensions.paperwm
+    # gnomeExtensions.blur-my-shell
+    # gnomeExtensions.paperwm
   ];
 
   # Exclude specific GNOME applications
