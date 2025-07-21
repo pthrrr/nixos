@@ -2,7 +2,7 @@
 {
 
   imports = [
-    ./applications/dconf.nix
+    #./applications/dconf.nix
     ./applications/vscodium.nix
   ];
 
