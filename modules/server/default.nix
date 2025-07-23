@@ -3,10 +3,10 @@
     ./samba.nix
     ./caddy.nix
     ./pihole.nix
-    ./backup.nix
+    #./backup.nix
     ./radicale.nix
     ./mount_raid.nix
-    ./homeassistant.nix
+    ./home-assistant.nix
     ../common/house-keeping.nix 
  ];
 }
