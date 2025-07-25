@@ -146,6 +146,7 @@
      curl
      hdparm
      agenix.packages.x86_64-linux.default
+     python-matter-server
   ];
 
   # Fix mdadm warning
