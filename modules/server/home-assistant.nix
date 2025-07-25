@@ -9,7 +9,9 @@ in
     extraComponents = [
       "homeassistant_hardware"
       "shopping_list"
-      "homekit"
+      "shelly"
+      "thread"
+      "matter"
     ];
     config = {
       default_config = {};
@@ -27,4 +29,5 @@ in
   };
 
   networking.firewall.allowedTCPPorts = [ 8123 ];
+  networking.firewall.allowedUDPPorts = [ 5683 ]; # CoIoT, unicast shelly
 }
