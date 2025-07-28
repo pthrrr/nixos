@@ -18,9 +18,12 @@ in
       pyfritzhome
       fritzconnection
       aiohomekit
+      xmltodict
     ];
     config = {
       default_config = {};
+      automation = "!include automations.yaml";
+
       homeassistant = {
         time_zone = "Europe/Berlin";
       };
