@@ -49,7 +49,7 @@ systemd.services.caddy-config = {
       reverse_proxy localhost:8123
     }
 
-    pihole.***REMOVED*** {
+    pihole.$DOMAIN {
       tls {
         dns namecheap {
           user {env.NAMECHEAP_API_USER}
