@@ -13,17 +13,30 @@ in
       "thread"
       "matter"
     ];
+    extraPackages = python3Packages: with python3Packages; [
+      getmac
+      pyfritzhome
+      fritzconnection
+      aiohomekit
+    ];
     config = {
       default_config = {};
-      external_url = "https://ha.${builtins.replaceStrings ["\n"] [""] domain}";
-      internal_url = "http://localhost:8123";
+      homeassistant = {
+        time_zone = "Europe/Berlin";
+      };
       http = {
+        server_host = [ "0.0.0.0" "::" ];
+        server_port = 8123;
         trusted_proxies = [
           "192.168.10.100"
           "127.0.0.1"
           "::1"
         ];
         use_x_forwarded_for = true;
+      };
+      lovelace = {
+        mode = "storage";
+        resources = [];
       };
     };
   };
