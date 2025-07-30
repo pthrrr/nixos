@@ -8,7 +8,7 @@ in
   users.users.copyparty = {
     isSystemUser = true;
     group = "copyparty";
-    extraGroups = [ "users" ];  # Add this line
+    extraGroups = [ "users" ];
   };
 
   age.secrets.password1 = {
@@ -21,6 +21,38 @@ in
     file = ../../secrets/password2.age;
     owner = "copyparty";
     mode = "0400";
+  };
+
+  # Ownership fixes
+  systemd.paths."fix-copyparty-ownership-${username1}" = {
+    wantedBy = [ "multi-user.target" ];
+    pathConfig = {
+      PathChanged = "/mnt/nvme/users/${username1}";
+      Unit = "fix-copyparty-ownership-${username1}.service";
+    };
+  };
+
+  systemd.services."fix-copyparty-ownership-${username1}" = {
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.findutils}/bin/find /mnt/nvme/users/${username1} -user copyparty -exec ${pkgs.coreutils}/bin/chown dataowner1:users {} +'";
+    };
+  };
+
+  # Ownership fix for username2
+  systemd.paths."fix-copyparty-ownership-${username2}" = {
+    wantedBy = [ "multi-user.target" ];
+    pathConfig = {
+      PathChanged = "/mnt/nvme/users/${username2}";
+      Unit = "fix-copyparty-ownership-${username2}.service";
+    };
+  };
+
+  systemd.services."fix-copyparty-ownership-${username2}" = {
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.bash}/bin/bash -c '${pkgs.findutils}/bin/find /mnt/nvme/users/${username2} -user copyparty -exec ${pkgs.coreutils}/bin/chown dataowner2:users {} +'";
+    };
   };
 
   services.copyparty = {
