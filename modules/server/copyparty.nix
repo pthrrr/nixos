@@ -4,6 +4,13 @@ let
   username2 = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.username2.path);
 in
 {
+  # Add copyparty user to the users group so it can read the directories
+  users.users.copyparty = {
+    isSystemUser = true;
+    group = "copyparty";
+    extraGroups = [ "users" ];  # Add this line
+  };
+
   age.secrets.password1 = {
     file = ../../secrets/password1.age;
     owner = "copyparty";
