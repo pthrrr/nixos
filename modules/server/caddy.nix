@@ -21,9 +21,6 @@ in
     configFile = "/var/lib/caddy/Caddyfile";
   };
   
-  age.secrets.domain.file = ../../secrets/domain.age;
-  age.secrets.namecheap-credentials.file = ../../secrets/namecheap-credentials.age;
-  
   systemd.tmpfiles.rules = [
     "d /var/lib/caddy 0755 caddy caddy -"
   ];
