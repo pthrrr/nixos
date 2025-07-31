@@ -7,6 +7,9 @@ in
   "username1.age".publicKeys = keys;
   "username2.age".publicKeys = keys;
 
+  "password1.age".publicKeys = keys;
+  "password2.age".publicKeys = keys;
+
   "domain.age".publicKeys = keys;
   "namecheap-credentials.age".publicKeys = keys;
 

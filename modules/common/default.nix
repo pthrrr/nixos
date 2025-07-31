@@ -5,5 +5,6 @@
     ./mouse.nix
     ./samba.nix
     ./users.nix
+    ./webdav.nix
   ];
 }
