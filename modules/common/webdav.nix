@@ -1,6 +1,9 @@
 { config, pkgs, lib, ... }:
+let
+  username1 = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.username1.path);
+  domain = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.domain.path);
+in
 {
-  # Declare the secrets this module needs
   age.secrets.domain = {
     file = ../../secrets/domain.age;
   };
