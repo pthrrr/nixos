@@ -1,5 +1,16 @@
 # Setup
 
+## Fresh system setup (laptop or new client):
+## 1. First build will fail - this is EXPECTED
+sudo nixos-rebuild switch --flake .#laptop --impure
+
+## You'll see error: "opening file '/run/agenix/username1': No such file or directory"
+
+## 2. Second build will succeed
+sudo nixos-rebuild switch --flake .#laptop --impure
+
+## Now everything works!
+
 ## Secrets
 
 ### Create the username secrets
