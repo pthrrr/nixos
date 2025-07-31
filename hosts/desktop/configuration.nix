@@ -88,6 +88,10 @@
     #media-session.enable = true;
   };
 
+  # Enable GVFS for better desktop integration
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
+
   # Desktop-specific services
   services = {
     displayManager.gdm.enable = true;
