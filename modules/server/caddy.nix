@@ -20,19 +20,42 @@
 systemd.services.caddy-config = {
   description = "Generate Caddy configuration";
   before = [ "caddy.service" ];
+  after = [ "agenix.service" ];
+  wants = [ "agenix.service" ];
   wantedBy = [ "multi-user.target" ];
   
   serviceConfig = {
     Type = "oneshot";
     RemainAfterExit = true;
+    # Run as root to ensure we can read the secrets
+    User = "root";
+    Group = "root";
   };
   
   path = with pkgs; [ curl coreutils ];
   
   script = ''
-    DOMAIN=$(cat ${config.age.secrets.domain.path})
-    SERVER_IP=$(curl -s -4 icanhazip.com)
+    # Add debugging to see what's happening
+    echo "Checking if domain secret exists..."
+    if [ ! -f "${config.age.secrets.domain.path}" ]; then
+      echo "ERROR: Domain secret file does not exist at ${config.age.secrets.domain.path}"
+      exit 1
+    fi
     
+    echo "Reading domain from ${config.age.secrets.domain.path}"
+    DOMAIN=$(cat ${config.age.secrets.domain.path})
+    echo "Domain is: $DOMAIN"
+    
+    # Validate domain
+    if [ -z "$DOMAIN" ] || [ "$DOMAIN" = "eof" ]; then
+      echo "ERROR: Invalid domain value: '$DOMAIN'"
+      exit 1
+    fi
+    
+    SERVER_IP=$(curl -s -4 icanhazip.com)
+    echo "Server IP: $SERVER_IP"
+    
+    # Create Caddyfile with proper ownership
     cat > /var/lib/caddy/Caddyfile << EOF
     {
       email pthr+acme@$DOMAIN
@@ -49,7 +72,7 @@ systemd.services.caddy-config = {
       reverse_proxy localhost:8123
     }
 
-    pihole.***REMOVED*** {
+    pihole.$DOMAIN {
       tls {
         dns namecheap {
           user {env.NAMECHEAP_API_USER}
@@ -72,8 +95,19 @@ systemd.services.caddy-config = {
           client_ip $SERVER_IP
         }
       }
-    reverse_proxy localhost:5232
-  }
+      reverse_proxy localhost:5232
+    }
+
+    copyparty.$DOMAIN {
+      tls {
+        dns namecheap {
+          user {env.NAMECHEAP_API_USER}
+          api_key {env.NAMECHEAP_API_KEY}
+          client_ip $SERVER_IP
+        }
+      }
+      reverse_proxy localhost:3210
+    }
 
     shelly1.$DOMAIN {
       tls {
@@ -108,7 +142,13 @@ systemd.services.caddy-config = {
       redir https://ha.$DOMAIN{uri}
     }
     EOF
-    '';
+    
+    # Set proper ownership for Caddy
+    chown caddy:caddy /var/lib/caddy/Caddyfile
+    chmod 644 /var/lib/caddy/Caddyfile
+    
+    echo "Caddyfile generated successfully"
+  '';
   };
   
   systemd.services.caddy = {
