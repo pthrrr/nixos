@@ -1,9 +1,29 @@
-{ config, pkgs, lib, agenix, ... }:
+{ config, pkgs, lib, ... }:
 let
   username1 = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.username1.path);
   username2 = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.username2.path);
 in
 {
+  age.secrets.username1 = {
+    file = ../../secrets/username1.age;
+  };
+  
+  age.secrets.username2 = {
+    file = ../../secrets/username2.age;
+  };
+  
+  age.secrets.password1 = {
+    file = ../../secrets/password1.age;
+    owner = "copyparty";
+    mode = "0400";
+  };
+  
+  age.secrets.password2 = {
+    file = ../../secrets/password2.age;
+    owner = "copyparty";
+    mode = "0400";
+  };
+
   # Add copyparty user to the users group so it can read the directories
   users.users.copyparty = {
     isSystemUser = true;
