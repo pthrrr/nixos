@@ -31,7 +31,7 @@
   fileSystems."/mnt/nvme" = {
     device = "/dev/disk/by-uuid/e19cdf9b-0007-47d6-ae7c-7dd25eca8f1e";
     fsType = "ext4";
-    options = [ "defaults" ];
+    options = [ "defaults" "acl" ];
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
