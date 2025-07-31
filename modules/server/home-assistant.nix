@@ -1,9 +1,12 @@
 { config, pkgs, ... }:
-
 let
-  domain = builtins.readFile "/run/agenix/domain";
+  domain = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.domain.path);
 in
 {
+  age.secrets.domain = {
+    file = ../../secrets/domain.age;
+  };
+
   services.home-assistant = {
     enable = true;
     extraComponents = [
