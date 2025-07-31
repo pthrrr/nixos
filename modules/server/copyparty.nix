@@ -31,18 +31,6 @@ in
     extraGroups = [ "users" ];
   };
 
-  age.secrets.password1 = {
-    file = ../../secrets/password1.age;
-    owner = "copyparty";
-    mode = "0400";
-  };
-  
-  age.secrets.password2 = {
-    file = ../../secrets/password2.age;
-    owner = "copyparty";
-    mode = "0400";
-  };
-
   # Ownership fixes
   systemd.paths."fix-copyparty-ownership-${username1}" = {
     wantedBy = [ "multi-user.target" ];
