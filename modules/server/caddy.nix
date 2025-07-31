@@ -1,5 +1,16 @@
 { config, pkgs, ... }:
+let
+  domain = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.domain.path);
+in
 {
+  age.secrets.domain = {
+    file = ../../secrets/domain.age;
+  };
+  
+  age.secrets.namecheap-credentials = {
+    file = ../../secrets/namecheap-credentials.age;
+  };
+
   services.caddy = {
     enable = true;
     package = pkgs.caddy.withPlugins {
