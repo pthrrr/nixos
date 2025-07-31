@@ -60,7 +60,6 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-
   hardware.graphics.enable = true;
   hardware.nvidia = {
     # Modesetting is required.
@@ -115,6 +114,10 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+
+  # Enable GVFS for better desktop integration
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
 
   # enable flatpak
   services.flatpak.enable = true;
