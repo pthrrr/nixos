@@ -6,6 +6,8 @@
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+    copyparty.url = "github:9001/copyparty";
+    copyparty.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -13,7 +15,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, agenix, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, agenix, copyparty, ... }@inputs: {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -59,12 +61,15 @@
           ({ config, pkgs, ... }: {
             nixpkgs.overlays = [
               (import ./overlays { inherit inputs; }).modifications
+              copyparty.overlays.default
             ];
           })
+
+          agenix.nixosModules.default
+          copyparty.nixosModules.default
           
           ./hosts/server/configuration.nix
           ./modules/server
-          agenix.nixosModules.default
 
           {
             environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
