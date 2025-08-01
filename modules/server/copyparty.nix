@@ -48,12 +48,12 @@ in
 
     volumes = {
       # Main user directories
-      "/${username1}-data" = {
+      "/${username1}" = {
         path   = "/mnt/nvme/users/${username1}";
         access = { A = username1; };
       };
 
-      "/${username2}-data" = {
+      "/${username2}" = {
         path   = "/mnt/nvme/users/${username2}";
         access = { 
           rwmd = username2;
