@@ -16,6 +16,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  powerManagement.enable = true;
+  powerManagement.cpuFreqGovernor = "performance";  
+
   networking.hostName = "nixOS-desktop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -66,14 +71,37 @@
     graphics = {
       enable = true;
       extraPackages = with pkgs; [
-        #amdvlk  # AMD-specific drivers
         rocmPackages.clr.icd
+        # Video acceleration
+        vaapiVdpau
+        libvdpau-va-gl
+        mesa
+        # Vulkan support
+        vulkan-loader
+        vulkan-tools
+      ];
+      # Enable 32-bit support for gaming
+      extraPackages32 = with pkgs.pkgsi686Linux; [
+        vaapiVdpau
+        libvdpau-va-gl
+        mesa
       ];
     };
   };
 
+  environment.sessionVariables = {
+    # Force VA-API driver
+    LIBVA_DRIVER_NAME = "radeonsi";
+    # Enable VDPAU
+    VDPAU_DRIVER = "radeonsi";
+    # ROCm/HIP support
+    HSA_OVERRIDE_GFX_VERSION = "11.0.0";
+  };
+
+
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
+
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -103,6 +131,10 @@
     };
   };
 
+  services.udev.extraRules = ''
+    KERNEL=="card[0-9]*", SUBSYSTEM=="drm", DRIVERS=="amdgpu", ATTR{device/power_dpm_force_performance_level}="auto"
+  '';
+
   # Enable automatic login for the user.
   #services.xserver.displayManager.autoLogin.enable = true;
   #services.xserver.displayManager.autoLogin.user = "pthr";
@@ -120,6 +152,16 @@
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
      agenix.packages.x86_64-linux.default
+
+     # GPU monitoring/testing tools
+     radeontop
+     gpu-viewer
+     clinfo
+     glxinfo
+
+     # Video tools with GPU acceleration
+     ffmpeg-full  # Includes VA-API support
+     mpv          # Hardware-accelerated video player
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
