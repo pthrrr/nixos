@@ -1,6 +1,5 @@
 {
   imports = [
-    #./samba.nix
     ./caddy.nix
     ./pihole.nix
     #./backup.nix
