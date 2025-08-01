@@ -126,9 +126,6 @@
 
   age.identityPaths = [ "/home/pthr/.ssh/pthr" ];
 
-  age.secrets.username1.file = ../../secrets/username1.age;
-  age.secrets.username2.file = ../../secrets/username2.age;
-
   # Enable automatic login for the user.
   services.getty.autologinUser = "pthr";
 
@@ -138,15 +135,15 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+     vim
+     btop
      git
      tree
-     samba
-     cifs-utils
      mdadm
      curl
+     wget
      hdparm
      agenix.packages.x86_64-linux.default
-     acl
   ];
 
   # Fix mdadm warning
@@ -154,45 +151,6 @@
     MAILADDR root@localhost
     PROGRAM /run/current-system/sw/bin/logger
   '';
-
-  # Setup ACLs for copyparty
-  systemd.services.setup-copyparty-acls = {
-    description = "Setup ACLs for copyparty";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "local-fs.target" ];  # Wait for filesystems to be mounted
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = let
-        username1 = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.username1.path);
-        username2 = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.username2.path);
-      in pkgs.writeShellScript "setup-acls" ''
-        # Wait a moment to ensure filesystem is ready
-        sleep 2
-        
-        # Check if directories exist before setting ACLs
-        if [ -d "/mnt/nvme/users/${username1}" ]; then
-          ${pkgs.acl}/bin/setfacl -R -m u:copyparty:rwx /mnt/nvme/users/${username1}
-          ${pkgs.acl}/bin/setfacl -R -d -m u:copyparty:rwx /mnt/nvme/users/${username1}
-        fi
-        
-        if [ -d "/mnt/nvme/users/${username2}" ]; then
-          ${pkgs.acl}/bin/setfacl -R -m u:copyparty:rwx /mnt/nvme/users/${username2}
-          ${pkgs.acl}/bin/setfacl -R -d -m u:copyparty:rwx /mnt/nvme/users/${username2}
-        fi
-        
-        if [ -d "/mnt/nvme/shared" ]; then
-          ${pkgs.acl}/bin/setfacl -R -m u:copyparty:rwx /mnt/nvme/shared
-          ${pkgs.acl}/bin/setfacl -R -d -m u:copyparty:rwx /mnt/nvme/shared
-        fi
-        
-        if [ -d "/mnt/nvme/public" ]; then
-          ${pkgs.acl}/bin/setfacl -R -m u:copyparty:rwx /mnt/nvme/public
-          ${pkgs.acl}/bin/setfacl -R -d -m u:copyparty:rwx /mnt/nvme/public
-        fi
-      '';
-    };
-  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
