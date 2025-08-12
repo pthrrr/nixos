@@ -12,5 +12,7 @@ in
     unigine-valley
     godot
     blender
+    arduino
+    arduinoOTA
   ];
 }
