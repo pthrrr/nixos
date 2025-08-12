@@ -48,6 +48,8 @@
   # Configure console keymap
   console.keyMap = "de";
 
+  users.users.pthr.extraGroups = [ "dialout" "uucp" ]; # arduino IDE
+
   # Enable OpenSSH (provides SSH keys automatically)
   services.openssh.enable = true;
 
