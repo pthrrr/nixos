@@ -12,6 +12,7 @@ in
     extraComponents = [
       "homeassistant_hardware"
       "shopping_list"
+      "local_todo"
       "shelly"
       "thread"
       "matter"
@@ -22,6 +23,9 @@ in
       fritzconnection
       aiohomekit
       xmltodict
+      aiofiles
+      recurring-ical-events
+      icalendar
     ];
     config = {
       default_config = {};
