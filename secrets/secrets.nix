@@ -14,4 +14,6 @@ in
   "namecheap-credentials.age".publicKeys = keys;
 
   "radicale-users.age".publicKeys = keys;
+
+  "syncthing.age".publicKeys = keys;
 }
