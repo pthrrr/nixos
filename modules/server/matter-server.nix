@@ -16,7 +16,7 @@
     extraCommands = ''
       iptables -A INPUT -p udp -m udp --dport 5353 -j ACCEPT
       iptables -A INPUT -d 224.0.0.251/32 -j ACCEPT
-      iptables -A INPUT -d ff02::fb/128 -j ACCEPT
+      ip6tables -A INPUT -d ff02::fb/128 -j ACCEPT
     '';
   };
 }
