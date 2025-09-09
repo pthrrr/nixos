@@ -25,143 +25,174 @@ in
     "d /var/lib/caddy 0755 caddy caddy -"
   ];
   
-systemd.services.caddy-config = {
-  description = "Generate Caddy configuration";
-  before = [ "caddy.service" ];
-  after = [ "agenix.service" ];
-  wants = [ "agenix.service" ];
-  wantedBy = [ "multi-user.target" ];
-  
-  serviceConfig = {
-    Type = "oneshot";
-    RemainAfterExit = true;
-    # Run as root to ensure we can read the secrets
-    User = "root";
-    Group = "root";
-  };
-  
-  path = with pkgs; [ curl coreutils ];
-  
-  script = ''
-    # Add debugging to see what's happening
-    echo "Checking if domain secret exists..."
-    if [ ! -f "${config.age.secrets.domain.path}" ]; then
-      echo "ERROR: Domain secret file does not exist at ${config.age.secrets.domain.path}"
-      exit 1
-    fi
+  systemd.services.caddy-config = {
+    description = "Generate Caddy configuration";
+    before = [ "caddy.service" ];
+    after = [ "agenix.service" "network-online.target" ];
+    wants = [ "agenix.service" "network-online.target" ];
+    wantedBy = [ "multi-user.target" ];
     
-    echo "Reading domain from ${config.age.secrets.domain.path}"
-    DOMAIN=$(cat ${config.age.secrets.domain.path})
-    echo "Domain is: $DOMAIN"
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      User = "root";
+      Group = "root";
+    };
     
-    # Validate domain
-    if [ -z "$DOMAIN" ] || [ "$DOMAIN" = "eof" ]; then
-      echo "ERROR: Invalid domain value: '$DOMAIN'"
-      exit 1
-    fi
+    path = with pkgs; [ curl coreutils ];
     
-    SERVER_IP=$(curl -s -4 icanhazip.com)
-    echo "Server IP: $SERVER_IP"
-    
-    # Create Caddyfile with proper ownership
-    cat > /var/lib/caddy/Caddyfile << EOF
-    {
-      email pthr+acme@$DOMAIN
-    }
-    
-    ha.$DOMAIN {
-      tls {
-        dns namecheap {
-          user {env.NAMECHEAP_API_USER}
-          api_key {env.NAMECHEAP_API_KEY}
-          client_ip $SERVER_IP
-        }
+    script = ''
+      echo "Checking if domain secret exists..."
+      if [ ! -f "${config.age.secrets.domain.path}" ]; then
+        echo "ERROR: Domain secret file does not exist at ${config.age.secrets.domain.path}"
+        exit 1
+      fi
+      
+      echo "Reading domain from ${config.age.secrets.domain.path}"
+      DOMAIN=$(cat ${config.age.secrets.domain.path})
+      echo "Domain is: $DOMAIN"
+      
+      # Validate domain
+      if [ -z "$DOMAIN" ] || [ "$DOMAIN" = "eof" ]; then
+        echo "ERROR: Invalid domain value: '$DOMAIN'"
+        exit 1
+      fi
+      
+      # Get server IP with retry logic and fallback
+      echo "Getting server IP..."
+      SERVER_IP=""
+      for i in {1..5}; do
+        SERVER_IP=$(curl -s --connect-timeout 10 -4 icanhazip.com 2>/dev/null || echo "")
+        if [ -n "$SERVER_IP" ]; then
+          echo "Server IP: $SERVER_IP"
+          break
+        fi
+        echo "Failed to get IP, retrying... ($i/5)"
+        sleep 3
+      done
+      
+      # Fallback to your known static IP if curl fails
+      if [ -z "$SERVER_IP" ]; then
+        echo "WARNING: Could not get IP via curl, using fallback IP"
+        SERVER_IP="91.65.115.59"  # Your actual server IP
+      fi
+      
+      echo "Using Server IP: $SERVER_IP"
+      
+      # Ensure directory exists
+      mkdir -p /var/lib/caddy
+      
+      # Create Caddyfile with proper ownership
+      cat > /var/lib/caddy/Caddyfile << EOF
+      {
+        email pthr+acme@$DOMAIN
       }
-      reverse_proxy localhost:8123
-    }
+      
+      ha.$DOMAIN {
+        tls {
+          dns namecheap {
+            user {env.NAMECHEAP_API_USER}
+            api_key {env.NAMECHEAP_API_KEY}
+            client_ip $SERVER_IP
+          }
+        }
+        reverse_proxy localhost:8123
+      }
 
-    pihole.$DOMAIN {
-      tls {
-        dns namecheap {
-          user {env.NAMECHEAP_API_USER}
-          api_key {env.NAMECHEAP_API_KEY}
-          client_ip $SERVER_IP
+      pihole.$DOMAIN {
+        tls {
+          dns namecheap {
+            user {env.NAMECHEAP_API_USER}
+            api_key {env.NAMECHEAP_API_KEY}
+            client_ip $SERVER_IP
+          }
         }
+        @root {
+          path /
+        }
+        rewrite @root /admin/
+        reverse_proxy localhost:8080
       }
-      @root {
-        path /
-      }
-      rewrite @root /admin/
-      reverse_proxy localhost:8080
-    }
 
-    radicale.$DOMAIN {
-      tls {
-        dns namecheap {
-          user {env.NAMECHEAP_API_USER}
-          api_key {env.NAMECHEAP_API_KEY}
-          client_ip $SERVER_IP
+      radicale.$DOMAIN {
+        tls {
+          dns namecheap {
+            user {env.NAMECHEAP_API_USER}
+            api_key {env.NAMECHEAP_API_KEY}
+            client_ip $SERVER_IP
+          }
         }
+        reverse_proxy localhost:5232
       }
-      reverse_proxy localhost:5232
-    }
 
-    copyparty.$DOMAIN {
-      tls {
-        dns namecheap {
-          user {env.NAMECHEAP_API_USER}
-          api_key {env.NAMECHEAP_API_KEY}
-          client_ip $SERVER_IP
+      copyparty.$DOMAIN {
+        tls {
+          dns namecheap {
+            user {env.NAMECHEAP_API_USER}
+            api_key {env.NAMECHEAP_API_KEY}
+            client_ip $SERVER_IP
+          }
         }
+        reverse_proxy localhost:3210
       }
-      reverse_proxy localhost:3210
-    }
 
-    shelly1.$DOMAIN {
-      tls {
-        dns namecheap {
-          user {env.NAMECHEAP_API_USER}
-          api_key {env.NAMECHEAP_API_KEY}
-          client_ip $SERVER_IP
+      syncthing.$DOMAIN {
+        tls {
+          dns namecheap {
+            user {env.NAMECHEAP_API_USER}
+            api_key {env.NAMECHEAP_API_KEY}
+            client_ip $SERVER_IP
+          }
         }
+        reverse_proxy localhost:8384
       }
-      reverse_proxy 192.168.10.201
-    }
 
-    shellyplug.$DOMAIN {
-      tls {
-        dns namecheap {
-          user {env.NAMECHEAP_API_USER}
-          api_key {env.NAMECHEAP_API_KEY}
-          client_ip $SERVER_IP
+      shelly1.$DOMAIN {
+        tls {
+          dns namecheap {
+            user {env.NAMECHEAP_API_USER}
+            api_key {env.NAMECHEAP_API_KEY}
+            client_ip $SERVER_IP
+          }
         }
+        reverse_proxy 192.168.10.201
       }
-      reverse_proxy 192.168.10.200
-    }
-    
-    $DOMAIN {
-      tls {
-        dns namecheap {
-          user {env.NAMECHEAP_API_USER}
-          api_key {env.NAMECHEAP_API_KEY}
-          client_ip $SERVER_IP
+
+      shellyplug.$DOMAIN {
+        tls {
+          dns namecheap {
+            user {env.NAMECHEAP_API_USER}
+            api_key {env.NAMECHEAP_API_KEY}
+            client_ip $SERVER_IP
+          }
         }
+        reverse_proxy 192.168.10.200
       }
-      redir https://ha.$DOMAIN{uri}
-    }
-    EOF
-    
-    # Set proper ownership for Caddy
-    chown caddy:caddy /var/lib/caddy/Caddyfile
-    chmod 644 /var/lib/caddy/Caddyfile
-    
-    echo "Caddyfile generated successfully"
-  '';
+      
+      $DOMAIN {
+        tls {
+          dns namecheap {
+            user {env.NAMECHEAP_API_USER}
+            api_key {env.NAMECHEAP_API_KEY}
+            client_ip $SERVER_IP
+          }
+        }
+        redir https://ha.$DOMAIN{uri}
+      }
+      EOF
+      
+      # Set proper ownership for Caddy
+      chown caddy:caddy /var/lib/caddy/Caddyfile
+      chmod 644 /var/lib/caddy/Caddyfile
+      
+      echo "Caddyfile generated successfully"
+    '';
   };
   
   systemd.services.caddy = {
     after = [ "caddy-config.service" ];
     requires = [ "caddy-config.service" ];
+    wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       EnvironmentFile = config.age.secrets.namecheap-credentials.path;
     };
