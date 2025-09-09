@@ -4,7 +4,7 @@
     ./pihole.nix
     #./backup.nix
     ./radicale.nix
-    #./syncthing.nix
+    ./syncthing.nix
     ./copyparty.nix
     ./mount_raid.nix
     ./matter-server.nix
