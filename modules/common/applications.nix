@@ -6,6 +6,7 @@
     python314
     tree
     neofetch
+    cups
 
     # gstreamer
     # Video/Audio data composition framework tools like "gst-inspect", "gst-launch" ...
