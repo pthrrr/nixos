@@ -10,6 +10,8 @@
   home.homeDirectory = "/home/pthr";
   home.stateVersion = "22.05";
 
+  services.pass-secret-service.enable = true;
+
   # Let Home Manager manage itself
   programs.home-manager.enable = true;
 
