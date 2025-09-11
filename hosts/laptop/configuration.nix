@@ -17,6 +17,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   networking.hostName = "nixOS-laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -48,7 +50,13 @@
   # Configure console keymap
   console.keyMap = "de";
 
-  users.users.pthr.extraGroups = [ "dialout" "uucp" ]; # arduino IDE
+  users.users.pthr.extraGroups = [ "dialout" "uucp" "adbusers" "kvm" ]; # arduino IDE
+
+  programs.adb.enable = true;
+
+  services.udev.packages = [
+    pkgs.android-udev-rules
+  ];
 
   # Enable OpenSSH (provides SSH keys automatically)
   services.openssh.enable = true;
@@ -166,6 +174,7 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
+    android-tools
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -195,3 +204,12 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
 }
+
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
