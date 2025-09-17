@@ -65,6 +65,9 @@ in
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
           ignorePerms = true;
+          ignorePatterns = [ 
+            "*.kdbx-*-*.kdbx"  # Ignore KeePass backup files
+          ];
           versioning = {
             type = "simple";
             params = { keep = "20"; };
@@ -79,6 +82,9 @@ in
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
           ignorePerms = true;
+          ignorePatterns = [ 
+            "*.kdbx-*-*.kdbx"  # Ignore KeePass backup files
+          ];
           versioning = {
             type = "simple";
             params = { keep = "20"; };
