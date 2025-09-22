@@ -78,4 +78,11 @@ in
 
     openFilesLimit = 8192;
   };
+
+  # ─── Fix file permissions for group collaboration ─────────
+  systemd.services.copyparty = {
+    serviceConfig = {
+      UMask = lib.mkForce "0002";  # Creates files as 664, directories as 775
+    };
+  };
 }
