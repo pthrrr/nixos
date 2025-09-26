@@ -9,13 +9,18 @@
     copyparty.url = "github:9001/copyparty";
     copyparty.inputs.nixpkgs.follows = "nixpkgs";
 
+    # https://github.com/polygon/audio.nix
+    audio-nix = {
+      url = "github:polygon/audio.nix";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, agenix, copyparty, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, agenix, copyparty, audio-nix, ... }@inputs: {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -37,7 +42,8 @@
 
       laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit agenix; };  # Keep as agenix
+        specialArgs = { inherit agenix audio-nix; };
+
         modules = [
           ./hosts/laptop/configuration.nix
           ./modules/desktop-environments/gnome.nix
