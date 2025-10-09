@@ -11,33 +11,32 @@ in
  
   age.secrets.syncthing = {
     file = ../../secrets/syncthing.age;
-    owner = "syncthing";
+    owner = "media";
     mode = "0400";
   };
 
-  # Create syncthing user and add it to the copyparty group
-  users.groups.syncthing = {};
-  users.users.syncthing = {
+  # Create media user for copyparty and syncthing
+  users.groups.media = {};
+  users.users.media = {
     isSystemUser = true;
-    group = "syncthing";
-    extraGroups = [ "copyparty" ];
-    home = "/var/lib/syncthing";
+    group = "media";
+    home = "/var/lib/media";
     createHome = true;
   };
 
   services.syncthing = {
     enable = true;
-    user = "syncthing";
-    group = "syncthing";
+    user = "media";
+    group = "media";
 
-    dataDir = "/var/lib/syncthing";
-    configDir = "/var/lib/syncthing/.config/syncthing";
+    dataDir = "/var/lib/media/syncthing";
+    configDir = "/var/lib/media/syncthing/.config/syncthing";
     
     openDefaultPorts = true;
     guiAddress = "0.0.0.0:8384";
     
     overrideDevices = false;
-    overrideFolders = false;
+    overrideFolders = true;
     
     settings = {
       gui = {
@@ -88,6 +87,90 @@ in
           versioning = {
             type = "simple";
             params = { keep = "20"; };
+          };
+        };
+
+        "${username1}-photos" = {
+          id = "${username1}-photos";
+          label = "${username1} Photos";
+          path = "/mnt/nvme/photos/${username1}/pixel_7a";
+          type = "receiveonly";
+          rescanIntervalS = 60;
+          fsWatcherEnabled = true;
+          ignorePerms = true;
+          ignorePatterns = [ 
+            "*.tmp"
+            "*.partial"
+            ".thumbnails/"
+            "Thumbs.db"
+            ".DS_Store"
+          ];
+          versioning = {
+            type = "simple";
+            params = { keep = "5"; };
+          };
+        };
+
+        "${username2}-photos" = {
+          id = "${username2}-photos";
+          label = "${username2} Photos";
+          path = "/mnt/nvme/photos/${username2}/pixel_8";
+          type = "receiveonly";
+          rescanIntervalS = 60;
+          fsWatcherEnabled = true;
+          ignorePerms = true;
+          ignorePatterns = [ 
+            "*.tmp"
+            "*.partial"
+            ".thumbnails/"
+            "Thumbs.db"
+            ".DS_Store"
+          ];
+          versioning = {
+            type = "simple";
+            params = { keep = "5"; };
+          };
+        };
+
+        "${username1}-data" = {
+          id = "${username1}-data";
+          label = "${username1} Data";
+          path = "/mnt/nvme/users/${username1}/data/pixel_7a";
+          type = "sendreceive";
+          rescanIntervalS = 60;
+          fsWatcherEnabled = true;
+          ignorePerms = true;
+          ignorePatterns = [ 
+            "*.tmp"
+            "*.partial"
+            ".sync-conflict-*"
+            "Thumbs.db"
+            ".DS_Store"
+          ];
+          versioning = {
+            type = "simple";
+            params = { keep = "10"; };
+          };
+        };
+
+        "${username2}-data" = {
+          id = "${username2}-data";
+          label = "${username2} Data";
+          path = "/mnt/nvme/users/${username2}/data/pixel_8";
+          type = "sendreceive";
+          rescanIntervalS = 60;
+          fsWatcherEnabled = true;
+          ignorePerms = true;
+          ignorePatterns = [ 
+            "*.tmp"
+            "*.partial"
+            ".sync-conflict-*"
+            "Thumbs.db"
+            ".DS_Store"
+          ];
+          versioning = {
+            type = "simple";
+            params = { keep = "10"; };
           };
         };
       };
