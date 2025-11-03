@@ -42,7 +42,6 @@
       "spotify"
       "discord"
       "teamspeak3"
-      "unigine-valley"
       "bitwig-studio-unwrapped"
   ];
 }
