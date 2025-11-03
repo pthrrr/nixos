@@ -73,7 +73,7 @@
       extraPackages = with pkgs; [
         rocmPackages.clr.icd
         # Video acceleration
-        vaapiVdpau
+        libva-vdpau-driver
         libvdpau-va-gl
         mesa
         # Vulkan support
@@ -82,7 +82,7 @@
       ];
       # Enable 32-bit support for gaming
       extraPackages32 = with pkgs.pkgsi686Linux; [
-        vaapiVdpau
+        libva-vdpau-driver
         libvdpau-va-gl
         mesa
       ];
