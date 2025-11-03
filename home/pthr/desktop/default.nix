@@ -10,6 +10,5 @@ in
   home.packages = with pkgs; sharedConfig.home.packages ++ [
     discord
     teamspeak3
-    unigine-valley
   ];
 }
