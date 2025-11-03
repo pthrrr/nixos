@@ -2,6 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     neovim
+    btop
     git
     python314
     tree
