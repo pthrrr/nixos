@@ -69,6 +69,17 @@ in
           rA = username1;
         };
       };
+
+      "/papa-photos" = {
+        path   = "/mnt/nvme/photos/papa";
+        access = { A = username1; };
+      };
+
+      # papa data
+      "/papa" = {
+        path   = "/mnt/nvme/users/papa";
+        access = { A = username1; };
+      };
     };
 
     openFilesLimit = 8192;
