@@ -1,7 +1,8 @@
 {
   imports = [
+    ./podman
+
     ./caddy.nix
-    ./pihole.nix
     #./backup.nix
     ./radicale.nix
     ./syncthing.nix
@@ -9,6 +10,7 @@
     ./mount_raid.nix
     ./matter-server.nix
     ./home-assistant.nix
+
     ../common/house-keeping.nix 
  ];
 }
