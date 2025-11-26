@@ -6,6 +6,7 @@
     ../../modules/optional/gaming.nix  # Import the shared gaming module
     ../../modules/optional/hdr.nix
     ../../modules/optional/music-production.nix
+    ../../modules/optional/vm.nix
   ];
 
   nix.settings.experimental-features = [
@@ -53,10 +54,6 @@
   users.users.pthr.extraGroups = [ "dialout" "uucp" "adbusers" "kvm" ]; # arduino IDE
 
   programs.adb.enable = true;
-
-  services.udev.packages = [
-    pkgs.android-udev-rules
-  ];
 
   # Enable OpenSSH (provides SSH keys automatically)
   services.openssh.enable = true;
@@ -175,6 +172,7 @@
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
     android-tools
+    xorg.xbacklight
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

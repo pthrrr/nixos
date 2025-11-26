@@ -7,43 +7,39 @@
       enable = true;
       qemu = {
         package = pkgs.qemu_kvm;
-        runAsRoot = true;
-        swtpm.enable = true;
-        ovmf = {
-          enable = true;
-          packages = [ pkgs.OVMFFull.fd ];
-        };
+        runAsRoot = false;
+        swtpm.enable = true;  # TPM support for Windows 11
       };
     };
+    spiceUSBRedirection.enable = true;  # Enable USB redirection
   };
 
-  # Add your user to libvirtd group
-  users.users.pthr = {
-    extraGroups = [ "libvirtd" "kvm" ];
-  };
+  # Add your user to necessary groups
+  users.users.pthr.extraGroups = [ "libvirtd" "kvm" ];
 
-  # Install necessary packages
+  # Install VM management tools
   environment.systemPackages = with pkgs; [
     virt-manager
     virt-viewer
     spice
     spice-gtk
     spice-protocol
-    win-virtio
+    usbredir  # Required for USB redirection
+    virtio-win
     win-spice
-    qemu
-    OVMF
-    swtpm
   ];
 
-  # Enable USB redirection and additional permissions
+  # Enable polkit for USB access permissions
   security.polkit.enable = true;
-  
-  # Optional: Enable KVM kernel module
-  boot.kernelModules = [ "kvm-intel" "kvm-amd" "vfio-virqfd" ];
-  
-  # Optional: Improve performance
-  boot.kernel.sysctl = {
-    "vm.nr_hugepages" = 1024;
-  };
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+        if (action.id == "org.libvirt.unix.manage" &&
+            subject.isInGroup("libvirtd")) {
+                return polkit.Result.YES;
+        }
+    });
+  '';
+
+  # Enable SPICE guest agent service
+  services.spice-vdagentd.enable = true;
 }
