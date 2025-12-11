@@ -7,7 +7,11 @@
     python314
     tree
     neofetch
+    
     cups
+    cups-filters            # Important for PDF rendering
+    ghostscript           # PostScript/PDF interpreter
+    system-config-printer  # GUI tool for printer management
 
     # gstreamer
     # Video/Audio data composition framework tools like "gst-inspect", "gst-launch" ...

@@ -66,6 +66,9 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  services.printing.drivers = [ 
+    pkgs.brlaser          # Brother laser printers
+  ];
 
   hardware.graphics.enable = true;
   hardware.nvidia = {
