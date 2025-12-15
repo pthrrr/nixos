@@ -9,8 +9,6 @@ in
   # Laptop-specific packages
   home.packages = with pkgs; sharedConfig.home.packages ++ [
     bitwig-studio
-    godot
-    blender
     arduino
     arduinoOTA
   ];
