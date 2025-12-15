@@ -102,12 +102,24 @@
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
 
-  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+
+    # Add PipeWire configuration
+    configPackages = [
+      (pkgs.writeTextDir "share/pipewire/pipewire.conf.d/99-custom.conf" ''
+        context.properties = {
+          default.clock.rate = 44100
+          default.clock.quantum = 512
+          default.clock.min-quantum = 32
+          default.clock.max-quantum = 2048
+        }
+      '')
+    ];
+
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
@@ -151,17 +163,46 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
-     agenix.packages.x86_64-linux.default
+    agenix.packages.x86_64-linux.default
 
-     # GPU monitoring/testing tools
-     radeontop
-     gpu-viewer
-     clinfo
-     glxinfo
+    # GPU monitoring/testing tools
+    radeontop
+    gpu-viewer
+    clinfo
+    mesa-demos
 
-     # Video tools with GPU acceleration
-     ffmpeg-full  # Includes VA-API support
-     mpv          # Hardware-accelerated video player
+    # Video tools with GPU acceleration
+    ffmpeg-full  # Includes VA-API support
+    mpv          # Hardware-accelerated video player
+
+    pavucontrol    # GUI audio control
+    helvum         # PipeWire patchbay
+    qpwgraph       # Advanced PipeWire graph manager
+  ];
+
+  # Optimize for low-latency audio
+  security.rtkit.enable = true;
+    security.pam.loginLimits = [
+      { domain = "@audio"; item = "memlock"; type = "-"; value = "unlimited"; }
+      { domain = "@audio"; item = "rtprio"; type = "-"; value = "99"; }
+      { domain = "@audio"; item = "nofile"; type = "-"; value = "99999"; }
+  ];
+
+    # Add your user to audio group
+  users.users.pthr = {  # Replace with your username
+    extraGroups = [ "audio" "realtime" ];
+  };
+
+  # Add to your configuration
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 10;           # Reduce swapping for better real-time performance
+    "kernel.sched_rt_runtime_us" = -1;  # Allow unlimited RT scheduling
+  };
+
+  # Low-latency kernel parameters
+  boot.kernelParams = [ 
+    "threadirqs" 
+    "preempt=full"
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
