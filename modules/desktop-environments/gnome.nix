@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 {
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
@@ -6,11 +6,10 @@
 
   environment.systemPackages = with pkgs; [
     pkgs.gnome-tweaks
-
-    # gnome extensions
-    # gnomeExtensions.blur-my-shell
-    # gnomeExtensions.paperwm
   ];
+
+  # Disable GNOME Keyring
+  # services.gnome.gnome-keyring.enable = lib.mkForce false;
 
   # Exclude specific GNOME applications
   environment.gnome.excludePackages = with pkgs; [
@@ -19,14 +18,14 @@
     gnome-weather
     gnome-maps
     gnome-music
-    gnome-calendar
-    gnome-text-editor
+    # gnome-calendar
+    # gnome-text-editor
     gnome-contacts
     gnome-logs
     gnome-tour
-    snapshot
+    # snapshot
     gedit
-    simple-scan
+    # simple-scan
     yelp
     geary
   ];
