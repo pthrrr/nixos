@@ -1,10 +1,10 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    neovim
+    helix
     btop
     git
-    python314
+    python315
     tree
     neofetch
     
