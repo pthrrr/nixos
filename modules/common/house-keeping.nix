@@ -12,6 +12,9 @@
     options = "--delete-older-than 1w";
   };
 
+  # automatically limit how many generations are kept in /boot:
+  boot.loader.grub.configurationLimit = 10;
+
   # Optimize storage
   # You can also manually optimize the store via:
   #    nix-store --optimise
