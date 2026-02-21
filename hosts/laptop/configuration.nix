@@ -5,7 +5,7 @@
     ./hardware.nix
     ../../modules/optional/gaming.nix  # Import the shared gaming module
     ../../modules/optional/hdr.nix
-    ../../modules/optional/music-production.nix
+    #../../modules/optional/music-production.nix
     ../../modules/optional/vm.nix
   ];
 
@@ -52,8 +52,6 @@
   console.keyMap = "de";
 
   users.users.pthr.extraGroups = [ "dialout" "uucp" "adbusers" "kvm" ]; # arduino IDE
-
-  programs.adb.enable = true;
 
   # Enable OpenSSH (provides SSH keys automatically)
   services.openssh.enable = true;
@@ -151,6 +149,12 @@
       };
     };
   };
+
+services.udev.extraRules = ''
+  # Allow browser (WebHID) access to Ducky One X Mini Wireless
+  SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3233", MODE="0666"
+  SUBSYSTEM=="usb", ATTRS{idVendor}=="3233", MODE="0666"
+'';
 
   # Enable automatic login for the user.
   #services.xserver.displayManager.autoLogin.enable = true;
