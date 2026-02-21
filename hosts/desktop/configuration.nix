@@ -147,6 +147,10 @@
 
   services.udev.extraRules = ''
     KERNEL=="card[0-9]*", SUBSYSTEM=="drm", DRIVERS=="amdgpu", ATTR{device/power_dpm_force_performance_level}="auto"
+    
+    # Allow browser (WebHID) access to Ducky One X Mini Wireless
+    SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3233", MODE="0666"
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="3233", MODE="0666"
   '';
 
   # Enable automatic login for the user.
