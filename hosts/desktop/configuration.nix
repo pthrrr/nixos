@@ -72,6 +72,8 @@
       enable = true;
       extraPackages = with pkgs; [
         rocmPackages.clr.icd
+        libva
+        libva-utils
         # Video acceleration
         libva-vdpau-driver
         libvdpau-va-gl
