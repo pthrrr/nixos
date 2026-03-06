@@ -97,7 +97,7 @@
     # Enable VDPAU
     VDPAU_DRIVER = "radeonsi";
     # ROCm/HIP support
-    HSA_OVERRIDE_GFX_VERSION = "11.0.0";
+    HSA_OVERRIDE_GFX_VERSION = "11.0.2";
   };
 
 
