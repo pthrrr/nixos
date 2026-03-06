@@ -6,7 +6,6 @@
     git
     python315
     tree
-    neofetch
     
     cups
     cups-filters            # Important for PDF rendering
