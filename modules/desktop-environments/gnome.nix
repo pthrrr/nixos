@@ -8,8 +8,7 @@
     pkgs.gnome-tweaks
   ];
 
-  # Disable GNOME Keyring
-  # services.gnome.gnome-keyring.enable = lib.mkForce false;
+  services.gnome.gnome-keyring.enable = true;
 
   # Exclude specific GNOME applications
   environment.gnome.excludePackages = with pkgs; [
