@@ -182,7 +182,7 @@
     mpv          # Hardware-accelerated video player
 
     pavucontrol    # GUI audio control
-    helvum         # PipeWire patchbay
+    crosspipe
     qpwgraph       # Advanced PipeWire graph manager
   ];
 

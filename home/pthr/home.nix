@@ -28,8 +28,9 @@
 
   programs.git = {
     enable = true;
-    userName = "pthrrr";
-    #userEmail = "";
+    settings.user.name = "pthrrr";
+    # settings.user.email = "your@email.com";
+    signing.format = "openpgp";
   };
 
   # Install firefox.
