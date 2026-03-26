@@ -86,7 +86,7 @@
           10.168.192.in-addr.arpa: 192.168.10.1
 
       # --- Logging ---
-      logging:
+      log:
         level: info
       EOF
 
