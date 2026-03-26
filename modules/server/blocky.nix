@@ -88,6 +88,12 @@
       # --- Logging ---
       log:
         level: info
+
+      # --- Prometheus Metrics ---
+      prometheus:
+        enable: true
+        path: /metrics
+
       EOF
 
       echo "Blocky config generated successfully"

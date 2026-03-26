@@ -11,6 +11,7 @@
     ./matter-server.nix
     ./home-assistant.nix
     ./blocky.nix
+    ./monitoring.nix
 
     ../common/house-keeping.nix 
  ];
