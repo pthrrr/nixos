@@ -1,13 +1,10 @@
 # modules/server/blocky.nix
 { config, pkgs, ... }:
 {
-  # Domain secret wird auch in caddy.nix referenziert,
-  # doppelte Deklaration ist in NixOS idempotent
   age.secrets.domain = {
     file = ../../secrets/domain.age;
   };
 
-  # Config wird zur Laufzeit generiert (agenix Secret)
   systemd.services.blocky-config = {
     description = "Generate Blocky configuration";
     before = [ "blocky.service" ];
@@ -26,81 +23,65 @@
       mkdir -p /etc/blocky
 
       cat > /etc/blocky/config.yml << EOF
-      # ===========================================
-      # Blocky DNS Configuration
-      # ===========================================
+ports:
+  dns: 53
+  http: 4000
 
-      # --- Ports ---
-      # Testphase: 5353 (Pi-hole bleibt auf 53)
-      # Produktion: auf 53 umstellen
-      ports:
-        dns: 5335
-        http: 4000
+upstreams:
+  groups:
+    default:
+      - tcp-tls:1.1.1.1:853
+      - tcp-tls:1.0.0.1:853
+      - tcp-tls:9.9.9.9:853
 
-      # --- Upstream DNS (DoT) ---
-      upstreams:
-        groups:
-          default:
-            - tcp-tls:1.1.1.1:853
-            - tcp-tls:1.0.0.1:853
-            - tcp-tls:9.9.9.9:853
+bootstrapDns:
+  - tcp+udp:1.1.1.1
+  - tcp+udp:9.9.9.9
 
-      bootstrapDns:
-        - tcp+udp:1.1.1.1
-        - tcp+udp:9.9.9.9
+customDNS:
+  mapping:
+    $DOMAIN: 192.168.10.100
+    blocky.$DOMAIN: 192.168.10.100
+    ha.$DOMAIN: 192.168.10.100
+    radicale.$DOMAIN: 192.168.10.100
+    copyparty.$DOMAIN: 192.168.10.100
+    syncthing.$DOMAIN: 192.168.10.100
+    rss.$DOMAIN: 192.168.10.100
+    matchering.$DOMAIN: 192.168.10.100
+    grafana.$DOMAIN: 192.168.10.100
+    shelly1.$DOMAIN: 192.168.10.100
+    shellyplug.$DOMAIN: 192.168.10.100
 
-      # --- Lokale DNS-Einträge ---
-      # Alle Subdomains → Server IP (kein Hairpin NAT nötig)
-      customDNS:
-        mapping:
-          $DOMAIN: 192.168.10.100
-          ha.$DOMAIN: 192.168.10.100
-          radicale.$DOMAIN: 192.168.10.100
-          copyparty.$DOMAIN: 192.168.10.100
-          syncthing.$DOMAIN: 192.168.10.100
-          rss.$DOMAIN: 192.168.10.100
-          matchering.$DOMAIN: 192.168.10.100
-          shelly1.$DOMAIN: 192.168.10.201
-          shellyplug.$DOMAIN: 192.168.10.200
+blocking:
+  denylists:
+    ads:
+      - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+  clientGroupsBlock:
+    default:
+      - ads
 
-      # --- Ad-Blocking ---
-      blocking:
-        denylists:
-          ads:
-            - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
-        clientGroupsBlock:
-          default:
-            - ads
+caching:
+  minTime: 5m
+  maxTime: 30m
+  prefetching: true
 
-      # --- Caching ---
-      caching:
-        minTime: 5m
-        maxTime: 30m
-        prefetching: true
+conditional:
+  mapping:
+    fritz.box: 192.168.10.1
+    10.168.192.in-addr.arpa: 192.168.10.1
 
-      # --- Conditional Forwarding ---
-      # Lokale Gerätenamen via FritzBox auflösen
-      conditional:
-        mapping:
-          fritz.box: 192.168.10.1
-          10.168.192.in-addr.arpa: 192.168.10.1
+log:
+  level: info
 
-      # --- Logging ---
-      log:
-        level: info
-
-      # --- Prometheus Metrics ---
-      prometheus:
-        enable: true
-        path: /metrics
-
-      EOF
+prometheus:
+  enable: true
+  path: /metrics
+EOF
 
       echo "Blocky config generated successfully"
     '';
   };
 
-  # Blocky Service
   systemd.services.blocky = {
     description = "Blocky DNS proxy";
     after = [ "blocky-config.service" "network-online.target" ];
@@ -113,10 +94,14 @@
       Restart = "on-failure";
       RestartSec = "5s";
 
-      # Hardening
       DynamicUser = true;
       AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
       CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
     };
+  };
+
+  networking.firewall = {
+    allowedTCPPorts = [ 53 ];
+    allowedUDPPorts = [ 53 ];
   };
 }

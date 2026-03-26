@@ -99,7 +99,7 @@ in
         reverse_proxy localhost:8123
       }
 
-      pihole.$DOMAIN {
+      blocky.$DOMAIN {
         tls {
           dns namecheap {
             user {env.NAMECHEAP_API_USER}
@@ -107,11 +107,7 @@ in
             client_ip $SERVER_IP
           }
         }
-        @root {
-          path /
-        }
-        rewrite @root /admin/
-        reverse_proxy localhost:8080
+        reverse_proxy localhost:4000
       }
 
       radicale.$DOMAIN {
@@ -167,6 +163,17 @@ in
           }
         }
         reverse_proxy localhost:8360
+      }
+
+      grafana.$DOMAIN {
+        tls {
+          dns namecheap {
+            user {env.NAMECHEAP_API_USER}
+            api_key {env.NAMECHEAP_API_KEY}
+            client_ip $SERVER_IP
+          }
+        }
+        reverse_proxy localhost:3000
       }
 
       shelly1.$DOMAIN {

@@ -23,7 +23,7 @@ fi
 mkdir -p "$BACKUP_DIR"
 
 # Rsync backup
-if rsync -ahHAX --backup --backup-dir="$BACKUP_DIR" --stats \
+if rsync -ahHAX --delete --backup --backup-dir="$BACKUP_DIR" --stats \
     --exclude-from=$EXCLUDE_FILE \
     --include-from=$INCLUDE_FILE \
     /mnt/nvme/ /mnt/raid5/current/ >> $LOG_FILE 2>&1; then

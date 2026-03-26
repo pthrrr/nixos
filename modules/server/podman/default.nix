@@ -1,6 +1,6 @@
 {
   imports = [
-    ./pihole.nix
+    #./pihole.nix
     ./freshrss.nix
     ./matchering.nix
  ];
