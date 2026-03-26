@@ -10,6 +10,7 @@
     ./mount_raid.nix
     ./matter-server.nix
     ./home-assistant.nix
+    ./blocky.nix
 
     ../common/house-keeping.nix 
  ];
