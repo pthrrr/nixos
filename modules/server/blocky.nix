@@ -38,6 +38,11 @@ bootstrapDns:
   - tcp+udp:1.1.1.1
   - tcp+udp:9.9.9.9
 
+clientLookup:
+  upstream: 192.168.10.1
+  singleNameOrder:
+    - 1
+
 customDNS:
   mapping:
     $DOMAIN: 192.168.10.100
@@ -55,10 +60,22 @@ customDNS:
 blocking:
   denylists:
     ads:
-      - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+      # StevenBlack unified + fakenews + gambling + porn + social
+      - https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts
+    hagezi:
+      # Hagezi Multi Pro - Maximum Protection
+      - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/pro.txt
   clientGroupsBlock:
     default:
       - ads
+      - hagezi
+  blockType: zeroIp
+  blockTTL: 1m
+  loading:
+    refreshPeriod: 24h
+    downloads:
+      timeout: 60s
+      attempts: 3
 
 caching:
   minTime: 5m
