@@ -34,7 +34,7 @@
       # Testphase: 5353 (Pi-hole bleibt auf 53)
       # Produktion: auf 53 umstellen
       ports:
-        dns: 5353
+        dns: 5335
         http: 4000
 
       # --- Upstream DNS (DoT) ---
