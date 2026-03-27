@@ -6,6 +6,8 @@
     git
     python315
     tree
+
+    opencode
     
     cups
     cups-filters            # Important for PDF rendering
