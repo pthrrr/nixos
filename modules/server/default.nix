@@ -7,7 +7,7 @@
     ./radicale.nix
     ./syncthing.nix
     ./copyparty.nix
-    ./mount_raid.nix
+
     ./matter-server.nix
     ./home-assistant.nix
     ./blocky.nix
