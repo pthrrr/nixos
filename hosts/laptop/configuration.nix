@@ -265,7 +265,7 @@ services.udev.extraRules = ''
   };
 
   # Only run nix garbage collection when on AC power
-  systemd.services.nix-gc.serviceConfig.ConditionACPower = true;
+  systemd.services.nix-gc.unitConfig.ConditionACPower = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
