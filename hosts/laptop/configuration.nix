@@ -87,7 +87,6 @@
     extraPackages = with pkgs; [
       nvidia-vaapi-driver          # Hardware video decode
       vulkan-loader
-      vulkan-tools
       vulkan-validation-layers
       libvdpau-va-gl               # VDPAU via VA-API
     ];
@@ -96,15 +95,14 @@
     ];
   };
 
-  environment.sessionVariables = {
-    LIBVA_DRIVER_NAME = "nvidia";
-    VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
+  # NVIDIA environment variables -- only for user sessions, not display manager
+  # Use environment.variables for non-session-critical settings only
+  environment.variables = {
     NVD_BACKEND = "direct";
     VDPAU_DRIVER = "nvidia";
     __GL_SHADER_DISK_CACHE = "1";
     __GL_SHADER_DISK_CACHE_SKIP_CLEANUP = "1";
     __GL_GSYNC_ALLOWED = "1";
-    __GL_THREADED_OPTIMIZATIONS = "1";
   };
 
   hardware.nvidia = {
