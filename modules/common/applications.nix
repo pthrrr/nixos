@@ -8,6 +8,7 @@
     tree
 
     opencode
+    wl-clipboard
     
     cups
     cups-filters            # Important for PDF rendering
