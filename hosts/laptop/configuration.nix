@@ -3,8 +3,7 @@
 {
   imports = [
     ./hardware.nix
-    ../../modules/optional/gaming.nix  # Import the shared gaming module
-    ../../modules/optional/hdr.nix
+    ../../modules/optional/gaming.nix
     #../../modules/optional/music-production.nix
     ../../modules/optional/vm.nix
   ];
@@ -29,9 +28,10 @@
   ];
 
   boot.kernel.sysctl = {
-    "vm.laptop_mode" = 5;                # Delay disk writes, reduce disk wakeups
-    "vm.dirty_writeback_centisecs" = 6000; # Write back dirty pages every 60s
     "kernel.nmi_watchdog" = 0;
+    "vm.swappiness" = 10;                    # Prefer keeping game data in RAM
+    "vm.max_map_count" = 2147483642;         # Required by many modern games/Proton
+    "vm.compaction_proactiveness" = 0;       # Reduce background memory compaction stalls
   };
 
   networking.hostName = "nixOS-laptop"; # Define your hostname.
@@ -82,7 +82,31 @@
     pkgs.brlaser          # Brother laser printers
   ];
 
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      nvidia-vaapi-driver          # Hardware video decode
+      vulkan-loader
+      vulkan-tools
+      vulkan-validation-layers
+      libvdpau-va-gl               # VDPAU via VA-API
+    ];
+    extraPackages32 = with pkgs.pkgsi686Linux; [
+      vulkan-loader                # 32-bit Vulkan for Proton/Wine games
+    ];
+  };
+
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "nvidia";
+    VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
+    NVD_BACKEND = "direct";
+    VDPAU_DRIVER = "nvidia";
+    __GL_SHADER_DISK_CACHE = "1";
+    __GL_SHADER_DISK_CACHE_SKIP_CLEANUP = "1";
+    __GL_GSYNC_ALLOWED = "1";
+    __GL_THREADED_OPTIMIZATIONS = "1";
+  };
+
   hardware.nvidia = {
     # Modesetting is required.
     modesetting.enable = true;
@@ -132,9 +156,17 @@
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    # Low-latency audio for gaming (~5ms instead of ~21ms default)
+    extraConfig.pipewire = {
+      "99-low-latency" = {
+        "context.properties" = {
+          "default.clock.rate" = 48000;
+          "default.clock.quantum" = 256;
+          "default.clock.min-quantum" = 128;
+          "default.clock.max-quantum" = 1024;
+        };
+      };
+    };
   };
 
   # Enable GVFS for better desktop integration
@@ -218,6 +250,24 @@ services.udev.extraRules = ''
     powerOnBoot = false;
   };
 
+  # NVIDIA-specific GameMode overrides (supplements shared gaming.nix)
+  programs.gamemode.settings = {
+    general = {
+      softrealtime = "auto";
+      ioprio = 0;
+      inhibit_screensaver = 1;
+    };
+    gpu = {
+      apply_gpu_optimisations = "accept-responsibility";
+      gpu_device = 0;
+      nv_powermizer_mode = 1;    # Force max GPU clocks during gaming
+    };
+    custom = {
+      start = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance";
+      end = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced";
+    };
+  };
+
   # Only run nix garbage collection when on AC power
   systemd.services.nix-gc.serviceConfig.ConditionACPower = true;
 
@@ -233,11 +283,12 @@ services.udev.extraRules = ''
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
     android-tools
     xbacklight
     powertop             # Power consumption analyzer
+    nvtopPackages.nvidia # GPU monitoring
+    vulkan-tools         # vulkaninfo, vkcube
+    mesa-demos           # glxgears, glxinfo
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

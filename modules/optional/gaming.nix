@@ -28,6 +28,13 @@
 
         # Shader-Caching
         PROTON_LOCAL_SHADER_CACHE = "1";
+        DXVK_STATE_CACHE = "1";
+
+        # Proton/Wine synchronization (low-latency)
+        PROTON_NO_ESYNC = "0";
+        PROTON_NO_FSYNC = "0";
+        WINEFSYNC = "1";
+        WINEESYNC = "1";
 
         # Vulkan-only Rendering in Wine/Proton
         WINE_VK_VULKAN_ONLY = "1";
