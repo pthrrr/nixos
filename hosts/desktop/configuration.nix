@@ -165,22 +165,11 @@
   nixpkgs.config.allowUnfree = true;
 
   # AMD-specific gaming overrides (supplements shared gaming.nix)
-  programs.steam.package = pkgs.steam.override {
-    extraEnv = {
-      MANGOHUD = "1";
-      MANGOHUD_CONFIG = "read_cfg,no_display";
-      GAMEMODERUN = "1";
-      VKD3D_CONFIG = "dxr,dxr11";
-      PROTON_LOCAL_SHADER_CACHE = "1";
-      WINE_VK_VULKAN_ONLY = "1";
-      WINEDLLOVERRIDES = "dinput8,dxgi,dsound=n,b";
-
-      # AMD RX 7700 XT (RDNA3) specific
-      AMD_VULKAN_ICD = "RADV";
-      PROTON_ADD_CONFIG = "fsr4rdna3";
-      MESA_SHADER_CACHE_MAX_SIZE = "16G";
-      MESA_GLSL_CACHE_MAX_SIZE = "16G";
-    };
+  environment.sessionVariables = {
+    AMD_VULKAN_ICD = "RADV";
+    PROTON_ADD_CONFIG = "fsr4rdna3";
+    MESA_SHADER_CACHE_MAX_SIZE = "16G";
+    MESA_GLSL_CACHE_MAX_SIZE = "16G";
   };
   programs.gamemode.settings.gpu = {
     apply_gpu_optimisations = "accept-responsibility";
