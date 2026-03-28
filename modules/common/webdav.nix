@@ -51,7 +51,8 @@ in
       ${pkgs.rclone}/bin/rclone mount copyparty-$USERNAME: /media/BigData/$USERNAME \
         --config=/tmp/.config/rclone/rclone.conf \
         --vfs-cache-mode=writes \
-        --dir-cache-time=5s \
+        --dir-cache-time=5m \
+        --poll-interval=30s \
         --daemon \
         --allow-other \
         --uid=1000 \

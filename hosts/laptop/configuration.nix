@@ -23,7 +23,16 @@
   boot.kernelParams = [
     "mem_sleep_default=deep"                      # Use S3 deep sleep (most reliable for NVIDIA)
     "nvidia.NVreg_PreserveVideoMemoryAllocations=1" # Preserve VRAM on suspend
+    "i915.enable_fbc=1"                            # Intel framebuffer compression
+    "i915.enable_psr=1"                            # Intel panel self-refresh
+    "nmi_watchdog=0"                               # Disable NMI watchdog (saves power)
   ];
+
+  boot.kernel.sysctl = {
+    "vm.laptop_mode" = 5;                # Delay disk writes, reduce disk wakeups
+    "vm.dirty_writeback_centisecs" = 6000; # Write back dirty pages every 60s
+    "kernel.nmi_watchdog" = 0;
+  };
 
   networking.hostName = "nixOS-laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -199,6 +208,9 @@ services.udev.extraRules = ''
 
   # Intel thermal management daemon
   services.thermald.enable = true;
+
+  # Firmware update daemon (UEFI/EC updates from LVFS)
+  services.fwupd.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

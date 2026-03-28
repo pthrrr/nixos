@@ -5,6 +5,8 @@
   virtualisation = {
     libvirtd = {
       enable = true;
+      onBoot = "ignore";        # Don't auto-start VMs on boot
+      onShutdown = "suspend";   # Suspend VMs on shutdown
       qemu = {
         package = pkgs.qemu_kvm;
         runAsRoot = false;
@@ -39,7 +41,4 @@
         }
     });
   '';
-
-  # Enable SPICE guest agent service
-  services.spice-vdagentd.enable = true;
 }
