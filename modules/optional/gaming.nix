@@ -8,6 +8,12 @@
     vkbasalt
   ];
 
+  # XDG Desktop Portal für Wayland Screen Capture (Steam Remote Play)
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+  };
+
   # Enable Steam services
   programs.steam = {
     enable = true;
@@ -16,6 +22,9 @@
 
     package = pkgs.steam.override {
       extraEnv = {
+        # Steam Remote Play: PipeWire-basiertes Screen Capture unter Wayland
+        STEAM_ENABLE_PIPEWIRE_SCREEN_CAPTURE = "1";
+
         # Performance Overlay
         MANGOHUD = "1";
         MANGOHUD_CONFIG = "read_cfg,no_display";
