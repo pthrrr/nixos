@@ -20,6 +20,11 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  boot.kernelParams = [
+    "mem_sleep_default=deep"                      # Use S3 deep sleep (most reliable for NVIDIA)
+    "nvidia.NVreg_PreserveVideoMemoryAllocations=1" # Preserve VRAM on suspend
+  ];
+
   networking.hostName = "nixOS-laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -137,7 +142,7 @@
     xserver = {
       xkb.layout = "de";
       enable = true;
-      videoDrivers = [ "nvidia" "intel" ];
+      videoDrivers = [ "nvidia" ];
     };
     # Touchpad support
     libinput = {
@@ -163,6 +168,24 @@ services.udev.extraRules = ''
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   #systemd.services."getty@tty1".enable = false;
   #systemd.services."autovt@tty1".enable = false;
+
+  # Sleep/Suspend configuration
+  systemd.sleep.settings.Sleep = {
+    SuspendState = "mem";
+    SuspendMode = "suspend";
+  };
+
+  # Lid close / power button behavior
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "suspend";
+    HandlePowerKey = "suspend";
+    IdleAction = "suspend";
+    IdleActionSec = "30min";
+  };
+
+  # System-level power management
+  powerManagement.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -209,12 +232,3 @@ services.udev.extraRules = ''
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
 }
-
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
