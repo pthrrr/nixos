@@ -22,8 +22,6 @@
   boot.kernelParams = [
     "mem_sleep_default=deep"                      # Use S3 deep sleep (most reliable for NVIDIA)
     "nvidia.NVreg_PreserveVideoMemoryAllocations=1" # Preserve VRAM on suspend
-    "i915.enable_fbc=1"                            # Intel framebuffer compression
-    "i915.enable_psr=1"                            # Intel panel self-refresh
     "nmi_watchdog=0"                               # Disable NMI watchdog (saves power)
   ];
 
