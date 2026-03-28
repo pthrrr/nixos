@@ -212,6 +212,15 @@ services.udev.extraRules = ''
   # Firmware update daemon (UEFI/EC updates from LVFS)
   services.fwupd.enable = true;
 
+  # Bluetooth (off at boot, enable manually when needed)
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = false;
+  };
+
+  # Only run nix garbage collection when on AC power
+  systemd.services.nix-gc.serviceConfig.ConditionACPower = true;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -228,6 +237,7 @@ services.udev.extraRules = ''
   #  wget
     android-tools
     xbacklight
+    powertop             # Power consumption analyzer
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
