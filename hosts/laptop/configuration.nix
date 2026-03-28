@@ -187,6 +187,19 @@ services.udev.extraRules = ''
   # System-level power management
   powerManagement.enable = true;
 
+  # GNOME power profile integration (Power Saver / Balanced / Performance)
+  services.power-profiles-daemon.enable = true;
+
+  # Compressed in-memory swap (prevents OOM kills, no disk I/O)
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 50;
+  };
+
+  # Intel thermal management daemon
+  services.thermald.enable = true;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
