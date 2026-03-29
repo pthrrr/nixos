@@ -2,7 +2,7 @@
   imports = [
     ./podman
     ./caddy.nix
-    #./backup.nix
+    ./backup.nix
     ./radicale.nix
     ./syncthing.nix
     ./copyparty.nix
