@@ -11,6 +11,7 @@
     ./home-assistant.nix
     ./blocky.nix
     ./monitoring.nix
+    ./ntfy.nix
     ../common/house-keeping.nix 
  ];
 }
