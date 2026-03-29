@@ -6,9 +6,9 @@
 #
 { config, pkgs, ... }:
 {
-  # ntfy-sh wird NICHT über services.ntfy-sh konfiguriert,
-  # da base-url die Domain enthält (Secret via agenix).
-  # Stattdessen: Config zur Laufzeit generieren, analog zu caddy.nix.
+  # Config wird zur Laufzeit generiert (Domain ist agenix-Secret).
+  # ExecStartPre läuft als root (liest Secret, schreibt Config),
+  # ntfy selbst läuft als ntfy-sh.
 
   systemd.services.ntfy-sh = {
     description = "ntfy push notification server";
@@ -20,18 +20,20 @@
       ExecStartPre = let
         configScript = pkgs.writeShellScript "ntfy-config" ''
           DOMAIN=$(cat ${config.age.secrets.domain.path})
-          mkdir -p /etc/ntfy
-          cat > /etc/ntfy/server.yml << EOF
+          mkdir -p /var/lib/ntfy-sh
+          cat > /var/lib/ntfy-sh/server.yml << EOF
           listen-http: "127.0.0.1:2586"
           base-url: "https://ntfy.$DOMAIN"
+          cache-file: /var/lib/ntfy-sh/cache.db
           EOF
+          chown ntfy-sh:ntfy-sh /var/lib/ntfy-sh/server.yml
+          chmod 600 /var/lib/ntfy-sh/server.yml
         '';
-      in "${configScript}";
-      ExecStart = "${pkgs.ntfy-sh}/bin/ntfy serve --config /etc/ntfy/server.yml";
+      in "+${configScript}";  # + prefix = run as root
+      ExecStart = "${pkgs.ntfy-sh}/bin/ntfy serve --config /var/lib/ntfy-sh/server.yml";
       User = "ntfy-sh";
       Group = "ntfy-sh";
       StateDirectory = "ntfy-sh";
-      CacheDirectory = "ntfy-sh";
       Restart = "on-failure";
     };
   };
