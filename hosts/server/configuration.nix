@@ -60,8 +60,8 @@
     # Firewall configuration
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 139 445 ];
-      allowedUDPPorts = [ 137 138 ];
+      allowedTCPPorts = [ 22 ];
+      allowedUDPPorts = [ ];
     };
   };
 
@@ -140,7 +140,6 @@
      btop
      git
      tree
-     mdadm
      curl
      wget
      hdparm
