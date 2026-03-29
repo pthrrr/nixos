@@ -85,22 +85,28 @@
       DATASETS="fotos users services containers"
       FAILED=""
       SUCCESS=""
-      ERRORS=""
+      TIMESTAMP=$(date '+%d.%m.%Y %H:%M')
+
+      # Prüfe ob backup Pool importiert und entsperrt ist
+      if ! zpool list backup &>/dev/null; then
+        echo "ABBRUCH: backup Pool nicht importiert"
+        curl -s \
+          -H "Title: Backup ABBRUCH" \
+          -H "Priority: high" \
+          -H "Tags: warning" \
+          -d "Backup Pool nicht importiert ($TIMESTAMP). Bitte entsperren: sudo zpool import backup && sudo zfs load-key backup && sudo zfs mount -a" \
+          http://127.0.0.1:2586/backup
+        exit 1
+      fi
 
       for ds in $DATASETS; do
         echo "=== Syncing tank/$ds → backup/snapshots/$ds ==="
-        OUTPUT=$(syncoid --no-sync-snap "tank/$ds" "backup/snapshots/$ds" 2>&1) && {
+        if syncoid --no-sync-snap "tank/$ds" "backup/snapshots/$ds" 2>&1; then
           SUCCESS="$SUCCESS $ds"
-          echo "$OUTPUT"
-        } || {
+        else
           FAILED="$FAILED $ds"
-          ERRORS="$ERRORS
-$ds: $OUTPUT"
-          echo "FEHLER bei $ds: $OUTPUT"
-        }
+        fi
       done
-
-      TIMESTAMP=$(date '+%d.%m.%Y %H:%M')
 
       if [ -z "$FAILED" ]; then
         curl -s \
