@@ -44,12 +44,12 @@ in
     volumes = {
       # Main user directories
       "/${username1}" = {
-        path   = "/mnt/nvme/users/${username1}";
+        path   = "/data/users/${username1}";
         access = { A = username1; };
       };
 
       "/${username2}" = {
-        path   = "/mnt/nvme/users/${username2}";
+        path   = "/data/users/${username2}";
         access = { 
           rwmd = username2;
           rA = username1;
@@ -58,12 +58,12 @@ in
 
       # Photo directories
       "/${username1}-photos" = {
-        path   = "/mnt/nvme/photos/${username1}";
+        path   = "/data/fotos/${username1}";
         access = { A = username1; };
       };
 
       "/${username2}-photos" = {
-        path   = "/mnt/nvme/photos/${username2}";
+        path   = "/data/fotos/${username2}";
         access = { 
           rwmd = username2;
           rA = username1;
@@ -71,13 +71,13 @@ in
       };
 
       "/papa-photos" = {
-        path   = "/mnt/nvme/photos/papa";
+        path   = "/data/fotos/papa";
         access = { A = username1; };
       };
 
       # papa data
       "/papa" = {
-        path   = "/mnt/nvme/users/papa";
+        path   = "/data/users/papa";
         access = { A = username1; };
       };
     };

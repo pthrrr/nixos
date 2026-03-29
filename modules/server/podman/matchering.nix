@@ -23,7 +23,7 @@ in
       ExecStart = ''
         ${pkgs.podman}/bin/podman run --rm --name matchering \
           -p 8360:8360 \
-          -v /mnt/nvme/users/${username1}/data/Matchering/service:/app/data \
+          -v /data/users/${username1}/data/Matchering/service:/app/data \
           sergree/matchering-web
       '';
       ExecStop = "${pkgs.podman}/bin/podman stop matchering";

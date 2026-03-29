@@ -59,7 +59,7 @@ in
         "${username1}-keepass" = {
           id = "${username1}-keepass";
           label = "${username1} KeePass";
-          path = "/mnt/nvme/users/${username1}/keepass";
+          path = "/data/users/${username1}/keepass";
           type = "sendreceive";
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
@@ -76,7 +76,7 @@ in
         "${username2}-keepass" = {
           id = "${username2}-keepass";
           label = "${username2} KeePass";
-          path = "/mnt/nvme/users/${username2}/keepass";
+          path = "/data/users/${username2}/keepass";
           type = "sendreceive";
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
@@ -93,7 +93,7 @@ in
         "${username1}-photos" = {
           id = "${username1}-photos";
           label = "${username1} Photos";
-          path = "/mnt/nvme/photos/${username1}/pixel_7a";
+          path = "/data/fotos/${username1}/pixel_7a";
           type = "receiveonly";
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
@@ -114,7 +114,7 @@ in
         "${username2}-photos" = {
           id = "${username2}-photos";
           label = "${username2} Photos";
-          path = "/mnt/nvme/photos/${username2}/pixel_8";
+          path = "/data/fotos/${username2}/pixel_8";
           type = "receiveonly";
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
@@ -135,7 +135,7 @@ in
         "${username1}-data" = {
           id = "${username1}-data";
           label = "${username1} Data";
-          path = "/mnt/nvme/users/${username1}/data/pixel_7a";
+          path = "/data/users/${username1}/data/pixel_7a";
           type = "sendreceive";
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
@@ -156,7 +156,7 @@ in
         "${username2}-data" = {
           id = "${username2}-data";
           label = "${username2} Data";
-          path = "/mnt/nvme/users/${username2}/data/pixel_8";
+          path = "/data/users/${username2}/data/pixel_8";
           type = "sendreceive";
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
