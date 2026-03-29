@@ -8,8 +8,9 @@
     pkgs.gnome-tweaks
   ];
 
-  # Disable GNOME Keyring
-  # services.gnome.gnome-keyring.enable = lib.mkForce false;
+  # Disable GNOME Keyring secret service — pass-secret-service handles
+  # org.freedesktop.secrets via pass/GPG instead (enabled in home-manager)
+  services.gnome.gnome-keyring.enable = lib.mkForce false;
 
   # Exclude specific GNOME applications
   environment.gnome.excludePackages = with pkgs; [

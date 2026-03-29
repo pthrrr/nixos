@@ -90,5 +90,5 @@ check options for dconf settings
    - sync cal with CalDAV
 
 ## Issues
-- unlock keyring (auto-login)
-- wake from sleep/hibernate (nvidia optimus prime)
+- ~~unlock keyring (auto-login)~~ — fixed: gnome-keyring disabled, pass-secret-service handles secrets via pass/GPG
+- ~~wake from sleep/hibernate (nvidia optimus prime)~~ — fixed: NVIDIA power management + PRIME Sync

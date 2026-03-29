@@ -198,14 +198,6 @@ services.udev.extraRules = ''
   SUBSYSTEM=="usb", ATTRS{idVendor}=="3233", MODE="0666"
 '';
 
-  # Enable automatic login for the user.
-  #services.xserver.displayManager.autoLogin.enable = true;
-  #services.xserver.displayManager.autoLogin.user = "pthr";
-
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  #systemd.services."getty@tty1".enable = false;
-  #systemd.services."autovt@tty1".enable = false;
-
   # Sleep/Suspend configuration
   systemd.sleep.settings.Sleep = {
     SuspendState = "mem";
