@@ -60,3 +60,18 @@ ehthumbs.db
 .aux
 .stfolder*
 lost+found/
+
+# macOS
+._*
+__MACOSX/
+.Spotlight-V100/
+.Trashes/
+.fseventsd/
+.TemporaryItems/
+.apdisk
+
+# Windows
+$RECYCLE.BIN/
+System Volume Information/
+ehthumbs.db
+ehthumbs_vista.db

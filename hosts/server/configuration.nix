@@ -21,12 +21,13 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.initrd.availableKernelModules = [ "nvme" ];
-  # Ensure ACL support for ext4
-  boot.supportedFilesystems = [ "ext4" ];
+
+  boot.supportedFilesystems = [ "ext4" "zfs" ];
 
   # Static IP configuration
   networking = {
     hostName = "nixOS-server";
+    hostId = "c28b8e08";
     
     # Disable DHCP globally
     useDHCP = false;
@@ -145,12 +146,6 @@
      hdparm
      agenix.packages.x86_64-linux.default
   ];
-
-  # Fix mdadm warning
-  boot.swraid.mdadmConf = ''
-    MAILADDR root@localhost
-    PROGRAM /run/current-system/sw/bin/logger
-  '';
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
