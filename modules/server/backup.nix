@@ -1,3 +1,13 @@
+# modules/server/backup.nix
+#
+# Backup-Strategie:
+#   sanoid  → stündliche ZFS-Snapshots auf tank/* (Retention: 24h/30d/6m)
+#   syncoid → tägliches zfs send/receive tank/* → backup/snapshots/*
+#   ntfy    → Push-Benachrichtigung nach jedem Backup-Lauf
+#
+# Nach jedem Reboot muss der backup Pool manuell entsperrt werden:
+#   sudo zpool import backup && sudo zfs load-key backup && sudo zfs mount -a
+#
 { config, pkgs, ... }:
 
 {
@@ -9,7 +19,7 @@
 
   services.sanoid = {
     enable = true;
-    interval = "hourly";  # systemd-Timer: jede Stunde
+    interval = "hourly";
 
     datasets = {
       "tank/fotos" = {
@@ -43,37 +53,72 @@
     };
   };
 
-  # ── syncoid: zfs send/receive (tank → backup) ───────────────────────
+  # ── backup-sync: syncoid + ntfy-Benachrichtigung ────────────────────
   #
-  # Inkrementelles Backup von tank Datasets auf backup Pool.
-  # Läuft täglich um 03:00.
-  # Wenn backup Pool nicht importiert ist, schlägt syncoid fehl →
-  # wird beim nächsten Lauf nachgeholt sobald der Pool importiert ist.
+  # Eigener Wrapper statt services.syncoid, damit wir:
+  #   - Alle Datasets sequentiell synchronisieren
+  #   - Ergebnisse sammeln (Erfolg/Fehlschlag pro Dataset)
+  #   - EINE konsolidierte ntfy-Nachricht senden
   #
-  # Nach jedem Reboot muss der backup Pool manuell entsperrt werden:
-  #   sudo zpool import backup && sudo zfs load-key backup && sudo zfs mount -a
+  # Wenn backup Pool nicht importiert → alle Datasets schlagen fehl →
+  # ntfy-Warnung erinnert daran, den Pool zu entsperren.
 
-  services.syncoid = {
-    enable = true;
-    interval = "*-*-* 03:00:00";  # täglich um 03:00
-
-    commands = {
-      "tank/fotos" = {
-        target = "backup/snapshots/fotos";
-        extraArgs = [ "--no-sync-snap" ];  # nutzt sanoid-Snapshots
-      };
-      "tank/users" = {
-        target = "backup/snapshots/users";
-        extraArgs = [ "--no-sync-snap" ];
-      };
-      "tank/services" = {
-        target = "backup/snapshots/services";
-        extraArgs = [ "--no-sync-snap" ];
-      };
-      "tank/containers" = {
-        target = "backup/snapshots/containers";
-        extraArgs = [ "--no-sync-snap" ];
-      };
+  systemd.timers.backup-sync = {
+    description = "ZFS Backup Timer";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "*-*-* 03:00:00";
+      Persistent = true;  # nachholen wenn Server um 03:00 aus war
     };
+  };
+
+  systemd.services.backup-sync = {
+    description = "ZFS Backup (syncoid) mit ntfy-Benachrichtigung";
+    after = [ "ntfy-sh.service" ];
+    path = with pkgs; [ sanoid curl zfs ];
+
+    serviceConfig = {
+      Type = "oneshot";
+    };
+
+    script = ''
+      DATASETS="fotos users services containers"
+      FAILED=""
+      SUCCESS=""
+      ERRORS=""
+
+      for ds in $DATASETS; do
+        echo "=== Syncing tank/$ds → backup/snapshots/$ds ==="
+        OUTPUT=$(syncoid --no-sync-snap "tank/$ds" "backup/snapshots/$ds" 2>&1) && {
+          SUCCESS="$SUCCESS $ds"
+          echo "$OUTPUT"
+        } || {
+          FAILED="$FAILED $ds"
+          ERRORS="$ERRORS
+$ds: $OUTPUT"
+          echo "FEHLER bei $ds: $OUTPUT"
+        }
+      done
+
+      TIMESTAMP=$(date '+%d.%m.%Y %H:%M')
+
+      if [ -z "$FAILED" ]; then
+        curl -s \
+          -H "Title: Backup erfolgreich" \
+          -H "Priority: low" \
+          -H "Tags: white_check_mark" \
+          -d "Alle Datasets synchronisiert ($TIMESTAMP):$SUCCESS" \
+          http://127.0.0.1:2586/backup
+      else
+        curl -s \
+          -H "Title: Backup FEHLER" \
+          -H "Priority: high" \
+          -H "Tags: warning" \
+          -d "Backup-Probleme ($TIMESTAMP)
+Fehlgeschlagen:$FAILED
+Erfolgreich:$SUCCESS" \
+          http://127.0.0.1:2586/backup
+      fi
+    '';
   };
 }
