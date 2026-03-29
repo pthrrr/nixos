@@ -1,94 +1,67 @@
 # NixOS
 
-## Base scaffolding
+Multi-host NixOS configuration managed with Flakes.
+
+## Hosts
+
+| Host | Typ | Beschreibung |
+|------|-----|-------------|
+| desktop | Workstation | Gnome, Home Manager |
+| laptop | Laptop | Gnome, Home Manager, Audio (audio.nix) |
+| server | Headless | Home Server (ZFS, Podman, diverse Dienste) |
+
+## Repo-Struktur
+
 ```
-├── flake.lock
-├── flake.nix                       # Main entry point
-├── home                            # Home-manager configurations
-│   └── <user>                      # User-specific config
-│       ├── home.nix                # Shared user apps
-│       ├── applications            # Shared user app configurations
-│       │   ├── dconf.nix           # Gnome configuration 
-│       │   └── <app1>.nix
-│       │   └── <app2>.nix
-│       ├── <device1> 
-│       │   └── <deivce1_app1>.nix  # Specific apps for <device1>
-│       └── <device2>
-│           └── <deivce2_app1>.nix  # Specific apps for <device2> 
-├── hosts                           # Machine-specific configurations
-│   ├── <device1>
-│   │   ├── configuration.nix
-│   │   └── hardware.nix
-│   └── <device2>
-│       ├── configuration.nix
-│       └── hardware.nix
-├── modules
-│   ├── common                      # Shared configurations/apps
-│   │   ├── <shared_app1>.nix       # Shared application
-│   │   ├── <shared_app2>.nix
-│   │   └── users.nix               # User definitions
-│   └── desktop-environments        # DE configurations
-│   │   └── gnome.nix
-│   └── optional                    # Optional applications
-│       └── <optional_app1>.nix
-└── README.md
+├── flake.nix                  # Entry Point (3 Hosts)
+├── hosts/
+│   ├── desktop/               # configuration.nix + hardware.nix
+│   ├── laptop/
+│   └── server/
+├── modules/
+│   ├── common/                # Geteilte Module (alle Hosts)
+│   ├── desktop-environments/  # Gnome
+│   ├── optional/              # Gaming, HDR, VM, etc.
+│   └── server/                # Server-Dienste
+├── home/                      # Home Manager Configs
+├── overlays/                  # Caddy-Overlay (Server)
+└── secrets/                   # agenix-verschlüsselte Secrets
 ```
 
-## Useful commands
+## Flake-Inputs
 
-### Common commands
+- **nixpkgs** (unstable)
+- **agenix** — Secret Management
+- **home-manager** — User-Config
+- **copyparty** — File Access
+- **audio-nix** — Audio/Music Production (Laptop)
 
-**Try a package**
-- `nix-shell -p <package>`
+## Server-Dienste
 
-**Apply system changes**
-- `sudo nixos-rebuild switch`
+| Dienst | Laufzeit | Modul |
+|--------|----------|-------|
+| Syncthing | Nativ | syncthing.nix |
+| Radicale | Nativ | radicale.nix |
+| Copyparty | Nativ | copyparty.nix |
+| Caddy | Nativ | caddy.nix |
+| Blocky (DNS) | Nativ | blocky.nix |
+| Grafana + Prometheus | Nativ | monitoring.nix |
+| Home Assistant | Podman | home-assistant.nix |
+| Matter Server | Podman | matter-server.nix |
+| FreshRSS | Podman | podman/freshrss.nix |
+| Matchering | Podman | podman/matchering.nix |
 
-    **Customize location and name of configuration**
-    - `sudo nixos-rebuild switch --flake <path>#hostname`
-    - `sudo nixos-rebuild switch --flake .#laptop`
-    - `sudo nixos-rebuild switch --flake .` 
+**Storage:** ZFS (sanoid/syncoid Backups) — siehe `backup.nix`, `zfs.nix`
 
-*Occasionally, you may encounter a "sha256 mismatch" error when running nixos-rebuild switch. This error can be resolved by updating flake.lock using nix flake update.*
+## Anwendung
 
-**Show detailed error messages**
+```bash
+# System bauen + aktivieren
+sudo nixos-rebuild switch --flake .#<host> --impure
 
-*You can always try to add --show-trace --print-build-logs --verbose to the nixos-rebuild command*
-- `sudo nixos-rebuild switch --flake .#myhost --show-trace --print-build-logs --verbose`
+# Flake aktualisieren
+nix flake update
 
-**Use GitHub repo as flake source**
-- `sudo nixos-rebuild switch --flake github:owner/repo#your-hostname`
-
-### Flake commands
-**List official flake templates:**
-- `nix flake show templates`
-
-**Download template**
-- `nix flake init -t templates#full`
-
-**Compile a program from source and try without permanent installing it**
-- `nix run github:owner/repo#your-hostname`
-
-**Update flakee.lock**
-- `nix flake update`
-
-### Check config
-- `nix flake check`
-- `nix flake show`
-
-##  Dconf
-
-check options for dconf settings
-- `dconf watch \`
-
-## PaperWm Winprop
-
-- The wm_class or title of a window can be found by using looking glass: `Alt` + `F2` `lg` `Return` Go to the "Windows" section at the top right and find the window.
-
-## To Do's
-- setup wireguard
-   - sync cal with CalDAV
-
-## Issues
-- ~~unlock keyring (auto-login)~~ — fixed: gnome-keyring disabled, pass-secret-service handles secrets via pass/GPG
-- ~~wake from sleep/hibernate (nvidia optimus prime)~~ — fixed: NVIDIA power management + PRIME Sync
+# Debug
+sudo nixos-rebuild switch --flake .#<host> --show-trace --print-build-logs --verbose
+```
