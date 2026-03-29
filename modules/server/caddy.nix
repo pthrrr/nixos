@@ -71,10 +71,10 @@ in
         sleep 3
       done
       
-      # Fallback to your known static IP if curl fails
+      # Fallback: abort if IP cannot be determined
       if [ -z "$SERVER_IP" ]; then
-        echo "WARNING: Could not get IP via curl, using fallback IP"
-        SERVER_IP="0.0.0.0"  # Your actual server IP
+        echo "ERROR: Could not determine public IP after 5 attempts"
+        exit 1
       fi
       
       echo "Using Server IP: $SERVER_IP"
