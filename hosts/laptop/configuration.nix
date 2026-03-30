@@ -15,21 +15,25 @@
 
   # System configuration
   boot.loader.systemd-boot.enable = true;
+  boot.loader.timeout = 1;  # 1 second boot menu (press key to pause)
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.kernelParams = [
-    "mem_sleep_default=deep"                      # Use S3 deep sleep (most reliable for NVIDIA)
-    "nvidia.NVreg_PreserveVideoMemoryAllocations=1" # Preserve VRAM on suspend
-    "nmi_watchdog=0"                               # Disable NMI watchdog (saves power)
+    "nvidia.NVreg_PreserveVideoMemoryAllocations=1"  # Preserve VRAM on hibernate
+    "nmi_watchdog=0"                                 # Disable NMI watchdog (saves power)
+    "resume=/dev/disk/by-uuid/578f1365-c5a0-44a6-9216-2889c20320ed"  # Resume from hibernate (root partition with swapfile)
+    "resume_offset=74092544"                         # Physical offset of /var/lib/swapfile
   ];
+
+  boot.resumeDevice = "/dev/disk/by-uuid/578f1365-c5a0-44a6-9216-2889c20320ed";
 
   boot.kernel.sysctl = {
     "kernel.nmi_watchdog" = 0;
-    "vm.swappiness" = 10;                    # Prefer keeping game data in RAM
-    "vm.max_map_count" = 2147483642;         # Required by many modern games/Proton
-    "vm.compaction_proactiveness" = 0;       # Reduce background memory compaction stalls
+    "vm.swappiness" = 10;
+    "vm.max_map_count" = 2147483642;
+    "vm.compaction_proactiveness" = 0;
   };
 
   networking.hostName = "nixOS-laptop"; # Define your hostname.
@@ -80,50 +84,20 @@
     pkgs.brlaser          # Brother laser printers
   ];
 
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      nvidia-vaapi-driver          # Hardware video decode
-      vulkan-loader
-      vulkan-validation-layers
-      libvdpau-va-gl               # VDPAU via VA-API
-    ];
-    extraPackages32 = with pkgs.pkgsi686Linux; [
-      vulkan-loader                # 32-bit Vulkan for Proton/Wine games
-    ];
-  };
-
-  # NVIDIA environment variables -- only for user sessions, not display manager
-  # Use environment.variables for non-session-critical settings only
-  environment.variables = {
-    NVD_BACKEND = "direct";
-    VDPAU_DRIVER = "nvidia";
-    __GL_SHADER_DISK_CACHE = "1";
-    __GL_SHADER_DISK_CACHE_SKIP_CLEANUP = "1";
-    __GL_GSYNC_ALLOWED = "1";
-  };
+  # Keep graphics simple — no extraPackages that might interfere with suspend
+  hardware.graphics.enable = true;
 
   hardware.nvidia = {
     # Modesetting is required.
     modesetting.enable = true;
 
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
-    # of just the bare essentials.
+    # Preserve VRAM on suspend — required for reliable resume
     powerManagement.enable = true;
 
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+    # Fine-grained power management off (can interfere with PRIME Sync suspend)
     powerManagement.finegrained = false;
 
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
-    # Only available from driver 515.43.04+
-    # Currently alpha-quality/buggy, so false is currently the recommended setting.
+    # Proprietary modules (worked for suspend, open modules didn't help)
     open = false;
 
     # Enable the Nvidia settings menu,
@@ -133,7 +107,7 @@
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
 
-    # Hybrid graphics with PRIME
+    # PRIME Sync — NVIDIA drives all displays (required for external monitor)
     prime = {
       sync.enable = true;
       intelBusId = "PCI:0:2:0";
@@ -151,18 +125,6 @@
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
-
-    # Low-latency audio for gaming (~5ms instead of ~21ms default)
-    extraConfig.pipewire = {
-      "99-low-latency" = {
-        "context.properties" = {
-          "default.clock.rate" = 48000;
-          "default.clock.quantum" = 256;
-          "default.clock.min-quantum" = 128;
-          "default.clock.max-quantum" = 1024;
-        };
-      };
-    };
   };
 
   # Enable GVFS for better desktop integration
@@ -198,23 +160,39 @@ services.udev.extraRules = ''
   SUBSYSTEM=="usb", ATTRS{idVendor}=="3233", MODE="0666"
 '';
 
-  # Sleep/Suspend configuration
+  # Sleep/Hibernate configuration
+  # Suspend-to-RAM doesn't work with NVIDIA PRIME Sync on this hardware,
+  # so we use hibernate (suspend-to-disk) instead.
+  # "platform" uses ACPI S4 — firmware powers off directly after image write,
+  # bypassing userspace shutdown where NVIDIA would hang.
   systemd.sleep.settings.Sleep = {
-    SuspendState = "mem";
-    SuspendMode = "suspend";
+    HibernateMode = "platform";
   };
 
-  # Lid close / power button behavior
+  # Lid close / power button → hibernate
   services.logind.settings.Login = {
-    HandleLidSwitch = "suspend";
-    HandleLidSwitchExternalPower = "suspend";
-    HandlePowerKey = "suspend";
-    IdleAction = "suspend";
+    HandleLidSwitch = "hibernate";
+    HandleLidSwitchExternalPower = "hibernate";
+    HandlePowerKey = "hibernate";
+    IdleAction = "hibernate";
     IdleActionSec = "30min";
   };
 
   # System-level power management
   powerManagement.enable = true;
+
+  # Reduce hibernate image size: default is 2/5 of RAM (~6.4GB).
+  # Smaller image = faster write + faster resume. The kernel drops
+  # disk caches first, so active data is preserved.
+  systemd.services."hibernate-image-size" = {
+    description = "Set hibernate image size to minimum";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.bash}/bin/bash -c 'echo 0 > /sys/power/image_size'";
+      RemainAfterExit = true;
+    };
+  };
 
   # GNOME power profile integration (Power Saver / Balanced / Performance)
   services.power-profiles-daemon.enable = true;
@@ -238,24 +216,6 @@ services.udev.extraRules = ''
     powerOnBoot = false;
   };
 
-  # NVIDIA-specific GameMode overrides (supplements shared gaming.nix)
-  programs.gamemode.settings = {
-    general = {
-      softrealtime = "auto";
-      ioprio = 0;
-      inhibit_screensaver = 1;
-    };
-    gpu = {
-      apply_gpu_optimisations = "accept-responsibility";
-      gpu_device = 0;
-      nv_powermizer_mode = 1;    # Force max GPU clocks during gaming
-    };
-    custom = {
-      start = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance";
-      end = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced";
-    };
-  };
-
   # Only run nix garbage collection when on AC power
   systemd.services.nix-gc.unitConfig.ConditionACPower = true;
 
@@ -274,9 +234,6 @@ services.udev.extraRules = ''
     android-tools
     xbacklight
     powertop             # Power consumption analyzer
-    nvtopPackages.nvidia # GPU monitoring
-    vulkan-tools         # vulkaninfo, vkcube
-    mesa-demos           # glxgears, glxinfo
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -300,7 +257,7 @@ services.udev.extraRules = ''
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # on your system were taken. It's perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
