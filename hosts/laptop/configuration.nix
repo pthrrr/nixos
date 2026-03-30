@@ -84,8 +84,28 @@
     pkgs.brlaser          # Brother laser printers
   ];
 
-  # Keep graphics simple — no extraPackages that might interfere with suspend
-  hardware.graphics.enable = true;
+  # NVIDIA graphics stack
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      nvidia-vaapi-driver          # Hardware video decode
+      vulkan-loader
+      vulkan-validation-layers
+      libvdpau-va-gl               # VDPAU via VA-API
+    ];
+    extraPackages32 = with pkgs.pkgsi686Linux; [
+      vulkan-loader                # 32-bit Vulkan for Proton/Wine games
+    ];
+  };
+
+  # NVIDIA environment variables (shader cache, video decode backends)
+  environment.variables = {
+    NVD_BACKEND = "direct";
+    VDPAU_DRIVER = "nvidia";
+    __GL_SHADER_DISK_CACHE = "1";
+    __GL_SHADER_DISK_CACHE_SKIP_CLEANUP = "1";
+    __GL_GSYNC_ALLOWED = "1";
+  };
 
   hardware.nvidia = {
     # Modesetting is required.
@@ -125,6 +145,18 @@
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
+
+    # Low-latency audio for gaming (~5ms instead of ~21ms default)
+    extraConfig.pipewire = {
+      "99-low-latency" = {
+        "context.properties" = {
+          "default.clock.rate" = 48000;
+          "default.clock.quantum" = 256;
+          "default.clock.min-quantum" = 128;
+          "default.clock.max-quantum" = 1024;
+        };
+      };
+    };
   };
 
   # Enable GVFS for better desktop integration
@@ -216,6 +248,24 @@ services.udev.extraRules = ''
     powerOnBoot = false;
   };
 
+  # NVIDIA-specific GameMode overrides (supplements shared gaming.nix)
+  programs.gamemode.settings = {
+    general = {
+      softrealtime = "auto";
+      ioprio = 0;
+      inhibit_screensaver = 1;
+    };
+    gpu = {
+      apply_gpu_optimisations = "accept-responsibility";
+      gpu_device = 0;
+      nv_powermizer_mode = 1;    # Force max GPU clocks during gaming
+    };
+    custom = {
+      start = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance";
+      end = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl set balanced";
+    };
+  };
+
   # Only run nix garbage collection when on AC power
   systemd.services.nix-gc.unitConfig.ConditionACPower = true;
 
@@ -234,6 +284,9 @@ services.udev.extraRules = ''
     android-tools
     xbacklight
     powertop             # Power consumption analyzer
+    nvtopPackages.nvidia # GPU monitoring
+    vulkan-tools         # vulkaninfo, vkcube
+    mesa-demos           # glxgears, glxinfo
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
