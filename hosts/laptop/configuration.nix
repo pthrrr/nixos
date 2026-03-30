@@ -100,6 +100,8 @@
 
   # NVIDIA environment variables (shader cache, video decode backends)
   environment.variables = {
+    # Force NVIDIA as primary Vulkan device (PRIME Sync on Wayland doesn't set this automatically)
+    VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
     NVD_BACKEND = "direct";
     VDPAU_DRIVER = "nvidia";
     __GL_SHADER_DISK_CACHE = "1";
