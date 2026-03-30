@@ -44,11 +44,11 @@
 
     config = {
       LISTEN_ADDR = "localhost:8080";
-      POLLING_FREQUENCY = "60";
-      CLEANUP_ARCHIVE_READ_DAYS = "30";
-      CLEANUP_ARCHIVE_UNREAD_DAYS = "90";
-      CREATE_ADMIN = "1";
-      RUN_MIGRATIONS = "1";
+      POLLING_FREQUENCY = 60;
+      CLEANUP_ARCHIVE_READ_DAYS = 30;
+      CLEANUP_ARCHIVE_UNREAD_DAYS = 90;
+      CREATE_ADMIN = 1;
+      RUN_MIGRATIONS = 1;
     };
   };
 }
