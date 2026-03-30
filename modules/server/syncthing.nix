@@ -35,7 +35,7 @@ in
     openDefaultPorts = true;
     guiAddress = "0.0.0.0:8384";
     
-    overrideDevices = false;
+    overrideDevices = true;
     overrideFolders = true;
     
     settings = {
@@ -51,8 +51,31 @@ in
         relaysEnabled = true;
         localAnnounceEnabled = true;
         globalAnnounceEnabled = true;
+        # NAT-PMP/UPnP nicht nötig – Server nur per LAN/VPN erreichbar
+        natEnabled = false;
         limitBandwidthInLan = false;
         setLowPriority = false;
+      };
+
+      devices = {
+        "pixel_8" = {
+          id = "GTKDRVD-IMCU7ZY-EJFPZDS-LTSL22O-2KARQWZ-BUUIXBC-WPR3ETA-WLHBXAD";
+          name = "Pixel 8";
+        };
+        "pixel_7a" = {
+          id = "RQIOH4Z-KS4SCFX-UIRQPCK-S7BXTUV-HTJB6LY-GBJKMVF-CPYABQ5-LKRV2QM";
+          name = "Pixel 7a";
+        };
+        "pixel_7a_play" = {
+          id = "5U2T64Q-HZTYAXV-LTHK6DX-BCTEXOM-O3HYBD6-RZZA5KK-YGHNBSF-LQWVLAS";
+          name = "Pixel 7a (PlayUser)";
+          # Kein Folder-Sharing nötig, nur als bekanntes Gerät registriert
+        };
+        "pixel_6" = {
+          id = "OYHIUUD-VOIZ6WV-Y44L3XP-J5B4KCB-B3IRZBI-SUKVQFS-C4LI3CK-BQLKNQF";
+          name = "Pixel 6";
+          paused = true;
+        };
       };
       
       folders = {
@@ -61,6 +84,7 @@ in
           label = "${username1} KeePass";
           path = "/data/users/${username1}/keepass";
           type = "sendreceive";
+          devices = [ "pixel_7a" "pixel_8" ];
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
           ignorePerms = true;
@@ -78,6 +102,7 @@ in
           label = "${username2} KeePass";
           path = "/data/users/${username2}/keepass";
           type = "sendreceive";
+          devices = [ "pixel_7a" "pixel_8" ];
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
           ignorePerms = true;
@@ -95,6 +120,7 @@ in
           label = "${username1} Photos";
           path = "/data/fotos/${username1}/pixel_7a";
           type = "receiveonly";
+          devices = [ "pixel_7a" ];
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
           ignorePerms = true;
@@ -116,6 +142,7 @@ in
           label = "${username2} Photos";
           path = "/data/fotos/${username2}/pixel_8";
           type = "receiveonly";
+          devices = [ "pixel_8" ];
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
           ignorePerms = true;
@@ -137,6 +164,7 @@ in
           label = "${username1} Data";
           path = "/data/users/${username1}/data/pixel_7a";
           type = "sendreceive";
+          devices = [ "pixel_7a" ];
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
           ignorePerms = true;
@@ -158,6 +186,7 @@ in
           label = "${username2} Data";
           path = "/data/users/${username2}/data/pixel_8";
           type = "sendreceive";
+          devices = [ "pixel_8" ];
           rescanIntervalS = 60;
           fsWatcherEnabled = true;
           ignorePerms = true;
