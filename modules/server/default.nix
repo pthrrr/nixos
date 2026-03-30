@@ -12,6 +12,7 @@
     ./blocky.nix
     ./monitoring.nix
     ./ntfy.nix
+    ./miniflux.nix
     ../common/house-keeping.nix 
  ];
 }
