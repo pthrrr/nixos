@@ -2,7 +2,7 @@
 {
 
   imports = [
-    #./applications/dconf.nix
+    ./applications/dconf.nix
     ./applications/vscodium.nix
   ];
 
@@ -35,6 +35,9 @@
 
   # Install firefox.
   programs.firefox.enable = true;
+
+  # Install kitty terminal.
+  programs.kitty.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfreePredicate =

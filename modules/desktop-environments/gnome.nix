@@ -14,6 +14,7 @@
 
   # Exclude specific GNOME applications
   environment.gnome.excludePackages = with pkgs; [
+    gnome-console
     totem
     epiphany
     gnome-weather

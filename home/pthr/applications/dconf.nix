@@ -22,6 +22,11 @@
         enable-hot-corners = false;
       };
 
+      # Set Kitty as default terminal
+      "org/gnome/desktop/default-applications/terminal" = {
+        exec = "kitty";
+      };
+
       # Configure individual extensions
       "org/gnome/shell/extensions/blur-my-shell" = {
         #brightness = 0.75;

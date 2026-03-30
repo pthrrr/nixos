@@ -16,6 +16,7 @@ in
       "shelly"
       "thread"
       "matter"
+      "ntfy"
     ];
     extraPackages = python3Packages: with python3Packages; [
       getmac
