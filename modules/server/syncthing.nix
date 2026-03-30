@@ -35,7 +35,7 @@ in
     openDefaultPorts = true;
     guiAddress = "0.0.0.0:8384";
     
-    overrideDevices = true;
+    overrideDevices = false;
     overrideFolders = true;
     
     settings = {
