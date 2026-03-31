@@ -164,7 +164,20 @@
       BACKUP_USED_BYTES=$(zfs get -Hp -o value used backup)
       BACKUP_AVAIL_BYTES=$(zfs get -Hp -o value available backup)
       BACKUP_PCT=$(echo "scale=0; $BACKUP_USED_BYTES * 100 / ($BACKUP_USED_BYTES + $BACKUP_AVAIL_BYTES)" | bc)
-      STORAGE="NVMe: ''${TANK_USED} belegt, ''${TANK_AVAIL} frei (''${TANK_PCT}%) | RAID: ''${BACKUP_USED} belegt, ''${BACKUP_AVAIL} frei (''${BACKUP_PCT}%)"
+      TANK_TOTAL_BYTES=$(( TANK_USED_BYTES + TANK_AVAIL_BYTES ))
+      BACKUP_TOTAL_BYTES=$(( BACKUP_USED_BYTES + BACKUP_AVAIL_BYTES ))
+      # Gesamtkapazität human-readable formatieren
+      if [ "$TANK_TOTAL_BYTES" -ge 1099511627776 ]; then
+        TANK_TOTAL="$(echo "scale=2; $TANK_TOTAL_BYTES / 1099511627776" | bc)T"
+      else
+        TANK_TOTAL="$(echo "scale=0; $TANK_TOTAL_BYTES / 1073741824" | bc)G"
+      fi
+      if [ "$BACKUP_TOTAL_BYTES" -ge 1099511627776 ]; then
+        BACKUP_TOTAL="$(echo "scale=2; $BACKUP_TOTAL_BYTES / 1099511627776" | bc)T"
+      else
+        BACKUP_TOTAL="$(echo "scale=0; $BACKUP_TOTAL_BYTES / 1073741824" | bc)G"
+      fi
+      STORAGE="NVMe: ''${TANK_USED} / ''${TANK_TOTAL} (''${TANK_PCT}%) | RAID: ''${BACKUP_USED} / ''${BACKUP_TOTAL} (''${BACKUP_PCT}%)"
 
       if [ -z "$FAILED" ]; then
         curl -s \
