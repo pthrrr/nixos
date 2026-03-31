@@ -103,8 +103,8 @@
 
       for ds in $DATASETS; do
         echo "=== Syncing tank/$ds → backup/data/$ds ==="
-        OUTPUT=$(syncoid --no-sync-snap "tank/$ds" "backup/data/$ds" 2>&1)
-        RC=$?
+        RC=0
+        OUTPUT=$(syncoid --no-sync-snap "tank/$ds" "backup/data/$ds" 2>&1) || RC=$?
         echo "$OUTPUT"
         if [ $RC -eq 0 ]; then
           SUCCESS="$SUCCESS $ds"
