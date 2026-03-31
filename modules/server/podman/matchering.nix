@@ -14,7 +14,8 @@ in
     description = "Matchering Audio Mastering Service";
     after = [ "network.target" "podman.service" ];
     requires = [ "podman.service" ];
-    wantedBy = [ "multi-user.target" ];
+    # Kein wantedBy → startet nicht automatisch
+    # Manuell starten: sudo systemctl start matchering
 
     serviceConfig = {
       Type = "simple";
