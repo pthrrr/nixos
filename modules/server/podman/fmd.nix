@@ -19,7 +19,8 @@
       ExecStartPre = "-${pkgs.podman}/bin/podman rm -f fmd-server";
       ExecStart = ''
         ${pkgs.podman}/bin/podman run --rm --name fmd-server \
-          -p 127.0.0.1:8081:8080 \
+          --network=host \
+          -e FMD_PORTINSECURE=8081 \
           -v /data/containers/fmd/db:/var/lib/fmd-server/db \
           --read-only \
           --cap-drop=all \
