@@ -49,9 +49,9 @@
     # Set default gateway (likely your router)
     defaultGateway = "192.168.10.1";
     
-    # DNS servers
+    # DNS servers – eigenes Blocky verwenden (hat CustomDNS für alle lokalen Subdomains)
     nameservers = [ 
-      "192.168.10.1" 
+      "127.0.0.1" 
     ];
     
     # Disable NetworkManager for servers
