@@ -48,7 +48,6 @@ Multi-host NixOS configuration managed with Flakes.
 | Grafana + Prometheus | Nativ | monitoring.nix |
 | Home Assistant | Podman | home-assistant.nix |
 | Matter Server | Podman | matter-server.nix |
-| FreshRSS | Podman | podman/freshrss.nix |
 | Matchering | Podman | podman/matchering.nix |
 
 **Storage:** ZFS (sanoid/syncoid Backups) — siehe `backup.nix`, `zfs.nix`

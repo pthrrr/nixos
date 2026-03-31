@@ -51,7 +51,6 @@ customDNS:
     radicale.$DOMAIN: 192.168.10.100
     copyparty.$DOMAIN: 192.168.10.100
     syncthing.$DOMAIN: 192.168.10.100
-    rss.$DOMAIN: 192.168.10.100
     matchering.$DOMAIN: 192.168.10.100
     grafana.$DOMAIN: 192.168.10.100
     shelly1.$DOMAIN: 192.168.10.100
