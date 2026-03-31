@@ -155,12 +155,16 @@
 
       # Platzbelegung sammeln (mit Prozent)
       TANK_USED=$(zfs get -H -o value used tank)
-      TANK_TOTAL=$(zpool get -H -o value size tank)
-      TANK_PCT=$(zpool get -H -o value capacity tank)
+      TANK_AVAIL=$(zfs get -H -o value available tank)
+      TANK_USED_BYTES=$(zfs get -Hp -o value used tank)
+      TANK_AVAIL_BYTES=$(zfs get -Hp -o value available tank)
+      TANK_PCT=$(echo "scale=0; $TANK_USED_BYTES * 100 / ($TANK_USED_BYTES + $TANK_AVAIL_BYTES)" | bc)
       BACKUP_USED=$(zfs get -H -o value used backup)
-      BACKUP_TOTAL=$(zpool get -H -o value size backup)
-      BACKUP_PCT=$(zpool get -H -o value capacity backup)
-      STORAGE="NVMe: ''${TANK_USED} / ''${TANK_TOTAL} (''${TANK_PCT}) | RAID: ''${BACKUP_USED} / ''${BACKUP_TOTAL} (''${BACKUP_PCT})"
+      BACKUP_AVAIL=$(zfs get -H -o value available backup)
+      BACKUP_USED_BYTES=$(zfs get -Hp -o value used backup)
+      BACKUP_AVAIL_BYTES=$(zfs get -Hp -o value available backup)
+      BACKUP_PCT=$(echo "scale=0; $BACKUP_USED_BYTES * 100 / ($BACKUP_USED_BYTES + $BACKUP_AVAIL_BYTES)" | bc)
+      STORAGE="NVMe: ''${TANK_USED} / ''${TANK_AVAIL} frei (''${TANK_PCT}%) | RAID: ''${BACKUP_USED} / ''${BACKUP_AVAIL} frei (''${BACKUP_PCT}%)"
 
       if [ -z "$FAILED" ]; then
         curl -s \
