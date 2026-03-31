@@ -2,7 +2,7 @@
 #
 # Backup-Strategie:
 #   sanoid  → stündliche ZFS-Snapshots auf tank/* (Retention: 24h/30d/6m)
-#   syncoid → tägliches zfs send/receive tank/* → backup/snapshots/*
+#   syncoid → tägliches zfs send/receive tank/* → backup/data/*
 #   ntfy    → Push-Benachrichtigung nach jedem Backup-Lauf
 #
 # Nach jedem Reboot muss der backup Pool manuell entsperrt werden:
@@ -102,8 +102,8 @@
       fi
 
       for ds in $DATASETS; do
-        echo "=== Syncing tank/$ds → backup/snapshots/$ds ==="
-        OUTPUT=$(syncoid --no-sync-snap "tank/$ds" "backup/snapshots/$ds" 2>&1)
+        echo "=== Syncing tank/$ds → backup/data/$ds ==="
+        OUTPUT=$(syncoid --no-sync-snap "tank/$ds" "backup/data/$ds" 2>&1)
         RC=$?
         echo "$OUTPUT"
         if [ $RC -eq 0 ]; then
