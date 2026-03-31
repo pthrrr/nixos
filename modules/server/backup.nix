@@ -148,12 +148,14 @@
         TRANSFER="keine Daten (up-to-date)"
       fi
 
-      # Platzbelegung sammeln
+      # Platzbelegung sammeln (mit Prozent)
       TANK_USED=$(zfs get -H -o value used tank)
-      TANK_AVAIL=$(zfs get -H -o value available tank)
+      TANK_TOTAL=$(zpool get -H -o value size tank)
+      TANK_PCT=$(zpool get -H -o value capacity tank)
       BACKUP_USED=$(zfs get -H -o value used backup)
-      BACKUP_AVAIL=$(zfs get -H -o value available backup)
-      STORAGE="NVMe: ''${TANK_USED} belegt, ''${TANK_AVAIL} frei | RAID: ''${BACKUP_USED} belegt, ''${BACKUP_AVAIL} frei"
+      BACKUP_TOTAL=$(zpool get -H -o value size backup)
+      BACKUP_PCT=$(zpool get -H -o value capacity backup)
+      STORAGE="NVMe: ''${TANK_USED} / ''${TANK_TOTAL} (''${TANK_PCT}) | RAID: ''${BACKUP_USED} / ''${BACKUP_TOTAL} (''${BACKUP_PCT})"
 
       if [ -z "$FAILED" ]; then
         curl -s \
