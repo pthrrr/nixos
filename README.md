@@ -49,6 +49,9 @@ Multi-host NixOS configuration managed with Flakes.
 | Home Assistant | Podman | home-assistant.nix |
 | Matter Server | Podman | matter-server.nix |
 | Matchering | Podman | podman/matchering.nix |
+| Find My Device | Podman | podman/fmd.nix |
+| Miniflux | Nativ | miniflux.nix |
+| ntfy | Nativ | ntfy.nix |
 
 **Storage:** ZFS (sanoid/syncoid Backups) — siehe `backup.nix`, `zfs.nix`
 

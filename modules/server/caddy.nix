@@ -187,6 +187,17 @@ in
         reverse_proxy localhost:8080
       }
 
+      fmd.$DOMAIN {
+        tls {
+          dns namecheap {
+            user {env.NAMECHEAP_API_USER}
+            api_key {env.NAMECHEAP_API_KEY}
+            client_ip $SERVER_IP
+          }
+        }
+        reverse_proxy localhost:8081
+      }
+
       shelly1.$DOMAIN {
         tls {
           dns namecheap {
