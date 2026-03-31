@@ -120,6 +120,9 @@
               T) TOTAL_BYTES=$(echo "$TOTAL_BYTES + $BYTES * 1099511627776" | bc) ;;
             esac
           fi
+        elif echo "$OUTPUT" | grep -q "Nothing to do"; then
+          # syncoid gibt Exit 1 zurück wenn keine neuen Snapshots vorhanden → kein Fehler
+          SUCCESS="$SUCCESS $ds"
         else
           FAILED="$FAILED $ds"
         fi
