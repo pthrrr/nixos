@@ -101,10 +101,11 @@
         exit 1
       fi
 
+      set +e  # syncoid gibt Exit 1 bei "nothing to do" zurück → nicht abbrechen
       for ds in $DATASETS; do
         echo "=== Syncing tank/$ds → backup/data/$ds ==="
-        RC=0
-        OUTPUT=$(syncoid --no-sync-snap "tank/$ds" "backup/data/$ds" 2>&1) || RC=$?
+        OUTPUT=$(syncoid --no-sync-snap "tank/$ds" "backup/data/$ds" 2>&1)
+        RC=$?
         echo "$OUTPUT"
         if [ $RC -eq 0 ]; then
           SUCCESS="$SUCCESS $ds"
@@ -127,6 +128,7 @@
           FAILED="$FAILED $ds"
         fi
       done
+      set -e
 
       # Dauer berechnen
       ELAPSED=$(( SECONDS - START ))
