@@ -164,7 +164,7 @@
       BACKUP_USED_BYTES=$(zfs get -Hp -o value used backup)
       BACKUP_AVAIL_BYTES=$(zfs get -Hp -o value available backup)
       BACKUP_PCT=$(echo "scale=0; $BACKUP_USED_BYTES * 100 / ($BACKUP_USED_BYTES + $BACKUP_AVAIL_BYTES)" | bc)
-      STORAGE="NVMe: ''${TANK_USED} / ''${TANK_AVAIL} frei (''${TANK_PCT}%) | RAID: ''${BACKUP_USED} / ''${BACKUP_AVAIL} frei (''${BACKUP_PCT}%)"
+      STORAGE="NVMe: ''${TANK_USED} belegt, ''${TANK_AVAIL} frei (''${TANK_PCT}%) | RAID: ''${BACKUP_USED} belegt, ''${BACKUP_AVAIL} frei (''${BACKUP_PCT}%)"
 
       if [ -z "$FAILED" ]; then
         curl -s \
