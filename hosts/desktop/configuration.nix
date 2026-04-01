@@ -73,20 +73,19 @@
       extraPackages = with pkgs; [
         rocmPackages.clr.icd
         libva
-        libva-utils
         # Video acceleration
         libva-vdpau-driver
         libvdpau-va-gl
         mesa
         # Vulkan support
         vulkan-loader
-        vulkan-tools
       ];
       # Enable 32-bit support for gaming
       extraPackages32 = with pkgs.pkgsi686Linux; [
         libva-vdpau-driver
         libvdpau-va-gl
         mesa
+        vulkan-loader
       ];
     };
   };
@@ -164,12 +163,17 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # AMD GPU management (undervolting, fan curves, power profiles)
+  programs.corectrl = {
+    enable = true;
+    gpuOverclock.enable = true;
+  };
+
   # AMD-specific gaming overrides (supplements shared gaming.nix)
   environment.sessionVariables = {
     AMD_VULKAN_ICD = "RADV";
     PROTON_ADD_CONFIG = "fsr4rdna3";
     MESA_SHADER_CACHE_MAX_SIZE = "16G";
-    MESA_GLSL_CACHE_MAX_SIZE = "16G";
   };
   programs.gamemode.settings.gpu = {
     apply_gpu_optimisations = "accept-responsibility";
@@ -189,6 +193,8 @@
     gpu-viewer
     clinfo
     mesa-demos
+    libva-utils
+    vulkan-tools
 
     # Video tools with GPU acceleration
     ffmpeg-full  # Includes VA-API support
@@ -209,7 +215,7 @@
 
     # Add your user to audio group
   users.users.pthr = {  # Replace with your username
-    extraGroups = [ "audio" "realtime" ];
+    extraGroups = [ "audio" "realtime" "corectrl" ];
   };
 
   # Add to your configuration
