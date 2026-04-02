@@ -11,5 +11,6 @@ in
     bitwig-studio
     arduino
     arduino-ota
+    cmatrix
   ];
 }
