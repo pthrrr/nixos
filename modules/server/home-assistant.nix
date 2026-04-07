@@ -17,6 +17,7 @@ in
       "thread"
       "matter"
       "ntfy"
+      "esphome"
     ];
     extraPackages = python3Packages: with python3Packages; [
       getmac
@@ -52,6 +53,6 @@ in
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 8123 ];
+  networking.firewall.allowedTCPPorts = [ 8123 6053 ]; # 6053: ESPHome Native API
   networking.firewall.allowedUDPPorts = [ 5683 ]; # CoIoT, unicast shelly
 }
