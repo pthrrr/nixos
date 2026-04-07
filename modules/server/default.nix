@@ -9,6 +9,7 @@
     ./zfs.nix
     ./matter-server.nix
     ./home-assistant.nix
+    ./esphome.nix
     ./blocky.nix
     ./monitoring.nix
     ./ntfy.nix
