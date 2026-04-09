@@ -6,6 +6,7 @@
     git
     python315
     tree
+    dnsutils  # dig, nslookup, nsupdate
 
     opencode
     wl-clipboard

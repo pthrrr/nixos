@@ -66,6 +66,12 @@ blocking:
     hagezi:
       # Hagezi Multi Pro - Maximum Protection
       - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/pro.txt
+  allowlists:
+    default:
+      - |
+        reddit.com
+        www.reddit.com
+        old.reddit.com
   clientGroupsBlock:
     default:
       - ads
