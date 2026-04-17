@@ -27,10 +27,28 @@ environment.systemPackages = with pkgs; [
   yabridge
   yabridgectl
 
+  # Synthesizer & Instrumente
+  surge-XT              # Mächtiger Open-Source Synth
+  helm                  # Polyphoner Synth
+  zynaddsubfx           # Klassiker für Pads/Atmosphäre
+  cardinal              # Modularer Synth (VCV Rack als Plugin)
+  fluidsynth            # SoundFont Player
+
+  # Effekte
   x42-plugins           # Professional mixing/mastering tools
-  distrho-ports                 # Collection of creative effects
+  distrho-ports         # Collection of creative effects
   dragonfly-reverb      # Beautiful convolution reverbs
   calf                  # Comprehensive effect collection
+  lsp-plugins           # EQ, Compressor, Limiter etc.
+  zam-plugins           # Mastering-orientierte Plugins
+  tap-plugins           # Reverb, Echo, EQ
+  mda_lv2               # Klassische Effektsammlung
+  aether-lv2            # Algorithmischer Reverb
+  eq10q                 # Parametrischer EQ
+
+  # Tools
+  carla                 # Plugin Host
+  qpwgraph              # PipeWire Patchbay
   
   ] ++ (with audio-nix.packages.${pkgs.system}; [
     #bitwig-studio6-latest
