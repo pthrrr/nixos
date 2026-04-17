@@ -33,6 +33,8 @@ environment.systemPackages = with pkgs; [
   zynaddsubfx           # Klassiker für Pads/Atmosphäre
   cardinal              # Modularer Synth (VCV Rack als Plugin)
   fluidsynth            # SoundFont Player
+  drumgizmo             # Realistische Drum-Engine (Multi-Mikrofon)
+  sfizz                 # SFZ Sample Player
 
   # Effekte
   x42-plugins           # Professional mixing/mastering tools
