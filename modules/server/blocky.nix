@@ -57,6 +57,9 @@ customDNS:
     shellyplug.$DOMAIN: 192.168.10.100
     miniflux.$DOMAIN: 192.168.10.100
     fmd.$DOMAIN: 192.168.10.100
+    ai.$DOMAIN: 192.168.10.100
+    desktop.$DOMAIN: 192.168.10.38
+    desktop: 192.168.10.38
 
 blocking:
   denylists:

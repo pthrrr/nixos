@@ -5,6 +5,7 @@
     ./hardware.nix
     ../../modules/optional/gaming.nix  # Import the shared gaming module
     ../../modules/optional/hdr.nix
+    ../../modules/optional/ollama.nix
   ];
 
   nix.settings.experimental-features = [
@@ -65,6 +66,7 @@
   services.printing.enable = true;
 
   boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.kernelModules = [ "ntsync" ];
 
   # Desktop-specific hardware settings
   hardware = {
@@ -173,6 +175,8 @@
   environment.sessionVariables = {
     AMD_VULKAN_ICD = "RADV";
     PROTON_ADD_CONFIG = "fsr4rdna3";
+    PROTON_ENABLE_HDR = "1";
+    DXVK_HDR = "1";
     MESA_SHADER_CACHE_MAX_SIZE = "16G";
   };
   programs.gamemode.settings.gpu = {

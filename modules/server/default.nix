@@ -14,6 +14,8 @@
     ./monitoring.nix
     ./ntfy.nix
     ./miniflux.nix
+    ./open-webui.nix
+    ./searxng.nix
     ../common/house-keeping.nix 
  ];
 }
