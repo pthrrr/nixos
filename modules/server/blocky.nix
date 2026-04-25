@@ -60,6 +60,7 @@ customDNS:
     ai.$DOMAIN: 192.168.10.100
     desktop.$DOMAIN: 192.168.10.254
     desktop: 192.168.10.254
+    esphome.$DOMAIN: 192.168.10.100
 
 blocking:
   denylists:
