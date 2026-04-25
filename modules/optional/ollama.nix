@@ -8,7 +8,7 @@
     host = "0.0.0.0";  # Listen on all interfaces (accessible from server)
     port = 11434;
     environmentVariables = {
-      HSA_OVERRIDE_GFX_VERSION = "11.0.2";  # RX 7800 XT (Navi 32 / gfx1101)
+      HSA_OVERRIDE_GFX_VERSION = "11.0.2";  # RX 7700 XT (Navi 32 / gfx1101)
     };
   };
 
