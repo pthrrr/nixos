@@ -86,6 +86,7 @@ in
       cat > /var/lib/caddy/Caddyfile << EOF
       {
         email pthr+acme@$DOMAIN
+        acme_dns_resolver 1.1.1.1
       }
       
       ha.$DOMAIN {
