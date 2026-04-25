@@ -86,171 +86,73 @@ in
       cat > /var/lib/caddy/Caddyfile << EOF
       {
         email pthr+acme@$DOMAIN
-        acme_dns_resolver 1.1.1.1
-      }
-      
-      ha.$DOMAIN {
-        tls {
+        cert_issuer acme {
           dns namecheap {
             user {env.NAMECHEAP_API_USER}
             api_key {env.NAMECHEAP_API_KEY}
             client_ip $SERVER_IP
           }
+          resolvers 1.1.1.1 9.9.9.9
         }
+      }
+
+      ha.$DOMAIN {
         reverse_proxy localhost:8123
       }
 
       blocky.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         reverse_proxy localhost:4000
       }
 
       radicale.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         reverse_proxy localhost:5232
       }
 
       copyparty.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         reverse_proxy localhost:3210
       }
 
       syncthing.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         reverse_proxy localhost:8384
       }
 
       matchering.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         reverse_proxy localhost:8360
       }
 
       grafana.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         reverse_proxy localhost:3000
       }
 
       ntfy.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         reverse_proxy localhost:2586
       }
 
       miniflux.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         reverse_proxy localhost:8080
       }
 
       fmd.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         reverse_proxy localhost:8081
       }
 
       shelly1.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         reverse_proxy 192.168.10.201
       }
 
       shellyplug.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         reverse_proxy 192.168.10.200
       }
-      
+
       esphome.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         reverse_proxy localhost:6052
       }
 
       ai.$DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         reverse_proxy localhost:8282
       }
 
       $DOMAIN {
-        tls {
-          dns namecheap {
-            user {env.NAMECHEAP_API_USER}
-            api_key {env.NAMECHEAP_API_KEY}
-            client_ip $SERVER_IP
-          }
-        }
         redir https://ha.$DOMAIN{uri}
       }
       EOF
