@@ -6,7 +6,7 @@
     enable = true;
     port = 8282;
     environment = {
-      OLLAMA_API_BASE_URL = "http://desktop:11434";
+      OLLAMA_BASE_URLS = "http://desktop:11434;http://laptop:11434";
       ENABLE_RAG_WEB_SEARCH = "true";
       RAG_WEB_SEARCH_ENGINE = "searxng";
       SEARXNG_QUERY_URL = "http://localhost:8888/search?q=<query>&format=json";
