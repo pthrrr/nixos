@@ -305,8 +305,13 @@ services.udev.extraRules = ''
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  # ArduinoOTA: UDP 8266 for discovery, TCP 8266 for initial handshake,
+  # ESP connects back on a random high TCP port for firmware transfer
+  networking.firewall.allowedTCPPorts = [ 8266 ];
+  networking.firewall.allowedUDPPorts = [ 8266 ];
+  networking.firewall.extraCommands = ''
+    iptables -A nixos-fw -p tcp --dport 1024:65535 -s 192.168.10.0/24 -j nixos-fw-accept
+  '';
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
