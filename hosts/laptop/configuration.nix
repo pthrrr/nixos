@@ -6,6 +6,7 @@
     ../../modules/optional/gaming.nix
     #../../modules/optional/music-production.nix
     ../../modules/optional/vm.nix
+    ../../modules/optional/ollama-nvidia.nix
   ];
 
   nix.settings.experimental-features = [
