@@ -15,9 +15,10 @@
         default_lang = "de";
       };
       engines = [
-        { name = "google"; engine = "google"; shortcut = "g"; }
         { name = "duckduckgo"; engine = "duckduckgo"; shortcut = "ddg"; }
+        { name = "brave"; engine = "brave"; shortcut = "br"; }
         { name = "wikipedia"; engine = "wikipedia"; shortcut = "wp"; }
+        { name = "wikidata"; engine = "wikidata"; shortcut = "wd"; }
       ];
     };
   };
