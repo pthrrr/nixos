@@ -12,6 +12,7 @@
       };
       search = {
         formats = [ "html" "json" ];
+        default_lang = "de";
       };
       engines = [
         { name = "google"; engine = "google"; shortcut = "g"; }
