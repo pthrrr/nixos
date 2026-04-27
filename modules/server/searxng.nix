@@ -12,7 +12,7 @@
       };
       search = {
         formats = [ "html" "json" ];
-        default_lang = "de";
+        default_lang = "auto";
       };
       engines = [
         { name = "duckduckgo"; engine = "duckduckgo"; shortcut = "ddg"; }
