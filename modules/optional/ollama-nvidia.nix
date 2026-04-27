@@ -7,6 +7,9 @@
     package = pkgs.ollama-cuda;
     host = "0.0.0.0";
     port = 11434;
+    environmentVariables = {
+      OLLAMA_NUM_CTX = "8192";
+    };
   };
 
   # Allow Ollama API access only from server

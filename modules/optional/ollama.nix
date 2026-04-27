@@ -9,6 +9,7 @@
     port = 11434;
     environmentVariables = {
       HSA_OVERRIDE_GFX_VERSION = "11.0.2";  # RX 7700 XT (Navi 32 / gfx1101)
+      OLLAMA_NUM_CTX = "8192";
     };
   };
 
