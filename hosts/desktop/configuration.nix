@@ -72,6 +72,7 @@
   hardware = {
     graphics = {
       enable = true;
+      enable32Bit = true;
       extraPackages = with pkgs; [
         rocmPackages.clr.icd
         libva
@@ -99,10 +100,18 @@
     VDPAU_DRIVER = "radeonsi";
     # ROCm/HIP support
     HSA_OVERRIDE_GFX_VERSION = "11.0.2";
+    # AMD Vulkan
+    AMD_VULKAN_ICD = "RADV";
+    # Proton / HDR
+    PROTON_ADD_CONFIG = "fsr4rdna3";
+    PROTON_ENABLE_HDR = "1";
+    DXVK_HDR = "1";
+    # Shader cache
+    MESA_SHADER_CACHE_MAX_SIZE = "16G";
+    # Performance: GL thread offloading and RADV optimisations
+    mesa_glthread = "true";
+    RADV_PERFTEST = "gpl,ngg_streamout,rt";
   };
-
-
-  # Enable sound with pipewire.
   services.pulseaudio.enable = false;
 
   services.pipewire = {
@@ -137,8 +146,6 @@
 
   # Desktop-specific services
   services = {
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
     xserver = {
       xkb.layout = "de";
       enable = true;
@@ -170,13 +177,6 @@
   hardware.amdgpu.overdrive.enable = true;
 
   # AMD-specific gaming overrides (supplements shared gaming.nix)
-  environment.sessionVariables = {
-    AMD_VULKAN_ICD = "RADV";
-    PROTON_ADD_CONFIG = "fsr4rdna3";
-    PROTON_ENABLE_HDR = "1";
-    DXVK_HDR = "1";
-    MESA_SHADER_CACHE_MAX_SIZE = "16G";
-  };
   programs.gamemode.settings.gpu = {
     apply_gpu_optimisations = "accept-responsibility";
     gpu_device = 0;
@@ -230,6 +230,8 @@
   boot.kernelParams = [ 
     "threadirqs" 
     "preempt=full"
+    "amdgpu.ppfeaturemask=0xffffffff"
+    "amdgpu.dpm=1"
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

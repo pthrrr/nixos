@@ -27,7 +27,7 @@
 
         # Performance Overlay
         MANGOHUD = "1";
-        MANGOHUD_CONFIG = "read_cfg,no_display";
+        MANGOHUD_CONFIG = "read_cfg";
 
         # GameMode Integration
         GAMEMODERUN = "1";
@@ -60,7 +60,7 @@
     enable = true;
     settings = {
       general = {
-        renice = 10;
+        renice = -10;
       };
     };
   };
