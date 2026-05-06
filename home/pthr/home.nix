@@ -32,7 +32,10 @@
   };
 
   # Install firefox.
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+    configPath = ".mozilla/firefox";
+  };
 
   # Install kitty terminal.
   programs.kitty.enable = true;

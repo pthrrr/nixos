@@ -166,10 +166,8 @@
   nixpkgs.config.allowUnfree = true;
 
   # AMD GPU management (undervolting, fan curves, power profiles)
-  programs.corectrl = {
-    enable = true;
-    gpuOverclock.enable = true;
-  };
+  programs.corectrl.enable = true;
+  hardware.amdgpu.overdrive.enable = true;
 
   # AMD-specific gaming overrides (supplements shared gaming.nix)
   environment.sessionVariables = {
