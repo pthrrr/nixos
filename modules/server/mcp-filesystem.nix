@@ -47,6 +47,7 @@ in
       Environment = [
         "HOME=/tmp/mcp-filesystem"
         "npm_config_cache=/tmp/mcp-filesystem/.npm"
+        "PATH=${pkgs.nodejs}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin"
       ];
     };
   };
