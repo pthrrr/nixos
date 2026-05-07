@@ -22,7 +22,12 @@ in
   ];
 
   # Add open-webui user to media group for /data access
-  users.users.open-webui.extraGroups = [ "media" ];
+  users.users.open-webui = {
+    isSystemUser = true;
+    group = "open-webui";
+    extraGroups = [ "media" ];
+  };
+  users.groups.open-webui = {};
 
   # MCP Filesystem Server via supergateway (stdio→SSE bridge)
   # Runs @modelcontextprotocol/server-filesystem behind supergateway
