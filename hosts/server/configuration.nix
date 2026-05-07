@@ -135,7 +135,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
+   environment.systemPackages = with pkgs; [
      vim
      btop
      git
@@ -143,8 +143,11 @@
      curl
      wget
      hdparm
+     pciutils          # lspci
+     ethtool           # NIC diagnostics
+     tcpdump           # packet capture
      agenix.packages.x86_64-linux.default
-  ];
+   ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
