@@ -26,7 +26,8 @@
 
   swapDevices =
     [ { device = "/dev/disk/by-uuid/5b70fa17-bf5c-46ff-9d37-d5598875b02a"; }
-      { device = "/dev/disk/by-uuid/0801935e-ac3a-4729-a5cb-88915d7d383d"; }
+      # NVMe swap (0801935e) deaktiviert — NVMe ist ZFS-Datenspeicher,
+      # SSD-Swap (8.8 GB) reicht als Sicherheitsnetz bei 32 GB RAM
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
