@@ -85,8 +85,9 @@ in
     openFilesLimit = 8192;
   };
 
-  # Fix file permissions for group collaboration
+  # Fix file permissions for group collaboration + add ffmpeg for video transcoding
   systemd.services.copyparty = {
+    path = [ pkgs.ffmpeg-headless ];
     serviceConfig = {
       UMask = lib.mkForce "0002";  # Creates files as 644 instead of 600
     };
