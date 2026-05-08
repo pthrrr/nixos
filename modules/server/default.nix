@@ -16,7 +16,6 @@
     ./miniflux.nix
     ./open-webui.nix
     ./searxng.nix
-    ./mcp-filesystem.nix
     ../common/house-keeping.nix 
  ];
 }
