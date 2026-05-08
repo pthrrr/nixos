@@ -65,6 +65,21 @@
     };
   };
 
+  # Disable Energy-Efficient Ethernet (EEE) on Intel I210
+  # EEE causes frequent link-flaps (~38/day) due to incompatibility
+  # between I210 firmware 3.25 and FritzBox EEE implementation
+  systemd.services.disable-eee = {
+    description = "Disable EEE on enp4s0 (Intel I210 link-flap fix)";
+    after = [ "network-pre.target" ];
+    before = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.ethtool}/bin/ethtool --set-eee enp4s0 eee off";
+    };
+  };
+
   # SSH configuration
   services.openssh = {
     enable = true;
