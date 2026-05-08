@@ -161,6 +161,7 @@
      pciutils          # lspci
      ethtool           # NIC diagnostics
      tcpdump           # packet capture
+     smartmontools     # SMART disk health
      agenix.packages.x86_64-linux.default
    ];
 
