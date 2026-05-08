@@ -24,6 +24,7 @@
           --add-flags "--enable-features=VaapiVideoDecodeLinuxGL,VaapiVideoDecoder"
       '';
     })
+    zed-editor
     keepassxc
     signal-desktop
     telegram-desktop
