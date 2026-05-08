@@ -14,7 +14,16 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    brave
+    # Brave with VA-API hardware video decode (enables HEVC playback)
+    (symlinkJoin {
+      name = "brave-vaapi";
+      paths = [ brave ];
+      buildInputs = [ makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/brave \
+          --add-flags "--enable-features=VaapiVideoDecodeLinuxGL,VaapiVideoDecoder"
+      '';
+    })
     keepassxc
     signal-desktop
     telegram-desktop
