@@ -73,9 +73,16 @@ blocking:
       - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/pro.txt
   allowlists:
     default:
-      - reddit.com
-      - www.reddit.com
-      - old.reddit.com
+      - |
+        old.reddit.com
+        i.redd.it
+        v.redd.it
+        preview.redd.it
+        external-preview.redd.it
+        styles.redditmedia.com
+        www.redditmedia.com
+        www.redditstatic.com
+        oauth.reddit.com
   clientGroupsBlock:
     default:
       - ads
