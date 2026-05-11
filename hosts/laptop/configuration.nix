@@ -318,6 +318,17 @@ services.udev.extraRules = ''
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+  # Fix Bluetooth failing after suspend (Intel AX200 btusb bug)
+  systemd.services.bluetooth-resume = {
+    description = "Reload btusb after resume";
+    after = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
+    wantedBy = [ "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.kmod}/bin/modprobe -r btusb && sleep 1 && ${pkgs.kmod}/bin/modprobe btusb";
+    };
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
