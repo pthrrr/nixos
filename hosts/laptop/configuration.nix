@@ -27,6 +27,7 @@
     "resume=/dev/disk/by-uuid/578f1365-c5a0-44a6-9216-2889c20320ed"  # Resume from hibernate (root partition with swapfile)
     "resume_offset=74092544"                         # Physical offset of /var/lib/swapfile
     "pcie_aspm=off"                                  # Fix Intel AX200 WiFi disappearing after suspend/reboot
+    "mem_sleep_default=deep"                         # Use S3 suspend (better battery, more reliable)
   ];
 
   boot.resumeDevice = "/dev/disk/by-uuid/578f1365-c5a0-44a6-9216-2889c20320ed";
