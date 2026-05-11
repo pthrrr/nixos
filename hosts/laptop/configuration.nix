@@ -26,6 +26,7 @@
     "nmi_watchdog=0"                                 # Disable NMI watchdog (saves power)
     "resume=/dev/disk/by-uuid/578f1365-c5a0-44a6-9216-2889c20320ed"  # Resume from hibernate (root partition with swapfile)
     "resume_offset=74092544"                         # Physical offset of /var/lib/swapfile
+    "pcie_aspm=off"                                  # Fix Intel AX200 WiFi disappearing after suspend/reboot
   ];
 
   boot.resumeDevice = "/dev/disk/by-uuid/578f1365-c5a0-44a6-9216-2889c20320ed";
@@ -287,6 +288,7 @@ services.udev.extraRules = ''
     android-tools
     xbacklight
     powertop             # Power consumption analyzer
+    pciutils             # lspci
     nvtopPackages.nvidia # GPU monitoring
     vulkan-tools         # vulkaninfo, vkcube
     mesa-demos           # glxgears, glxinfo
