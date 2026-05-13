@@ -23,11 +23,11 @@
       DOMAIN=$(cat ${config.age.secrets.domain.path} | tr -d '\n')
 
       mkdir -p /run/miniflux
-      cat > /run/miniflux/admin-credentials << EOF
-      ADMIN_USERNAME=$USERNAME
-      ADMIN_PASSWORD=$PASSWORD
-      BASE_URL=https://miniflux.$DOMAIN
-      EOF
+      cat > /run/miniflux/admin-credentials <<CREDENTIALS
+ADMIN_USERNAME=$USERNAME
+ADMIN_PASSWORD=$PASSWORD
+BASE_URL=https://miniflux.$DOMAIN
+CREDENTIALS
 
       chmod 600 /run/miniflux/admin-credentials
     '';
