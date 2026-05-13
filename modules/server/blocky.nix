@@ -72,7 +72,18 @@ blocking:
       # Hagezi Multi Pro - Maximum Protection
       - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/hosts/pro.txt
   allowlists:
-    default:
+    ads:
+      - |
+        old.reddit.com
+        i.redd.it
+        v.redd.it
+        preview.redd.it
+        external-preview.redd.it
+        styles.redditmedia.com
+        www.redditmedia.com
+        www.redditstatic.com
+        oauth.reddit.com
+    hagezi:
       - |
         old.reddit.com
         i.redd.it
