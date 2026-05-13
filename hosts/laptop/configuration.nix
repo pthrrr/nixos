@@ -7,6 +7,7 @@
     #../../modules/optional/music-production.nix
     ../../modules/optional/vm.nix
     ../../modules/optional/ollama-nvidia.nix
+    ../../modules/optional/spatial-audio.nix
   ];
 
   nix.settings.experimental-features = [

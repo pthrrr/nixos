@@ -6,6 +6,7 @@
     ../../modules/optional/gaming.nix  # Import the shared gaming module
     ../../modules/optional/hdr.nix
     ../../modules/optional/ollama.nix
+    ../../modules/optional/spatial-audio.nix
   ];
 
   nix.settings.experimental-features = [
@@ -120,14 +121,14 @@
     alsa.support32Bit = true;
     pulse.enable = true;
 
-    # Add PipeWire configuration
+    # PipeWire base configuration
     configPackages = [
       (pkgs.writeTextDir "share/pipewire/pipewire.conf.d/99-custom.conf" ''
         context.properties = {
-          default.clock.rate = 44100
-          default.clock.quantum = 512
-          default.clock.min-quantum = 32
-          default.clock.max-quantum = 2048
+          default.clock.rate = 48000
+          default.clock.quantum = 256
+          default.clock.min-quantum = 64
+          default.clock.max-quantum = 1024
         }
       '')
     ];
