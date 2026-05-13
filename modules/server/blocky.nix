@@ -74,6 +74,8 @@ blocking:
   allowlists:
     ads:
       - |
+        reddit.com
+        www.reddit.com
         old.reddit.com
         i.redd.it
         v.redd.it
@@ -85,6 +87,8 @@ blocking:
         oauth.reddit.com
     hagezi:
       - |
+        reddit.com
+        www.reddit.com
         old.reddit.com
         i.redd.it
         v.redd.it
