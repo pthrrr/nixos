@@ -6,7 +6,7 @@
     ../../modules/optional/gaming.nix  # Import the shared gaming module
     ../../modules/optional/hdr.nix
     ../../modules/optional/ollama.nix
-    ../../modules/optional/spatial-audio.nix
+
   ];
 
   nix.settings.experimental-features = [
@@ -133,12 +133,20 @@
       '')
     ];
 
+    # Scarlett 2i2 Gen3: auto-set as default device with higher priority
+    wireplumber.extraConfig."50-scarlett" = {
+      "monitor.alsa.rules" = [{
+        matches = [{ "node.name" = "~alsa_.*Scarlett.*"; }];
+        actions.update-props = {
+          "node.description" = "Scarlett 2i2";
+          "priority.session" = 2000;
+          "priority.driver" = 2000;
+        };
+      }];
+    };
+
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
   # Enable GVFS for better desktop integration
