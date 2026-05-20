@@ -6,6 +6,7 @@
     mangohud
     mangojuice
     vkbasalt
+    heroic
   ];
 
   # XDG Desktop Portal für Wayland Screen Capture (Steam Remote Play)
