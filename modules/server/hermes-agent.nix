@@ -17,6 +17,9 @@ in
   services.hermes-agent = {
     enable = true;
 
+    # Telegram-Dependency muss explizit aktiviert werden (nicht in [all] enthalten)
+    extraDependencyGroups = [ "messaging" ];
+
     # Ollama als LLM-Provider (Desktop hat größeres Modell, Laptop als Fallback)
     settings = {
       model = "ollama/gemma3:4b";
@@ -26,6 +29,8 @@ in
 
     environment = {
       OLLAMA_BASE_URL = "http://desktop:11434";
+      # Alle Telegram-User erlauben (Server nur über VPN erreichbar)
+      GATEWAY_ALLOW_ALL_USERS = "true";
     };
 
     # Telegram Bot Token aus agenix
