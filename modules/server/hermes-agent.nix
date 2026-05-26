@@ -29,7 +29,7 @@ in
     # Ollama als LLM-Provider via Custom Endpoint (Laptop)
     settings = {
       model = {
-        default = "gemma4:e2b";
+        default = "gemma4:e4b";
         provider = "custom";
         base_url = "http://laptop:11434/v1";
       };
