@@ -1,7 +1,7 @@
 # modules/server/hermes-agent.nix
 # Hermes Agent — AI assistant with Ollama (local LLM) via Telegram
 # Native mode with strict sandboxing: only MCP workspace dirs are writable
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   stripNL = s: builtins.replaceStrings ["\n"] [""] s;
@@ -76,8 +76,8 @@ in
   # Sandboxing: Agent darf nur auf MCP-Ordner + eigenen State zugreifen
   systemd.services.hermes-agent.serviceConfig = {
     # Dateisystem-Isolation
-    ProtectSystem = "strict";           # / und /usr read-only
-    ProtectHome = true;                 # /home nicht sichtbar
+    ProtectSystem = lib.mkForce "strict";           # / und /usr read-only
+    ProtectHome = lib.mkForce true;                 # /home nicht sichtbar
     PrivateTmp = true;                  # eigenes /tmp
     ReadWritePaths = [
       "/data/users/pierre/mcp"
