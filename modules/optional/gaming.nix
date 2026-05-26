@@ -7,6 +7,9 @@
     mangojuice
     vkbasalt
     heroic
+    lutris
+    winetricks
+    wineWowPackages.stagingFull
   ];
 
   # XDG Desktop Portal für Wayland Screen Capture (Steam Remote Play)
@@ -56,6 +59,9 @@
       };
     };
   };
+
+  # Star Citizen benötigt erhöhtes vm.max_map_count
+  boot.kernel.sysctl."vm.max_map_count" = 16777216;
 
   programs.gamemode = {
     enable = true;
