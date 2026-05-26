@@ -18,14 +18,9 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    hermes-agent = {
-      url = "github:NousResearch/hermes-agent";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, agenix, copyparty, audio-nix, hermes-agent, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, agenix, copyparty, audio-nix, ... }@inputs: {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -78,7 +73,6 @@
 
           agenix.nixosModules.default
           copyparty.nixosModules.default
-          hermes-agent.nixosModules.default
           
           ./hosts/server/configuration.nix
           ./modules/server

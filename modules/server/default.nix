@@ -16,7 +16,6 @@
     ./miniflux.nix
     ./open-webui.nix
     ./searxng.nix
-    ./hermes-agent.nix
     ../common/house-keeping.nix 
  ];
 }
