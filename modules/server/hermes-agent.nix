@@ -14,6 +14,12 @@ in
     group = "hermes";
   };
 
+  age.secrets.hermes-telegram-users = {
+    file = ../../secrets/hermes-telegram-users.age;
+    owner = "hermes";
+    group = "hermes";
+  };
+
   services.hermes-agent = {
     enable = true;
 
@@ -31,14 +37,12 @@ in
       toolsets = [ "all" ];
     };
 
-    environment = {
-      # Nur autorisierte Telegram-User erlauben
-      TELEGRAM_ALLOWED_USERS = "119400565";
-    };
+    environment = {};
 
-    # Telegram Bot Token aus agenix
+    # Telegram Bot Token + User-Allowlist aus agenix
     environmentFiles = [
       config.age.secrets.hermes-telegram-token.path
+      config.age.secrets.hermes-telegram-users.path
     ];
 
     # MCP-Ordner als Workspace
