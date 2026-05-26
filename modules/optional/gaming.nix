@@ -6,7 +6,6 @@
     mangohud
     mangojuice
     vkbasalt
-    heroic
     lutris
     winetricks
     wineWowPackages.stagingFull
