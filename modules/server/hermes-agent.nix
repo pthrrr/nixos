@@ -32,8 +32,8 @@ in
     };
 
     environment = {
-      # Alle Telegram-User erlauben (Server nur über VPN erreichbar)
-      GATEWAY_ALLOW_ALL_USERS = "true";
+      # Nur autorisierte Telegram-User erlauben
+      TELEGRAM_ALLOWED_USERS = "119400565";
     };
 
     # Telegram Bot Token aus agenix
