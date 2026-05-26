@@ -294,6 +294,7 @@ services.udev.extraRules = ''
     nvtopPackages.nvidia # GPU monitoring
     vulkan-tools         # vulkaninfo, vkcube
     mesa-demos           # glxgears, glxinfo
+    hugo                 # Static website generator
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

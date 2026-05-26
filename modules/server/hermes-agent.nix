@@ -22,13 +22,16 @@ in
 
     # Ollama als LLM-Provider (Desktop hat größeres Modell, Laptop als Fallback)
     settings = {
-      model = "ollama/gemma3:4b";
+      model = "gemma3:4b";
+      providers.ollama = {
+        kind = "ollama";
+        base_url = "http://desktop:11434";
+      };
       terminal.backend = "local";
       toolsets = [ "all" ];
     };
 
     environment = {
-      OLLAMA_BASE_URL = "http://desktop:11434";
       # Alle Telegram-User erlauben (Server nur über VPN erreichbar)
       GATEWAY_ALLOW_ALL_USERS = "true";
     };
