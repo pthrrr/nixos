@@ -16,4 +16,6 @@ in
   "radicale-users.age".publicKeys = keys;
 
   "syncthing.age".publicKeys = keys;
+
+  "hermes-telegram-token.age".publicKeys = keys;
 }
