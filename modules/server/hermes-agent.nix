@@ -20,12 +20,12 @@ in
     # Telegram-Dependency muss explizit aktiviert werden (nicht in [all] enthalten)
     extraDependencyGroups = [ "messaging" ];
 
-    # Ollama als LLM-Provider (Laptop primary, Desktop fallback)
+    # Ollama als LLM-Provider via Custom Endpoint (Laptop)
     settings = {
-      model = "gemma4:e2b";
-      providers.ollama = {
-        kind = "ollama";
-        base_url = "http://laptop:11434";
+      model = {
+        default = "gemma4:e2b";
+        provider = "custom";
+        base_url = "http://laptop:11434/v1";
       };
       terminal.backend = "local";
       toolsets = [ "all" ];
