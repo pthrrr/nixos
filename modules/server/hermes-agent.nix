@@ -75,9 +75,37 @@ in
 
   # Sandboxing: Agent darf nur auf MCP-Ordner + eigenen State zugreifen
   systemd.services.hermes-agent.serviceConfig = {
+    # Dateisystem-Isolation
+    ProtectSystem = "strict";           # / und /usr read-only
+    ProtectHome = true;                 # /home nicht sichtbar
+    PrivateTmp = true;                  # eigenes /tmp
     ReadWritePaths = [
       "/data/users/pierre/mcp"
       "/data/users/katti/mcp"
+      "/var/lib/hermes"                 # eigener State
     ];
+
+    # Netzwerk: nur Ollama + Telegram API
+    # (kein RestrictAddressFamilies, da Hermes TCP braucht)
+
+    # Kernel-Hardening
+    ProtectKernelTunables = true;
+    ProtectKernelModules = true;
+    ProtectKernelLogs = true;
+    ProtectControlGroups = true;
+    ProtectClock = true;
+    ProtectHostname = true;
+
+    # Keine Rechteeskalation
+    NoNewPrivileges = true;
+    RestrictSUIDSGID = true;
+    LockPersonality = true;
+    MemoryDenyWriteExecute = true;
+
+    # Kein Zugriff auf Hardware
+    PrivateDevices = true;
+
+    # Syscall-Filter
+    SystemCallArchitectures = "native";
   };
 }
