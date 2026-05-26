@@ -46,10 +46,6 @@ in
         ];
         use_x_forwarded_for = true;
       };
-      lovelace = {
-        mode = "storage";
-        resources = [];
-      };
     };
   };
 
