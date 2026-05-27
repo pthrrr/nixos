@@ -6,6 +6,7 @@
     ../../modules/optional/gaming.nix  # Import the shared gaming module
     ../../modules/optional/hdr.nix
     ../../modules/optional/ollama.nix
+    ../../modules/optional/openrazer.nix
 
   ];
 
