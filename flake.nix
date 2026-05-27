@@ -50,6 +50,11 @@
         specialArgs = { inherit agenix audio-nix; };
 
         modules = [
+          ({ ... }: {
+            nixpkgs.overlays = [
+              (import ./overlays { inherit inputs; }).modifications
+            ];
+          })
           ./hosts/laptop/configuration.nix
           ./modules/desktop-environments/gnome.nix
           ./modules/common
