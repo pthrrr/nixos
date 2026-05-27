@@ -5,6 +5,9 @@
 
   # Version overrides and modifications
   modifications = final: prev: {
+    openldap = prev.openldap.overrideAttrs (old: {
+      doCheck = false;
+    });
   };
 
   stable-packages = final: _prev: {

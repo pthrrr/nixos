@@ -26,6 +26,11 @@
         system = "x86_64-linux";
         specialArgs = { inherit agenix; };  # Keep as agenix
         modules = [
+          ({ ... }: {
+            nixpkgs.overlays = [
+              (import ./overlays { inherit inputs; }).modifications
+            ];
+          })
           ./hosts/desktop/configuration.nix
           ./modules/desktop-environments/gnome.nix
           ./modules/common

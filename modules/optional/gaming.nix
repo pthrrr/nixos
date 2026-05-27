@@ -8,7 +8,7 @@
     vkbasalt
     lutris
     winetricks
-    wineWowPackages.stagingFull
+    wineWow64Packages.stagingFull
   ];
 
   # XDG Desktop Portal für Wayland Screen Capture (Steam Remote Play)
