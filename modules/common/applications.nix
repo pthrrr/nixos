@@ -10,6 +10,7 @@
 
     opencode
     wl-clipboard
+    godot_4
     
     cups
     cups-filters            # Important for PDF rendering
