@@ -22,6 +22,11 @@
         enable-hot-corners = false;
       };
 
+      # Disable "not responding" dialog for slow-loading apps
+      "org/gnome/mutter" = {
+        check-alive-timeout = 30000;
+      };
+
       # Set Kitty as default terminal
       "org/gnome/desktop/default-applications/terminal" = {
         exec = "kitty";
