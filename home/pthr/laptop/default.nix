@@ -8,7 +8,7 @@ in
 
   # Laptop-specific packages
   home.packages = with pkgs; sharedConfig.home.packages ++ [
-    bitwig-studio5-unwrapped
+    bitwig-studio5
     arduino
     arduino-ota
     cmatrix

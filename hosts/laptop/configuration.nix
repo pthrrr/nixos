@@ -4,7 +4,7 @@
   imports = [
     ./hardware.nix
     ../../modules/optional/gaming.nix
-    #../../modules/optional/music-production.nix
+    ../../modules/optional/music-production.nix
     ../../modules/optional/vm.nix
     ../../modules/optional/ollama-nvidia.nix
     ../../modules/optional/openrazer.nix
@@ -151,7 +151,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
 
     # Low-latency audio for gaming (~5ms instead of ~21ms default)
     extraConfig.pipewire = {

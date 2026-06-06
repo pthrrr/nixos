@@ -32,6 +32,7 @@
     vlc
     spotify
     kdePackages.kdenlive
+    godot_4
   ];
 
   programs.git = {
@@ -58,5 +59,6 @@
       "discord"
       "teamspeak3"
       "bitwig-studio-unwrapped"
+      "bitwig-studio"
   ];
 }
