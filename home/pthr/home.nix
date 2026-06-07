@@ -33,6 +33,7 @@
     spotify
     kdePackages.kdenlive
     godot_4
+    blender
   ];
 
   programs.git = {
