@@ -28,7 +28,7 @@ environment.systemPackages = with pkgs; [
   yabridgectl
 
   # Synthesizer & Instrumente
-  surge-XT              # Mächtiger Open-Source Synth
+  surge-xt              # Mächtiger Open-Source Synth
   helm                  # Polyphoner Synth
   zynaddsubfx           # Klassiker für Pads/Atmosphäre
   cardinal              # Modularer Synth (VCV Rack als Plugin)
@@ -52,7 +52,7 @@ environment.systemPackages = with pkgs; [
   carla                 # Plugin Host
   qpwgraph              # PipeWire Patchbay
   
-  ] ++ (with audio-nix.packages.${pkgs.system}; [
+  ] ++ (with audio-nix.packages.${pkgs.stdenv.hostPlatform.system}; [
     #bitwig-studio6-latest
 
     # Core audio tools

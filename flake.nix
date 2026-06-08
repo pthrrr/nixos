@@ -23,10 +23,10 @@
   outputs = { self, nixpkgs, nixpkgs-stable, home-manager, agenix, copyparty, audio-nix, ... }@inputs: {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
         specialArgs = { inherit agenix; };  # Keep as agenix
         modules = [
           ({ ... }: {
+            nixpkgs.hostPlatform = "x86_64-linux";
             nixpkgs.overlays = [
               (import ./overlays { inherit inputs; }).modifications
             ];
@@ -46,11 +46,11 @@
       };
 
       laptop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
         specialArgs = { inherit agenix audio-nix; };
 
         modules = [
           ({ ... }: {
+            nixpkgs.hostPlatform = "x86_64-linux";
             nixpkgs.overlays = [
               (import ./overlays { inherit inputs; }).modifications
             ];
@@ -70,11 +70,11 @@
       };
 
       server = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
         specialArgs = { inherit agenix inputs; };  # Pass both agenix AND inputs
         modules = [
           # ONLY apply overlay to server (for Caddy v2.9.1)
           ({ config, pkgs, ... }: {
+            nixpkgs.hostPlatform = "x86_64-linux";
             nixpkgs.overlays = [
               (import ./overlays { inherit inputs; }).modifications
               copyparty.overlays.default
