@@ -4,6 +4,7 @@
     helix
     btop
     git
+    gh
     python315
     tree
     dnsutils  # dig, nslookup, nsupdate
