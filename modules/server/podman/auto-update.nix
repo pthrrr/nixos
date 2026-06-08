@@ -39,6 +39,7 @@
       CONTAINERS="
         registry.gitlab.com/fmd-foss/fmd-server:0.14.2-alpine|fmd-server
         docker.io/sergree/matchering-web:latest|matchering
+        ghcr.io/open-webui/open-webui:latest|open-webui
       "
 
       for ENTRY in $CONTAINERS; do
