@@ -15,7 +15,7 @@ in
     enable = true;
     package = pkgs.caddy.withPlugins {
       plugins = [ "github.com/caddy-dns/namecheap@v0.0.0-20251203154933-c7fcf32a68fb" ];
-      hash = "sha256-jJNJWEwzK5LIs9xaqQaSLNt2XUW0Pf3sEs8VNOSbUGY=";
+      hash = "sha256-bnqp1ykXaPJGznn949MREhinY68wfuLryBhsnVy0HoM=";
     };
     
     configFile = "/var/lib/caddy/Caddyfile";
