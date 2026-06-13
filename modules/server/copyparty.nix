@@ -33,6 +33,9 @@ in
       hist = "/var/lib/media/copyparty/hist";
       e2t = true;      # multimedia index
       e2ts = true;     # thumbnails
+      e2tsr = true;    # thumbnails beim Start vorab rendern
+      th-sz = 192;     # kleinere Thumbnails (Standard: 256)
+      th-j = 2;        # max 2 parallele Thumbnail-Worker (4C/8T CPU)
       e2d = true;      # dedup database
       hash-mt = 4;     # multi-threaded hashing
       no-reload = true;
