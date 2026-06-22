@@ -219,7 +219,7 @@
 
   # Optimize for low-latency audio
   security.rtkit.enable = true;
-    systemd.user.extraConfig = "DefaultLimitNOFILE=524288:1048576";
+    systemd.user.settings.Manager.DefaultLimitNOFILE = "524288:1048576";
     security.pam.loginLimits = [
       { domain = "*"; item = "nofile"; type = "soft"; value = "524288"; }
       { domain = "*"; item = "nofile"; type = "hard"; value = "1048576"; }
