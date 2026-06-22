@@ -31,6 +31,7 @@ in
       # --- Netzwerk ---
       i = "0.0.0.0";
       p = 3210;
+      rproxy = -1;          # Client-IP aus X-Forwarded-For lesen (Caddy = einziger Proxy)
       # j = 1;             # CPU-Kerne für uploads/downloads (0=alle, default: 1)
       # s-tbody = 60;      # socket timeout body (default: 128, 60 für schnelle Server)
       iobuf = 524288;       # I/O buffer-size (default: 262144, höher für ZFS)
