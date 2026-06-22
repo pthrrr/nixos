@@ -8,6 +8,7 @@ in
 
   # Desktop-specific packages
   home.packages = with pkgs; sharedConfig.home.packages ++ [
+    blender
     # discord
     # teamspeak3
   ];

@@ -33,7 +33,6 @@
     spotify
     kdePackages.kdenlive
     godot_4
-    blender
   ];
 
   programs.git = {
@@ -55,11 +54,16 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfreePredicate =
     pkg:
-    builtins.elem (lib.getName pkg) [
+    let name = lib.getName pkg;
+    in builtins.elem name [
+      "blender"
       "spotify"
       "discord"
       "teamspeak3"
       "bitwig-studio-unwrapped"
       "bitwig-studio"
-  ];
+    ] || lib.hasPrefix "cuda" name
+      || lib.hasPrefix "libcu" name
+      || lib.hasPrefix "libnpp" name
+      || lib.hasPrefix "libnv" name;
 }
