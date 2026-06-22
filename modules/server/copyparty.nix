@@ -53,7 +53,7 @@ in
       # --- Metadata / Tags ---
       e2t = true;           # multimedia metadata index
       e2ts = true;          # scan neue Dateien für metadata beim Start
-      e2tsr = true;         # full metadata rescan beim Start
+      # e2tsr = true;       # EINMALIG: metadata-DB löschen + full rescan (nicht dauerhaft!)
       # mtag-to = 60;       # FFprobe tag-scan timeout in sek (default: 60)
       # mtag-mt = 4;        # CPU-Kerne für tag scanning (default: numCores)
 
