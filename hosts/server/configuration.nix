@@ -162,6 +162,7 @@
      ethtool           # NIC diagnostics
      tcpdump           # packet capture
      smartmontools     # SMART disk health
+     python3           # scripting, API-Debugging
      agenix.packages.x86_64-linux.default
    ];
 
