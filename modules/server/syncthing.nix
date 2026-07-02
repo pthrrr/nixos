@@ -176,8 +176,8 @@ in
             ".DS_Store"
           ];
           versioning = {
-            type = "simple";
-            params = { keep = "10"; };
+            type = "staggered";
+            params = { maxAge = "2592000"; };  # 30 Tage, platzsparende Staffelung
           };
         };
 
@@ -198,8 +198,8 @@ in
             ".DS_Store"
           ];
           versioning = {
-            type = "simple";
-            params = { keep = "10"; };
+            type = "staggered";
+            params = { maxAge = "2592000"; };  # 30 Tage, platzsparende Staffelung
           };
         };
       };
