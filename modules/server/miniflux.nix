@@ -12,9 +12,12 @@
     wants = [ "agenix.service" ];
     wantedBy = [ "multi-user.target" ];
 
+    # Kein RemainAfterExit: Service läuft vor JEDEM miniflux-Start neu und
+    # regeneriert die Credentials-Datei. Ablage in eigenem Verzeichnis
+    # /run/miniflux-credentials (NICHT /run/miniflux, da systemd das als
+    # RuntimeDirectory von miniflux.service beim Stop/Start leert).
     serviceConfig = {
       Type = "oneshot";
-      RemainAfterExit = true;
     };
 
     script = ''
@@ -22,14 +25,14 @@
       PASSWORD=$(cat ${config.age.secrets.password1.path} | tr -d '\n')
       DOMAIN=$(cat ${config.age.secrets.domain.path} | tr -d '\n')
 
-      mkdir -p /run/miniflux
-      cat > /run/miniflux/admin-credentials <<CREDENTIALS
+      mkdir -p /run/miniflux-credentials
+      cat > /run/miniflux-credentials/admin-credentials <<CREDENTIALS
 ADMIN_USERNAME=$USERNAME
 ADMIN_PASSWORD=$PASSWORD
 BASE_URL=https://miniflux.$DOMAIN
 CREDENTIALS
 
-      chmod 600 /run/miniflux/admin-credentials
+      chmod 600 /run/miniflux-credentials/admin-credentials
     '';
   };
 
@@ -40,7 +43,7 @@ CREDENTIALS
 
   services.miniflux = {
     enable = true;
-    adminCredentialsFile = "/run/miniflux/admin-credentials";
+    adminCredentialsFile = "/run/miniflux-credentials/admin-credentials";
 
     config = {
       LISTEN_ADDR = "localhost:8080";
