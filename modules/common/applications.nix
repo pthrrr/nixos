@@ -12,7 +12,7 @@
     opencode
     wl-clipboard
     godot_4
-    
+
     cups
     cups-filters            # Important for PDF rendering
     ghostscript           # PostScript/PDF interpreter
@@ -30,11 +30,11 @@
     # Plugins to reuse ffmpeg to play almost every video format
     gst_all_1.gst-libav
     # Support the Video Audio (Hardware) Acceleration API
-    gst_all_1.gst-vaapi
+    gst_all_1.gst-plugins-bad
   ];
 
   # Disable XTerm
-  services.xserver.excludePackages = with pkgs; [ 
-    xterm 
+  services.xserver.excludePackages = with pkgs; [
+    xterm
   ];
 }
