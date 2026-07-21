@@ -2,6 +2,7 @@
 {
   services.matter-server = {
     enable = true;
+    package = pkgs.matterjs-server;
     port = 5580;
   };
 
