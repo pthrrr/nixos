@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 {
   services.matter-server = {
     enable = true;
@@ -6,10 +6,15 @@
     port = 5580;
   };
 
+  # Relax hardening so the Node/V8 runtime can start (fixes status=133 SIGTRAP)
+  systemd.services.matter-server.serviceConfig = {
+    MemoryDenyWriteExecute = lib.mkForce false;
+  };
+
   # Open required ports for Matter communication
   networking.firewall = {
     allowedTCPPorts = [ 5580 ];  # Matter server
-    allowedUDPPorts = [ 
+    allowedUDPPorts = [
       5540   # Matter operational port
       5353   # mDNS
     ];
