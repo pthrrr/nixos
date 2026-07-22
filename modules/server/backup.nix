@@ -1,7 +1,7 @@
 # modules/server/backup.nix
 #
 # Backup-Strategie:
-#   sanoid  → stündliche ZFS-Snapshots auf tank/* (Retention: 24h/30d/6m)
+#   sanoid  → tägliche ZFS-Snapshots auf tank/* (Retention: 30d/6m)
 #   syncoid → tägliches zfs send/receive tank/* → backup/data/*
 #   ntfy    → Push-Benachrichtigung nach jedem Backup-Lauf
 #
@@ -14,7 +14,7 @@
   # ── sanoid: ZFS-Snapshots erstellen + aufräumen ──────────────────────
   #
   # Erstellt automatisch Snapshots auf tank/* nach Zeitplan.
-  # Retention: 24 stündliche, 30 tägliche, 6 monatliche Snapshots.
+  # Retention: 30 tägliche, 6 monatliche Snapshots.
   # Läuft immer (unabhängig davon, ob backup Pool importiert ist).
 
   services.sanoid = {
@@ -25,28 +25,28 @@
       "tank/fotos" = {
         autosnap = true;
         autoprune = true;
-        hourly = 24;
+        hourly = 0;
         daily = 30;
         monthly = 6;
       };
       "tank/users" = {
         autosnap = true;
         autoprune = true;
-        hourly = 24;
+        hourly = 0;
         daily = 30;
         monthly = 6;
       };
       "tank/services" = {
         autosnap = true;
         autoprune = true;
-        hourly = 24;
+        hourly = 0;
         daily = 30;
         monthly = 6;
       };
       "tank/containers" = {
         autosnap = true;
         autoprune = true;
-        hourly = 24;
+        hourly = 0;
         daily = 30;
         monthly = 6;
       };
