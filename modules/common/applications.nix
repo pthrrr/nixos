@@ -6,6 +6,7 @@
     git
     gh
     python315
+    uv
     tree
     dnsutils  # dig, nslookup, nsupdate
 
