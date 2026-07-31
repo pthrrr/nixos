@@ -22,7 +22,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   powerManagement.enable = true;
-  powerManagement.cpuFreqGovernor = "performance";  
+  powerManagement.cpuFreqGovernor = "performance";
 
   networking.hostName = "nixOS-desktop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -60,7 +60,7 @@
 
   age.identityPaths = [ "/home/pthr/.ssh/pthr" ];
 
-  # Add the agenix secrets 
+  # Add the agenix secrets
   age.secrets.username1.file = ../../secrets/username1.age;
   age.secrets.username2.file = ../../secrets/username2.age;
 
@@ -165,7 +165,7 @@
 
   services.udev.extraRules = ''
     KERNEL=="card[0-9]*", SUBSYSTEM=="drm", DRIVERS=="amdgpu", ATTR{device/power_dpm_force_performance_level}="auto"
-    
+
     # Allow browser (WebHID) access to Ducky One X Mini Wireless
     SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3233", MODE="0666"
     SUBSYSTEM=="usb", ATTRS{idVendor}=="3233", MODE="0666"
@@ -239,8 +239,8 @@
   };
 
   # Low-latency kernel parameters
-  boot.kernelParams = [ 
-    "threadirqs" 
+  boot.kernelParams = [
+    "threadirqs"
     "preempt=full"
     "amdgpu.ppfeaturemask=0xffffffff"
     "amdgpu.dpm=1"
@@ -261,7 +261,10 @@
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+    networking.firewall.allowedUDPPorts = [ 1234 ];
+    networking.hosts = {
+        "127.0.0.1" = [ "nixOS-desktop" ];
+    };
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
