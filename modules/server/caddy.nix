@@ -149,7 +149,7 @@ in
       }
 
       ai.$DOMAIN {
-        reverse_proxy localhost:8888
+        reverse_proxy localhost:8282
       }
 
       $DOMAIN {
