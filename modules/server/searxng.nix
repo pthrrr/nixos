@@ -11,7 +11,7 @@
         secret_key = "nixos-searxng-local-secret";
       };
       search = {
-        formats = [ "html" "json" ];
+        formats = [ "json" ];
         default_lang = "auto";
       };
       engines = [
