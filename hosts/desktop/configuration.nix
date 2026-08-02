@@ -63,6 +63,8 @@
   # Add the agenix secrets
   age.secrets.username1.file = ../../secrets/username1.age;
   age.secrets.username2.file = ../../secrets/username2.age;
+  age.secrets.password1.file = ../../secrets/password1.age;
+  age.secrets.domain.file = ../../secrets/domain.age;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -282,4 +284,9 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
+
+  services.caldav.enable = true;
+  services.caldav.domain = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.domain.path);
+  services.caldav.username = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.username1.path);
+  services.caldav.password = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.password1.path);
 }

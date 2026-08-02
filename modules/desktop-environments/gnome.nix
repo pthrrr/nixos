@@ -12,21 +12,16 @@
   services.gnome.gnome-keyring.enable = true;
 
   # Exclude specific GNOME applications
-  environment.gnome.excludePackages = with pkgs; [
+    environment.gnome.excludePackages = with pkgs; [
     gnome-console
     totem
     epiphany
     gnome-weather
     gnome-maps
     gnome-music
-    # gnome-calendar
-    # gnome-text-editor
-    gnome-contacts
     gnome-logs
     gnome-tour
-    # snapshot
     gedit
-    # simple-scan
     yelp
     geary
   ];
