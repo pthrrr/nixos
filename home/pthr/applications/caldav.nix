@@ -1,8 +1,10 @@
 { config, pkgs, lib, ... }:
 let
   cfg = config.programs.caldav;
-  credentialsFile = config.home-manager.users.pthr.file.".config/caldav/credentials.json".source;
-  cred = builtins.fromJSON (builtins.readFile credentialsFile);
+  secrets = config.age.secrets;
+  domain = lib.strings.removeTrailing "\n" (builtins.readFile secrets.domain.path);
+  username = lib.strings.removeTrailing "\n" (builtins.readFile secrets.username1.path);
+  password = lib.strings.removeTrailing "\n" (builtins.readFile secrets.password1.path);
 in
 {
   options.programs.caldav = {
@@ -20,23 +22,23 @@ in
     dconf.settings = {
       "org/gnome/calendar" = {
         caldav-urls = [
-          "https://radicale.${cred.domain}/${cred.username}/calendar"
+          "https://radicale.${domain}/${username}/calendar"
         ];
-        caldav-usernames = [ cred.username ];
-        caldav-passwords = [ cred.password ];
+        caldav-usernames = [ username ];
+        caldav-passwords = [ password ];
         caldav-servers = [
-          "https://radicale.${cred.domain}"
+          "https://radicale.${domain}"
         ];
       };
 
       "org/gnome/contacts" = {
         carddav-urls = [
-          "https://radicale.${cred.domain}/${cred.username}/contacts"
+          "https://radicale.${domain}/${username}/contacts"
         ];
-        carddav-usernames = [ cred.username ];
-        carddav-passwords = [ cred.password ];
+        carddav-usernames = [ username ];
+        carddav-passwords = [ password ];
         carddav-servers = [
-          "https://radicale.${cred.domain}"
+          "https://radicale.${domain}"
         ];
       };
     };
