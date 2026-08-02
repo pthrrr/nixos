@@ -7,10 +7,6 @@
     package = pkgs.ollama-rocm;
     host = "0.0.0.0";  # Listen on all interfaces (accessible from server)
     port = 11434;
-    environmentVariables = {
-      HSA_OVERRIDE_GFX_VERSION = "11.0.2";  # RX 7700 XT (Navi 32 / gfx1101)
-      OLLAMA_NUM_CTX = "8192";
-    };
   };
 
   # Allow Ollama API access only from server
