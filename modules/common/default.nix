@@ -5,5 +5,6 @@
     ./mouse.nix
     ./users.nix
     ./webdav.nix
+    ./caldav.nix
   ];
 }

@@ -83,7 +83,7 @@
 
           agenix.nixosModules.default
           copyparty.nixosModules.default
-          
+
           ./hosts/server/configuration.nix
           ./modules/server
 
