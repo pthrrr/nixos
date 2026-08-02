@@ -82,6 +82,8 @@
   # Add the agenix secrets
   age.secrets.username1.file = ../../secrets/username1.age;
   age.secrets.username2.file = ../../secrets/username2.age;
+  age.secrets.password1.file = ../../secrets/password1.age;
+  age.secrets.domain.file = ../../secrets/domain.age;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

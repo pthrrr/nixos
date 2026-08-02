@@ -4,7 +4,10 @@
   imports = [
     ./applications/dconf.nix
     ./applications/vscodium.nix
+    ./applications/caldav.nix
   ];
+
+  programs.caldav.enable = true;
 
   home.username = "pthr";
   home.homeDirectory = "/home/pthr";
