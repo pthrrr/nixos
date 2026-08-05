@@ -157,6 +157,10 @@ in
         }
       }
 
+      llama.$DOMAIN {
+        reverse_proxy 192.168.10.254:18970
+      }
+
       $DOMAIN {
         redir https://ha.$DOMAIN{uri}
       }
