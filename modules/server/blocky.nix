@@ -60,7 +60,7 @@ customDNS:
     ai.$DOMAIN: 192.168.10.100
     desktop: 192.168.10.254
     laptop: 192.168.10.253
-    llama.$DOMAIN: 192.168.10.254
+    llama.$DOMAIN: 192.168.10.100
     esphome.$DOMAIN: 192.168.10.100
 
 blocking:
