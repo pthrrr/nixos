@@ -58,9 +58,9 @@ customDNS:
     miniflux.$DOMAIN: 192.168.10.100
     fmd.$DOMAIN: 192.168.10.100
     ai.$DOMAIN: 192.168.10.100
-    desktop.$DOMAIN: 192.168.10.254
     desktop: 192.168.10.254
     laptop: 192.168.10.253
+    llama.$DOMAIN: 192.168.10.254
     esphome.$DOMAIN: 192.168.10.100
 
 blocking:
