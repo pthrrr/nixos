@@ -3,6 +3,6 @@
 { config, pkgs, lib, ... }:
 {
   networking.firewall.extraCommands = lib.mkAfter ''
-    iptables -A nixos-fw -p tcp --dport 8080 -j nixos-fw-accept
+    iptables -A nixos-fw -p tcp --dport 18970 -j nixos-fw-accept
   '';
 }
