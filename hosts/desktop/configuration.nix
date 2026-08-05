@@ -63,8 +63,6 @@
   # Add the agenix secrets
   age.secrets.username1.file = ../../secrets/username1.age;
   age.secrets.username2.file = ../../secrets/username2.age;
-  age.secrets.password1.file = ../../secrets/password1.age;
-  age.secrets.domain.file = ../../secrets/domain.age;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -237,6 +235,8 @@
       { domain = "*"; item = "nofile"; type = "hard"; value = "1048576"; }
       { domain = "@audio"; item = "memlock"; type = "-"; value = "unlimited"; }
       { domain = "@audio"; item = "rtprio"; type = "-"; value = "99"; }
+      { domain = "*"; type = "hard"; item = "memlock"; value = "unlimited"; }
+      { domain = "*"; type = "soft"; item = "memlock"; value = "unlimited"; }
   ];
 
     # Add your user to audio group
@@ -247,6 +247,7 @@
   # Add to your configuration
   boot.kernel.sysctl = {
     "vm.swappiness" = 10;           # Reduce swapping for better real-time performance
+    "vm.overcommit_memory" = 1;
     "kernel.sched_rt_runtime_us" = -1;  # Allow unlimited RT scheduling
   };
 
@@ -272,7 +273,7 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 8080 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -284,9 +285,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
-
-  services.caldav.enable = true;
-  services.caldav.domain = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.domain.path);
-  services.caldav.username = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.username1.path);
-  services.caldav.password = builtins.replaceStrings ["\n"] [""] (builtins.readFile config.age.secrets.password1.path);
 }
