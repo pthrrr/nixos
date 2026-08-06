@@ -10,7 +10,7 @@ in
     };
     domain = lib.mkOption {
       default = "";
-      description = "The domain for radicale (e.g. )";
+      description = "The domain for radicale";
     };
     username = lib.mkOption {
       default = "";
