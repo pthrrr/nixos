@@ -59,6 +59,7 @@ customDNS:
     fmd.$DOMAIN: 192.168.10.100
     ai.$DOMAIN: 192.168.10.100
     desktop: 192.168.10.254
+    server: 192.168.10.100
     laptop: 192.168.10.253
     llama.$DOMAIN: 192.168.10.100
     esphome.$DOMAIN: 192.168.10.100
