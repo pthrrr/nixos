@@ -18,9 +18,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    pi-flake.url = "github:lukasl-dev/pi.nix";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, agenix, copyparty, audio-nix, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, agenix, copyparty, audio-nix, pi-flake, ... }@inputs: {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit agenix; };  # Keep as agenix
@@ -41,6 +43,7 @@
             home-manager.useGlobalPkgs = false;
             home-manager.useUserPackages = true;
             home-manager.users.pthr = import ./home/pthr/desktop;
+            home-manager.sharedModules = [ pi-flake.homeModules.default ];
           }
         ];
       };
