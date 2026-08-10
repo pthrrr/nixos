@@ -162,8 +162,9 @@
      ethtool           # NIC diagnostics
      tcpdump           # packet capture
      smartmontools     # SMART disk health
-     python3           # scripting, API-Debugging
-     agenix.packages.x86_64-linux.default
+      python3           # scripting, API-Debugging
+      wakeonlan         # Wake-on-LAN client
+      agenix.packages.x86_64-linux.default
    ];
 
   # Some programs need SUID wrappers, can be configured further or are
