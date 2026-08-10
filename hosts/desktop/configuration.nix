@@ -41,7 +41,7 @@
     after = [ "networking.service" "network-online.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp7s0 wol magic";
+      ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp7s0 wol m";
     };
   };
 
