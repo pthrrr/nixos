@@ -34,6 +34,9 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # Wake-on-LAN
+  networking.wakeOnLanDevice.enable = true;
+
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
