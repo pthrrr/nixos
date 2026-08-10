@@ -34,17 +34,8 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Wake-on-LAN: enable magic packet wakeup on wired NIC before shutdown
-  systemd.services.wake-on-lan = {
-    description = "Enable Wake-on-LAN on primary NIC";
-    wantedBy = [ "multi-user.target" ];
-    before = [ "shutdown.target" "reboot.target" "halt.target" "poweroff.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp7s0 wol m";
-      ExecStop = "${pkgs.ethtool}/bin/ethtool -s enp7s0 wol m";
-    };
-  };
+  # Wake-on-LAN: enable magic packet wakeup on wired NIC
+  networking.interfaces.enp7s0.wakeOnLan.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
