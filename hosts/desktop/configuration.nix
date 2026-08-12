@@ -34,6 +34,9 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # Wake-on-LAN: enable magic packet wakeup on wired NIC
+  networking.interfaces.enp7s0.wakeOnLan.enable = true;
+
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
