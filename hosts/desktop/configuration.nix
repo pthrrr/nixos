@@ -211,6 +211,9 @@
   #  wget
     agenix.packages.x86_64-linux.default
 
+    # Network tools
+    ethtool
+
     # GPU monitoring/testing tools
     radeontop
     gpu-viewer

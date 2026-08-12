@@ -28,10 +28,10 @@
   networking = {
     hostName = "nixOS-server";
     hostId = "c28b8e08";
-    
+
     # Disable DHCP globally
     useDHCP = false;
-    
+
     # Configure your primary interface (enp4s0)
     interfaces.enp4s0 = {
       useDHCP = false;
@@ -40,23 +40,23 @@
         prefixLength = 24;           # /24 = 255.255.255.0
       }];
     };
-    
+
     # Leave the second interface (enp5s0) unconfigured for now
     interfaces.enp5s0 = {
       useDHCP = false;
     };
-    
+
     # Set default gateway (likely your router)
     defaultGateway = "192.168.10.1";
-    
+
     # DNS servers – eigenes Blocky verwenden (hat CustomDNS für alle lokalen Subdomains)
-    nameservers = [ 
-      "127.0.0.1" 
+    nameservers = [
+      "127.0.0.1"
     ];
-    
+
     # Disable NetworkManager for servers
     networkmanager.enable = false;
-    
+
     # Firewall configuration
     firewall = {
       enable = true;
@@ -131,7 +131,7 @@
     group = "users";
     extraGroups = [ "wheel" ];
     uid = 1001;
-  }; 
+  };
 
   users.users.dataowner2 = {
     isSystemUser = true;
