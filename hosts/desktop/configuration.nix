@@ -88,7 +88,6 @@
         # Vulkan support
         vulkan-loader
       ];
-      # Enable 32-bit support for gaming
       extraPackages32 = with pkgs.pkgsi686Linux; [
         libva-vdpau-driver
         libvdpau-va-gl
@@ -96,7 +95,22 @@
         vulkan-loader
       ];
     };
+
+    # AMDGPU-Treiber früher laden + OpenCL für Compute
+    amdgpu = {
+      initrd.enable = true;
+      opencl.enable = true;
+    };
   };
+
+  # /opt/rocm Symlink — für Tools mit hardcoded ROCm-Pfad
+  systemd.tmpfiles.rules =
+    let
+      rocmEnv = pkgs.symlinkJoin {
+        name = "rocm-combined";
+        paths = with pkgs.rocmPackages; [ rocblas hipblas clr ];
+      };
+    in [ "L+ /opt/rocm - - - - ${rocmEnv}" ];
 
   environment.sessionVariables = {
     # Force VA-API driver
@@ -223,6 +237,7 @@
     qpwgraph       # Advanced PipeWire graph manager
 
     llama-cpp
+    (stable-diffusion-cpp.override { rocmSupport = true; })
   ];
 
   nixpkgs.overlays = [
