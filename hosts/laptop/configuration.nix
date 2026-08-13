@@ -297,6 +297,7 @@ services.udev.extraRules = ''
     vulkan-tools         # vulkaninfo, vkcube
     mesa-demos           # glxgears, glxinfo
     hugo                 # Static website generator
+    nil                # Nix language server for Zed editor
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
