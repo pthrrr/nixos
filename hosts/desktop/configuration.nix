@@ -238,7 +238,6 @@
 
     llama-cpp
     (stable-diffusion-cpp.override { rocmSupport = true; })
-    nil            # Nix language server for Zed editor
   ];
 
   nixpkgs.overlays = [
