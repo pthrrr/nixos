@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 {
 
   imports = [
@@ -24,7 +24,7 @@
           --add-flags "--enable-features=VaapiVideoDecodeLinuxGL,VaapiVideoDecoder"
       '';
     })
-    zed-editor
+    zed-editor-fhs
     keepassxc
     signal-desktop
     telegram-desktop
