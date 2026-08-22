@@ -136,6 +136,11 @@ in
         };
       };
 
+      "/juri-photos" = {
+        path   = "/data/fotos/juri";
+        access = { A = username1; };
+      };
+
       "/papa-photos" = {
         path   = "/data/fotos/papa";
         access = { A = username1; };
